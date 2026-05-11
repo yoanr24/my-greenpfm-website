@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<!--
+  Green PFM Phase II — Feasibility Study Mission Website
+  Author: Yoan Raih, consultant · Expertise France
+  Password: SHA-256 gated (hash: a0cd2d82e967368a854ed11bc3fc38bd4addae1e8b8dcb270ee694060e134e7d)
+
+  SECURITY NOTE: The JS password gate below is a friction layer only — it prevents
+  casual access but offers no cryptographic protection. For production deployment,
+  layer on Vercel Password Protection (vercel.json → "passwordProtection") or
+  Netlify Password Protection (Site settings → Access control). The JS gate should
+  never be treated as a substitute for platform-level authentication.
+-->
+<html lang="en" data-fr-scheme="system">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green PFM Phase II — Feasibility Study, Rwanda</title>
+  <link rel="stylesheet" href="dsfr-v1.14.4/dist/dsfr.min.css" />
+  <style>
+    :root {
+      --bnr-100: #E8F0F8;
+      --bnr-300: #6FA8DC;
+      --bnr-500: #1F4E79;
+      --bnr-700: #0B2A4A;
+      --bnr-A1: #1F4E79;
+      --bnr-A2: #2E86AB;
+      --mef-100: #EAF4EC;
+      --mef-300: #7CBF8A;
+      --mef-500: #2E7D32;
+      --mef-700: #1B5E20;
+      --mef-B1: #2E7D32;
+      --mef-B2: #6B8E23;
+      --mef-B3: #8BC34A;
+      --status-active: #2E7D32;
+      --status-planned: #F9A825;
+      --status-completed: #546E7A;
+      --status-exploratory: #9E9E9E;
+      --status-tbc: #E65100;
+      --dp-coordination: #FF9800;
+      --bg: #FAFAFA;
+      --surface: #FFFFFF;
+      --text: #1A1A1A;
+      --text-soft: #555555;
+      --border: #E0E0E0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+    }
+    code, .mono {
+      font-family: ui-monospace, "SF Mono", "Cascadia Mono", monospace;
+      font-size: 0.85em;
+    }
+
+    /* ── PASSWORD GATE ─────────────────────────────── */
+    #gate-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15,30,50,0.92);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    #gate-overlay.hidden { display: none; }
+    #gate-box {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+    }
+    #gate-box h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--bnr-500);
+      margin: 0 0 0.4rem;
+    }
+    #gate-box p { font-size: 0.85rem; color: var(--text-soft); margin: 0 0 1.4rem; }
+    #gate-box input {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    #gate-box input:focus { border-color: var(--bnr-500); }
+    #gate-error { color: #C62828; font-size: 0.83rem; margin: -0.5rem 0 0.6rem; display: none; }
+    #gate-btn {
+      background: var(--bnr-500);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.65rem 2rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    #gate-btn:hover { background: var(--bnr-700); }
+    #gate-label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 1.8rem;
+      text-transform: uppercase;
+    }
+
+    /* ── LAYOUT ────────────────────────────────────── */
+    #site { display: none; }
+    #site.visible { display: block; }
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+    .nav-tab {
+      padding: 1rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-soft);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      border-top: none; border-left: none; border-right: none;
+      background: none;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+      letter-spacing: 0.01em;
+    }
+    .nav-tab:hover { color: var(--text); }
+    .nav-tab.active { color: var(--bnr-500); border-bottom-color: var(--bnr-500); }
+    .page { display: none; }
+    .page.active { display: block; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* ── HERO ──────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1.5rem 2.5rem;
+      background: linear-gradient(160deg, var(--bnr-100) 0%, var(--mef-100) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--bnr-500);
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .hero h2 {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 400;
+      color: var(--text-soft);
+      margin: 0 0 1.5rem;
+    }
+    .hero-author {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+    }
+
+    /* ── CARDS ─────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.4rem 1.4rem 1.1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: box-shadow 0.15s, transform 0.12s;
+      position: relative;
+    }
+    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-1px); }
+    .card-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+    @media (max-width: 680px) { .card-grid-2 { grid-template-columns: 1fr; } }
+    .card-accent { border-left: 4px solid var(--border); padding-left: 1rem; }
+    .card-accent.amber { border-left-color: var(--dp-coordination); }
+    .card-accent.blue-green {
+      border-image: linear-gradient(to bottom, var(--bnr-500) 50%, var(--mef-500) 50%) 1;
+    }
+    .card h3 { font-size: 0.95rem; font-weight: 700; margin: 0 0 0.6rem; color: var(--text); }
+    .card p { font-size: 0.87rem; color: var(--text-soft); margin: 0; line-height: 1.6; }
+    .card ul { font-size: 0.87rem; color: var(--text-soft); margin: 0.4rem 0 0; padding-left: 1.2rem; line-height: 1.7; }
+
+    /* ── TAGS / PILLS ──────────────────────────────── */
+    .tag {
+      display: inline-block;
+      padding: 0.18rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.73rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .tag-a { background: var(--bnr-100); color: var(--bnr-700); }
+    .tag-b { background: var(--mef-100); color: var(--mef-700); }
+    .tag-immediate { background: #E8F5E9; color: #1B5E20; }
+    .tag-secondary { background: #FFF8E1; color: #E65100; }
+    .tag-tbc { background: #FBE9E7; color: var(--status-tbc); }
+    .tag-type { background: #F3F4F6; color: #374151; }
+
+    /* ── SECTION HEADERS ───────────────────────────── */
+    .section-hd {
+      margin: 2.5rem 0 1.2rem;
+    }
+    .section-hd h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 0.25rem;
+    }
+    .section-hd p { font-size: 0.87rem; color: var(--text-soft); margin: 0; }
+
+    /* ── TIMELINE ──────────────────────────────────── */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 90px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    @media (max-width: 520px) {
+      .timeline::before { left: 16px; }
+    }
+    .tl-item {
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 0.8rem;
+      position: relative;
+    }
+    .tl-date {
+      flex-shrink: 0;
+      width: 80px;
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      padding-top: 0.9rem;
+      font-weight: 600;
+    }
+    @media (max-width: 520px) {
+      .tl-date { display: none; }
+    }
+    .tl-dot {
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--bnr-500);
+      margin-top: 1.05rem;
+      position: relative;
+      z-index: 1;
+    }
+    .tl-dot.axis-b { background: var(--mef-500); }
+    .tl-dot.axis-ab {
+      background: linear-gradient(135deg, var(--bnr-500) 50%, var(--mef-500) 50%);
+    }
+    .tl-content {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+    .tl-content:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .tl-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .tl-institution { font-weight: 600; font-size: 0.88rem; }
+    .tl-attendees { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.15rem; }
+    .tl-topic { font-size: 0.82rem; color: var(--text-soft); margin-top: 0.25rem; }
+    .tl-expand {
+      font-size: 0.83rem;
+      color: var(--text-soft);
+      margin-top: 0.6rem;
+      line-height: 1.55;
+      display: none;
+      border-top: 1px solid var(--border);
+      padding-top: 0.6rem;
+    }
+    .tl-expand.open { display: block; }
+    .tl-axis-tags { display: flex; gap: 0.3rem; flex-shrink: 0; }
+
+    /* Online prep strip */
+    .online-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 600px) { .online-strip { grid-template-columns: 1fr; } }
+    .online-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+    }
+    .online-card.dp { border-left: 3px solid var(--dp-coordination); }
+    .online-card.internal { border-left: 3px solid var(--bnr-300); }
+    .online-card .oc-date { font-size: 0.75rem; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.06em; }
+    .online-card .oc-label { font-size: 0.9rem; font-weight: 600; margin: 0.2rem 0 0.25rem; }
+    .online-card .oc-topic { font-size: 0.82rem; color: var(--text-soft); }
+
+    /* ── DONOR MAPPING ─────────────────────────────── */
+    .donor-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .view-toggle {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .vt-btn {
+      padding: 0.4rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--bg);
+      color: var(--text-soft);
+      border: none;
+      transition: background 0.12s, color 0.12s;
+    }
+    .vt-btn.active { background: var(--bnr-500); color: #fff; }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.2rem;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.3rem; }
+
+    /* Map view */
+    #map-view { position: relative; }
+    #rwanda-svg-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    #rwanda-svg-wrap svg { width: 100%; height: auto; display: block; }
+    .map-panel {
+      position: absolute;
+      right: 0; top: 0;
+      width: 320px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      max-height: 480px;
+      overflow-y: auto;
+      display: none;
+      z-index: 10;
+    }
+    .map-panel.open { display: block; }
+    @media (max-width: 800px) {
+      .map-panel { position: static; width: 100%; margin-top: 1rem; }
+    }
+    .map-panel h4 { font-size: 0.9rem; font-weight: 700; margin: 0 0 0.8rem; }
+    .map-panel-close {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: var(--text-soft);
+      line-height: 1;
+    }
+    .panel-intervention {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      line-height: 1.45;
+      align-items: flex-start;
+    }
+    .panel-intervention:last-child { border-bottom: none; }
+    .pi-donor {
+      font-weight: 700;
+      font-size: 0.72rem;
+      background: var(--bnr-100);
+      color: var(--bnr-700);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Matrix view */
+    #matrix-view { overflow-x: auto; display: none; }
+    .donor-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+    .donor-table th {
+      background: var(--bnr-500);
+      color: #fff;
+      padding: 0.5rem 0.6rem;
+      text-align: left;
+      white-space: nowrap;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    .donor-table th.inst-col { background: var(--text); }
+    .donor-table td {
+      padding: 0.45rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      vertical-align: top;
+      min-width: 120px;
+      line-height: 1.4;
+    }
+    .donor-table tr:hover td { background: var(--bg); }
+    .donor-table .inst-cell {
+      font-weight: 600;
+      white-space: nowrap;
+      background: var(--bg);
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      border-right: 2px solid var(--border);
+    }
+    .donor-table .axis-a { border-left: 3px solid var(--bnr-500); }
+    .donor-table .axis-b { border-left: 3px solid var(--mef-500); }
+    .cell-entry { margin-bottom: 0.3rem; display: flex; gap: 0.2rem; align-items: flex-start; flex-wrap: wrap; }
+    .cell-entry:last-child { margin-bottom: 0; }
+
+    /* ── STATUS ICONS ───────────────────────────────── */
+    .si { font-style: normal; font-size: 0.85em; }
+    .si-active { color: var(--status-active); }
+    .si-planned { color: var(--status-planned); }
+    .si-completed { color: var(--status-completed); }
+    .si-exploratory { color: var(--status-exploratory); }
+    .si-tbc { color: var(--status-tbc); font-size: 0.7em; font-weight: 700; }
+    .si-coord { color: var(--dp-coordination); }
+
+    /* ── DP COORDINATION ARC IN MATRIX ─────────────── */
+    .coord-glyph {
+      display: inline-block;
+      color: var(--dp-coordination);
+      font-size: 0.7em;
+      cursor: help;
+    }
+
+    /* Footnote box */
+    .footnote-box {
+      margin-top: 1.5rem;
+      background: #FFFDE7;
+      border: 1px solid #F9A825;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      font-size: 0.83rem;
+      color: var(--text-soft);
+    }
+    .footnote-box strong { color: var(--text); }
+
+    /* ── TAB 2 — MATRIX ────────────────────────────── */
+    .matrix-banner {
+      background: linear-gradient(90deg, var(--bnr-100), var(--mef-100));
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.4rem;
+      font-size: 0.88rem;
+      color: var(--text-soft);
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 760px) { .dashboard { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 440px) { .dashboard { grid-template-columns: 1fr; } }
+    .dash-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .dash-card .dc-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-soft); margin-bottom: 0.3rem; }
+    .dash-card .dc-value { font-size: 1.5rem; font-weight: 700; color: var(--bnr-500); }
+    .dash-card .dc-sub { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.2rem; }
+    .stacked-bar {
+      display: flex;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .sb-a { background: var(--bnr-500); }
+    .sb-b { background: var(--mef-500); }
+    .mini-chart {
+      display: flex;
+      gap: 4px;
+      align-items: flex-end;
+      height: 36px;
+      margin-top: 0.4rem;
+    }
+    .mc-bar {
+      flex: 1;
+      background: var(--mef-300);
+      border-radius: 2px 2px 0 0;
+      position: relative;
+    }
+    .mc-bar span {
+      position: absolute;
+      bottom: -1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.62rem;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    /* Axis super-header */
+    .axis-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 1.2rem;
+      border-radius: 8px;
+      margin: 2rem 0 1rem;
+    }
+    .axis-header.axis-a {
+      background: var(--bnr-100);
+      border-left: 4px solid var(--bnr-500);
+    }
+    .axis-header.axis-b {
+      background: var(--mef-100);
+      border-left: 4px solid var(--mef-500);
+    }
+    .axis-header h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text);
+    }
+    .subaxis-header {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-soft);
+      margin: 1.4rem 0 0.7rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .subaxis-header.sa-A1 { border-color: var(--bnr-A1); color: var(--bnr-A1); }
+    .subaxis-header.sa-A2 { border-color: var(--bnr-A2); color: var(--bnr-A2); }
+    .subaxis-header.sa-B1 { border-color: var(--mef-B1); color: var(--mef-B1); }
+    .subaxis-header.sa-B2 { border-color: var(--mef-B2); color: var(--mef-B2); }
+    .subaxis-header.sa-B3 { border-color: var(--mef-B3); color: var(--mef-B3); }
+
+    /* DLI Card */
+    .dli-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 1.2rem;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .dli-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1rem 1.2rem 0.8rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .dli-id {
+      font-family: ui-monospace, "SF Mono", monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--bnr-500);
+      background: var(--bnr-100);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .dli-id.axis-b { color: var(--mef-700); background: var(--mef-100); }
+    .dli-title { font-size: 1rem; font-weight: 700; flex: 1; margin: 0; }
+    .dli-counterpart { font-size: 0.8rem; color: var(--text-soft); margin: 0.3rem 0 0; }
+    .dli-header-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .dli-body {
+      padding: 0 1.2rem 1.2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 2rem;
+    }
+    @media (max-width: 640px) { .dli-body { grid-template-columns: 1fr; } }
+    .dli-body.single { grid-template-columns: 1fr; }
+    .dli-field { }
+    .dli-field-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-soft);
+      margin-bottom: 0.3rem;
+    }
+    .dli-field-value {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .dli-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 1.2rem 1rem;
+    }
+    .trigger-box {
+      background: var(--bg);
+      border-left: 3px solid var(--border);
+      padding: 0.7rem 1rem;
+      margin: 0 1.2rem 1rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.87rem;
+      font-style: italic;
+      line-height: 1.55;
+    }
+    .axis-a .trigger-box { border-left-color: var(--bnr-500); }
+    .axis-b .trigger-box { border-left-color: var(--mef-500); }
+
+    /* Scoring dots */
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    @media (max-width: 480px) { .score-grid { grid-template-columns: repeat(2,1fr); } }
+    .score-item { text-align: center; }
+    .score-dots { display: flex; gap: 3px; justify-content: center; margin-bottom: 0.2rem; }
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: transparent;
+    }
+    .dot.filled { background: var(--bnr-500); border-color: var(--bnr-500); }
+    .axis-b .dot.filled { background: var(--mef-500); border-color: var(--mef-500); }
+    .score-metric { font-size: 0.65rem; color: var(--text-soft); text-align: center; line-height: 1.3; }
+    .composite-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.83rem;
+      margin-top: 0.4rem;
+    }
+    .tier-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.77rem;
+      font-weight: 700;
+    }
+    .tier-immediate { background: #E8F5E9; color: #1B5E20; }
+    .tier-secondary { background: #FFF8E1; color: #E65100; }
+    .fy-cols {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 0.5rem;
+    }
+    .fy-col { }
+    .fy-col .fy-yr {
+      font-size: 0.67rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-soft);
+      margin-bottom: 0.2rem;
+    }
+    .fy-col .fy-text { font-size: 0.8rem; line-height: 1.45; }
+    .risks-list {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+    .risks-list li {
+      background: #FFF8E1;
+      border: 1px solid #F9A825;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.76rem;
+      color: #5D4037;
+    }
+
+    /* Compact table */
+    #compact-table-view { display: none; overflow-x: auto; }
+    .compact-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+    .compact-table th {
+      background: var(--text);
+      color: #fff;
+      padding: 0.5rem 0.7rem;
+      text-align: left;
+      white-space: nowrap;
+      font-size: 0.73rem;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .compact-table td {
+      padding: 0.5rem 0.7rem;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.45;
+    }
+    .compact-table tr:hover td { background: var(--bg); }
+    .compact-table .dli-num {
+      font-family: ui-monospace, monospace;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ── TAB 3 — RESOURCES ─────────────────────────── */
+    .res-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+    }
+    .res-filter-group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .res-filter-btn {
+      padding: 0.3rem 0.75rem;
+      font-size: 0.78rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      font-weight: 500;
+      color: var(--text-soft);
+    }
+    .res-filter-btn.active { background: var(--bnr-500); color: #fff; border-color: var(--bnr-500); }
+    .res-search {
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      outline: none;
+      min-width: 220px;
+      transition: border-color 0.15s;
+    }
+    .res-search:focus { border-color: var(--bnr-500); }
+    .res-section {
+      margin-bottom: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .res-section-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.2rem;
+      cursor: pointer;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      user-select: none;
+    }
+    .res-section-hd h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .res-section-hd .toggle-icon {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      transition: transform 0.2s;
+    }
+    .res-section-hd.collapsed .toggle-icon { transform: rotate(-90deg); }
+    .res-section-body { padding: 0.8rem; }
+    .res-section-body.collapsed { display: none; }
+    .res-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 0.8rem;
+    }
+    .res-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.9rem 1rem;
+      font-size: 0.83rem;
+      line-height: 1.5;
+    }
+    .res-card.hidden { display: none; }
+    .res-card-title { font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+    .res-card-meta { color: var(--text-soft); font-size: 0.76rem; margin-bottom: 0.4rem; }
+    .res-card-desc { color: var(--text-soft); margin-bottom: 0.5rem; }
+    .res-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .res-axes { display: flex; gap: 0.3rem; }
+    .access-badge {
+      font-size: 0.72rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .access-public { background: #E8F5E9; color: #1B5E20; }
+    .access-internal { background: #F3F4F6; color: #374151; }
+    .access-tbc { background: #FFF8E1; color: #E65100; }
+    .res-open-btn {
+      font-size: 0.76rem;
+      color: var(--bnr-500);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .res-open-btn:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE TWEAKS ─────────────────────────── */
+    @media (max-width: 520px) {
+      .container { padding: 1.2rem 1rem; }
+      .dli-header { flex-direction: column; }
+      .score-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate-overlay">
+  <div id="gate-box">
+    <span id="gate-label">AFD · Green PFM Phase II · Internal Access</span>
+    <h2>Mission Report — Access Restricted</h2>
+    <p>Enter the mission password to view this document.</p>
+    <input type="password" id="gate-input" placeholder="Password" autocomplete="current-password" />
+    <div id="gate-error">Incorrect password. Please try again.</div>
+    <button id="gate-btn">Enter</button>
+  </div>
+</div>
+
+<!-- MAIN SITE -->
+<div id="site">
+  <header class="site-header">
+    <nav class="nav-inner" aria-label="Main tabs">
+      <button class="nav-tab active" data-tab="front">Front Page</button>
+      <button class="nav-tab" data-tab="matrix">Policy Reform Matrix</button>
+      <button class="nav-tab" data-tab="resources">Resources</button>
+    </nav>
+  </header>
+
+  <!-- ╔══════════════════════════════════════════╗ -->
+  <!-- ║  TAB 1 — FRONT PAGE                      ║ -->
+  <!-- ╚══════════════════════════════════════════╝ -->
+  <div id="tab-front" class="page active">
+    <div class="hero">
+      <p class="hero-label">AFD · Green PFM Phase II · Field Mission · April–May 2026</p>
+      <h1>Green PFM Phase II — Feasibility Study, Rwanda</h1>
+      <h2>Greening the Financial System — Field Mission Findings</h2>
+      <p class="hero-author">Yoan Raih, consultant · Expertise France</p>
+    </div>
+
+    <div class="container">
+      <!-- 4-card objective grid (order: 1, 3, 4, 2) -->
+      <div class="section-hd">
+        <h2>Mission overview</h2>
+      </div>
+      <div class="card-grid-2" id="objective-cards"></div>
+
+      <!-- Agenda -->
+      <div class="section-hd" style="margin-top:3rem">
+        <h2>Mission agenda — meetings conducted</h2>
+      </div>
+
+      <h3 style="font-size:0.9rem;font-weight:700;color:var(--text-soft);margin:0 0 0.8rem;text-transform:uppercase;letter-spacing:0.07em;">Online preparatory meetings — April 2026</h3>
+      <div class="online-strip" id="online-strip"></div>
+
+      <h3 style="font-size:0.9rem;font-weight:700;color:var(--text-soft);margin:1.5rem 0 0.8rem;text-transform:uppercase;letter-spacing:0.07em;">In-person Kigali mission — May 4–9, 2026</h3>
+      <div class="timeline" id="timeline"></div>
+
+      <!-- Donor mapping -->
+      <div class="section-hd" style="margin-top:3.5rem">
+        <h2>Donor mapping — active DP support to Rwandan beneficiaries</h2>
+        <p>Only interventions in the mission scope (BNR and MINECOFIN beneficiaries) are mapped. Other Phase I interventions (REMA, NPDQAD, RPPA, etc.) are not shown.</p>
+      </div>
+
+      <div class="donor-controls">
+        <div class="legend" id="status-legend">
+          <span class="legend-item"><i class="si si-active">●</i> Active</span>
+          <span class="legend-item"><i class="si si-completed">○</i> Completed</span>
+          <span class="legend-item"><i class="si si-planned">◐</i> Planned</span>
+          <span class="legend-item"><i class="si si-exploratory">▷</i> Exploratory</span>
+          <span class="legend-item"><i class="si si-tbc">⚑</i> TBC</span>
+          <span class="legend-item"><i class="si si-coord">↔</i> DP coordination</span>
+        </div>
+        <div class="view-toggle">
+          <button class="vt-btn active" id="btn-map">Map</button>
+          <button class="vt-btn" id="btn-matrix">Matrix</button>
+        </div>
+      </div>
+
+      <div id="map-view">
+        <div id="rwanda-svg-wrap">
+          <!-- Rwanda SVG outline — stylised, not cartographic -->
+          <svg viewBox="0 0 500 440" fill="none" xmlns="http://www.w3.org/2000/svg" id="rwanda-svg">
+            <!-- Rwanda country outline — simplified polygon -->
+            <path d="
+              M 185 60
+              C 200 40, 230 35, 260 45
+              C 285 52, 320 50, 345 65
+              C 365 78, 375 100, 380 125
+              C 390 155, 400 185, 395 215
+              C 388 245, 375 270, 360 295
+              C 345 318, 325 338, 300 355
+              C 278 370, 255 382, 230 385
+              C 205 388, 180 378, 158 362
+              C 138 348, 122 328, 110 305
+              C 95 278, 88 248, 90 218
+              C 92 190, 100 162, 112 138
+              C 124 115, 148 82, 185 60
+              Z
+            " fill="#EDF4F0" stroke="#A8C5B5" stroke-width="2.5"/>
+            <!-- Subtle hill shading -->
+            <ellipse cx="250" cy="210" rx="80" ry="60" fill="#D9EDE3" opacity="0.4"/>
+            <!-- Kigali label anchor -->
+            <circle cx="248" cy="210" r="6" fill="#1F4E79" opacity="0.8"/>
+            <text x="258" y="208" font-size="11" fill="#1F4E79" font-weight="700" font-family="system-ui, sans-serif">Kigali</text>
+            <!-- Institution nodes rendered by JS -->
+            <g id="map-nodes"></g>
+            <!-- Coordination arcs rendered by JS -->
+            <g id="map-arcs"></g>
+          </svg>
+          <div id="map-panel" class="map-panel">
+            <button class="map-panel-close" id="map-panel-close">✕</button>
+            <h4 id="map-panel-title"></h4>
+            <div id="map-panel-body"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="matrix-view">
+        <div style="overflow-x:auto">
+          <table class="donor-table" id="donor-table">
+            <thead><tr id="donor-thead"></tr></thead>
+            <tbody id="donor-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="footnote-box" id="other-donors-footnote"></div>
+    </div>
+  </div><!-- /tab-front -->
+
+  <!-- ╔══════════════════════════════════════════╗ -->
+  <!-- ║  TAB 2 — POLICY REFORM MATRIX            ║ -->
+  <!-- ╚══════════════════════════════════════════╝ -->
+  <div id="tab-matrix" class="page">
+    <div class="container">
+      <div class="matrix-banner">
+        "This is a 'menu of options' — a prioritized, modular Policy Reform Matrix designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework." — aligned with the inception report methodology (Section 5.3).
+      </div>
+
+      <!-- Aggregate dashboard -->
+      <div class="dashboard" id="dli-dashboard"></div>
+
+      <!-- View toggle -->
+      <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-bottom:1.5rem;">
+        <div class="view-toggle">
+          <button class="vt-btn active" id="btn-cards">Cards</button>
+          <button class="vt-btn" id="btn-compact">Compact table</button>
+        </div>
+      </div>
+
+      <div id="dli-cards-view"></div>
+      <div id="compact-table-view">
+        <div style="overflow-x:auto">
+          <table class="compact-table">
+            <thead>
+              <tr>
+                <th>DLI #</th>
+                <th>Description</th>
+                <th>Baseline / Rationale</th>
+                <th>FY 26/27</th>
+                <th>FY 27/28</th>
+                <th>FY 28/29</th>
+                <th>IMF RSF/FSAP link</th>
+                <th>Institution</th>
+                <th style="text-align:right">€M</th>
+              </tr>
+            </thead>
+            <tbody id="compact-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><!-- /tab-matrix -->
+
+  <!-- ╔══════════════════════════════════════════╗ -->
+  <!-- ║  TAB 3 — RESOURCES                        ║ -->
+  <!-- ╚══════════════════════════════════════════╝ -->
+  <div id="tab-resources" class="page">
+    <div class="container">
+      <div class="section-hd">
+        <h2>Resources & Bibliography</h2>
+        <p>Curated reference documents grounding the mission's findings. Publicly available documents are linked to their official source. Internal documents are listed with metadata only — this site does not host any document.</p>
+      </div>
+      <div class="res-controls">
+        <div>
+          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-soft);margin-bottom:0.4rem;">Filter by axis</div>
+          <div class="res-filter-group" id="axis-filters"></div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-soft);margin-bottom:0.4rem;">Filter by issuer</div>
+          <div class="res-filter-group" id="issuer-filters"></div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-soft);margin-bottom:0.4rem;">Search</div>
+          <input type="search" class="res-search" id="res-search" placeholder="Title or description…" />
+        </div>
+      </div>
+      <div id="resources-container"></div>
+    </div>
+  </div><!-- /tab-resources -->
+</div><!-- /site -->
+
+<script defer>
+// ─── PASSWORD GATE ──────────────────────────────────────────────
+// SHA-256 via Geraint Luff's well-tested pure-JS implementation.
+// Works on file://, http://, and https:// — no crypto.subtle needed.
+function sha256(ascii) {
+  function rightRotate(value, amount) { return (value>>>amount) | (value<<(32-amount)); }
+  var maxWord = Math.pow(2,32), lengthProperty = 'length', i, j, result = '', words = [];
+  var asciiBitLength = ascii[lengthProperty]*8;
+  var hash = sha256._h = sha256._h || [], k = sha256._k = sha256._k || [], primeCounter = k[lengthProperty];
+  var isComposite = {};
+  for (var candidate = 2; primeCounter < 64; candidate++) {
+    if (!isComposite[candidate]) {
+      for (i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+      hash[primeCounter] = (Math.pow(candidate, .5)*maxWord)|0;
+      k[primeCounter++] = (Math.pow(candidate, 1/3)*maxWord)|0;
+    }
+  }
+  ascii += '\x80';
+  while (ascii[lengthProperty] % 64 - 56) ascii += '\x00';
+  for (i = 0; i < ascii[lengthProperty]; i++) {
+    j = ascii.charCodeAt(i);
+    if (j>>8) return;
+    words[i>>2] |= j << ((3 - i%4)*8);
+  }
+  words[words[lengthProperty]] = ((asciiBitLength/maxWord)|0);
+  words[words[lengthProperty]] = asciiBitLength;
+  for (j = 0; j < words[lengthProperty];) {
+    var w = words.slice(j, j += 16), oldHash = hash.slice(0, 8);
+    hash = hash.slice(0, 8);
+    for (i = 0; i < 64; i++) {
+      var w15 = w[i-15], w2 = w[i-2], a = hash[0], e = hash[4];
+      var temp1 = hash[7] + (rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25)) + ((e&hash[5])^((~e)&hash[6])) + k[i]
+        + (w[i] = (i < 16) ? w[i] : (w[i-16] + (rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3)) + w[i-7] + (rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0);
+      var temp2 = (rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22)) + ((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash = [(temp1+temp2)|0].concat(hash);
+      hash[4] = (hash[4]+temp1)|0;
+      hash.length = 8;
+    }
+    hash = hash.map(function(a,i){ return (a+oldHash[i])|0; });
+  }
+  for (i = 0; i < 8; i++) {
+    for (j = 3; j+1; j--) {
+      var b = (hash[i]>>(j*8))&255;
+      result += ((b < 16) ? '0' : '') + b.toString(16);
+    }
+  }
+  return result;
+}
+
+const HASH = 'a0cd2d82e967368a854ed11bc3fc38bd4addae1e8b8dcb270ee694060e134e7d';
+
+function unlockSite() {
+  document.getElementById('gate-overlay').classList.add('hidden');
+  document.getElementById('site').classList.add('visible');
+}
+
+function checkPassword() {
+  var val = document.getElementById('gate-input').value;
+  var h = sha256(val);
+  if (h === HASH) {
+    sessionStorage.setItem('gpfm_auth', '1');
+    unlockSite();
+    initApp();
+  } else {
+    document.getElementById('gate-error').style.display = 'block';
+    document.getElementById('gate-input').value = '';
+    document.getElementById('gate-input').focus();
+  }
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  if (sessionStorage.getItem('gpfm_auth') === '1') {
+    unlockSite();
+    initApp();
+  } else {
+    document.getElementById('gate-btn').addEventListener('click', checkPassword);
+    document.getElementById('gate-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+  }
+});
+
+// ─── TAB ROUTING ────────────────────────────────────────────────
+const tabs = { front: '#tab-front', matrix: '#tab-matrix', resources: '#tab-resources' };
+function activateTab(id) {
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id)?.classList.add('active');
+  history.replaceState(null, '', '#' + id);
+}
+document.querySelectorAll('.nav-tab').forEach(b => b.addEventListener('click', () => activateTab(b.dataset.tab)));
+const initHash = location.hash.replace('#','') || 'front';
+if (tabs[initHash]) activateTab(initHash);
+
+// ─── UTILITIES ──────────────────────────────────────────────────
+const statusIcon = s => {
+  if (s==='active')      return '<i class="si si-active" title="Active">●</i>';
+  if (s==='completed')   return '<i class="si si-completed" title="Completed">○</i>';
+  if (s==='planned')     return '<i class="si si-planned" title="Planned">◐</i>';
+  if (s==='exploratory') return '<i class="si si-exploratory" title="Exploratory">▷</i>';
+  return '';
+};
+
+const el = (tag, cls, html) => {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html) e.innerHTML = html;
+  return e;
+};
+
+// ─── MAIN APP INIT ───────────────────────────────────────────────
+let donorsData, dlisData, resourcesData, agendaData;
+
+async function initApp() {
+  [donorsData, dlisData, resourcesData, agendaData] = await Promise.all([
+    fetch('data/donors.json').then(r=>r.json()),
+    fetch('data/dlis.json').then(r=>r.json()),
+    fetch('data/resources.json').then(r=>r.json()),
+    fetch('data/agenda.json').then(r=>r.json()),
+  ]);
+  renderObjectiveCards();
+  renderAgenda();
+  renderDonorMap();
+  renderDonorMatrix();
+  renderOtherDonors();
+  renderDLIDashboard();
+  renderDLICards();
+  renderCompactTable();
+  renderResources();
+}
+
+if (sessionStorage.getItem('gpfm_auth') === '1') initApp();
+
+// ─── TAB 1: OBJECTIVE CARDS ──────────────────────────────────────
+function renderObjectiveCards() {
+  const cards = [
+    {
+      accent: '', title: 'Strong appetite among Rwandan counterparts',
+      body: `Building on Green PFM I, the mission confirmed a strong appetite among Rwandan counterparts (BNR, MINECOFIN, CMA, RSE, BRD, BoK) to deepen the greening of the financial system. Sustainability is now formally embedded in BNR's 5-year strategic plan, the FSSP, and the National Sustainable Finance Roadmap.`
+    },
+    {
+      accent: 'blue-green', title: 'Scope of work: two axes, two principal beneficiaries',
+      body: '',
+      list: [
+        'Axis A — Green Central Banking (Green CB), with the National Bank of Rwanda (BNR)',
+        'Axis B — Green Financial Products & Markets, with MINECOFIN (and CMA, RSE as line institutions)'
+      ]
+    },
+    {
+      accent: '', title: 'Limited resources — modular menu of options',
+      body: `Phase II budget support envelope (~€40M) and accompanying technical assistance (~€1.5M via Expertise France) are finite. The proposed matrix is therefore a modular "menu of options", designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework.`
+    },
+    {
+      accent: 'amber', title: 'Active donor landscape — positioning matters',
+      body: `The development partner landscape is dense. Development partners consulted include LuxDev, GGGI, World Bank, IMF, AFD. Phase II must position narrowly to complement — not duplicate — active initiatives (EIB Greening Financial Systems, GIZ taxonomy work, IFC capital markets partnership, GSFF DRF support, WB-RAMP, etc.).`
+    }
+  ];
+  const grid = document.getElementById('objective-cards');
+  cards.forEach(c => {
+    const div = el('div', `card card-accent ${c.accent}`);
+    let inner = `<h3>${c.title}</h3>`;
+    if (c.body) inner += `<p>${c.body}</p>`;
+    if (c.list) inner += '<ul>' + c.list.map(i=>`<li>${i}</li>`).join('') + '</ul>';
+    div.innerHTML = inner;
+    grid.appendChild(div);
+  });
+}
+
+// ─── TAB 1: AGENDA ───────────────────────────────────────────────
+function renderAgenda() {
+  // Online strip
+  const strip = document.getElementById('online-strip');
+  agendaData.online.forEach(m => {
+    const cls = m.type === 'dp-coordination' ? 'dp' : 'internal';
+    const d = el('div', `online-card ${cls}`);
+    d.innerHTML = `<div class="oc-date">${m.date}</div><div class="oc-label">${m.label}</div><div class="oc-topic">${m.topic}</div>`;
+    strip.appendChild(d);
+  });
+
+  // Timeline
+  const tl = document.getElementById('timeline');
+  agendaData.inperson.forEach(m => {
+    const axes = m.axis || [];
+    const dotCls = axes.length > 1 ? 'axis-ab' : (axes[0]==='B' ? 'axis-b' : '');
+    const row = el('div', 'tl-item');
+    row.innerHTML = `
+      <div class="tl-date">${m.date}</div>
+      <div class="tl-dot ${dotCls}"></div>
+      <div class="tl-content" role="button" tabindex="0">
+        <div class="tl-header">
+          <div>
+            <div class="tl-institution">${m.institution}</div>
+            ${m.attendees ? `<div class="tl-attendees">${m.attendees}</div>` : ''}
+            <div class="tl-topic">${m.topic}</div>
+          </div>
+          <div class="tl-axis-tags">
+            ${axes.map(a => `<span class="tag tag-${a.toLowerCase()}">${a}</span>`).join('')}
+          </div>
+        </div>
+        ${m.summary ? `<div class="tl-expand">${m.summary}</div>` : ''}
+      </div>`;
+    const content = row.querySelector('.tl-content');
+    const expand = row.querySelector('.tl-expand');
+    if (expand) {
+      content.addEventListener('click', () => expand.classList.toggle('open'));
+      content.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') expand.classList.toggle('open'); });
+    }
+    tl.appendChild(row);
+  });
+}
+
+// ─── TAB 1: DONOR MAP (SVG) ──────────────────────────────────────
+function renderDonorMap() {
+  const SVG_W = 500, SVG_H = 440;
+  const institutions = donorsData.institutions;
+  const interventions = donorsData.interventions;
+  const dp = donorsData.dp_coordination;
+
+  // SVG coordinate mapping: kigali_pin [x,y] in 0-1 range, map to SVG viewBox
+  // Rwanda outline roughly spans x:90-400, y:40-390
+  const toSVG = pin => ({
+    x: 90 + pin[0] * 310,
+    y: 40 + pin[1] * 350
+  });
+
+  const nodesG = document.getElementById('map-nodes');
+  const arcsG = document.getElementById('map-arcs');
+
+  // Draw coordination arcs between donor positions (conceptual — arcs between institution groups)
+  // We'll draw arcs between institution nodes that share DP coordination
+  const donorPos = {};
+  donorsData.donors.forEach((d, i) => {
+    donorPos[d] = { x: 80 + i * 50, y: 420 }; // below map
+  });
+
+  // Draw institution nodes
+  institutions.forEach(inst => {
+    const pos = toSVG(inst.kigali_pin);
+    const color = inst.axis === 'A' ? '#1F4E79' : '#2E7D32';
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('style', 'cursor:pointer');
+    g.setAttribute('data-id', inst.id);
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx', pos.x);
+    circle.setAttribute('cy', pos.y);
+    circle.setAttribute('r', '7');
+    circle.setAttribute('fill', color);
+    circle.setAttribute('opacity', '0.85');
+    circle.setAttribute('stroke', '#fff');
+    circle.setAttribute('stroke-width', '1.5');
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+    text.setAttribute('x', pos.x + 10);
+    text.setAttribute('y', pos.y + 4);
+    text.setAttribute('font-size', '9');
+    text.setAttribute('fill', '#333');
+    text.setAttribute('font-family', 'system-ui, sans-serif');
+    text.textContent = inst.label.length > 22 ? inst.label.substring(0,20)+'…' : inst.label;
+
+    g.appendChild(circle);
+    g.appendChild(text);
+    g.addEventListener('click', () => openMapPanel(inst));
+    nodesG.appendChild(g);
+  });
+
+  // Panel open
+  function openMapPanel(inst) {
+    const panel = document.getElementById('map-panel');
+    const title = document.getElementById('map-panel-title');
+    const body = document.getElementById('map-panel-body');
+    title.textContent = inst.label;
+    const instInterventions = interventions.filter(i => i.institution === inst.id);
+    if (instInterventions.length === 0) {
+      body.innerHTML = '<p style="color:var(--text-soft);font-size:0.82rem">No mapped interventions in mission scope.</p>';
+    } else {
+      body.innerHTML = instInterventions.map(iv => `
+        <div class="panel-intervention">
+          ${statusIcon(iv.status)}
+          <div>
+            <span class="pi-donor">${iv.donor}</span>
+            <span style="font-size:0.78rem;color:var(--text-soft);margin-left:0.3rem">${iv.type}</span>
+            <div style="margin-top:0.15rem">${iv.label}${iv.tbc ? ' <span class="tag tag-tbc">TBC</span>' : ''}</div>
+          </div>
+        </div>`).join('');
+    }
+    panel.classList.add('open');
+  }
+
+  document.getElementById('map-panel-close').addEventListener('click', () => {
+    document.getElementById('map-panel').classList.remove('open');
+  });
+
+  // View toggle
+  document.getElementById('btn-map').addEventListener('click', () => {
+    document.getElementById('map-view').style.display = 'block';
+    document.getElementById('matrix-view').style.display = 'none';
+    document.getElementById('btn-map').classList.add('active');
+    document.getElementById('btn-matrix').classList.remove('active');
+  });
+  document.getElementById('btn-matrix').addEventListener('click', () => {
+    document.getElementById('map-view').style.display = 'none';
+    document.getElementById('matrix-view').style.display = 'block';
+    document.getElementById('btn-map').classList.remove('active');
+    document.getElementById('btn-matrix').classList.add('active');
+  });
+}
+
+// ─── TAB 1: DONOR MATRIX ────────────────────────────────────────
+function renderDonorMatrix() {
+  const { donors, institutions, interventions, dp_coordination } = donorsData;
+  const thead = document.getElementById('donor-thead');
+  const tbody = document.getElementById('donor-tbody');
+
+  // Header row
+  let hRow = '<th class="inst-col">Institution</th>';
+  donors.forEach(d => { hRow += `<th>${d}</th>`; });
+  thead.innerHTML = hRow;
+
+  // Build lookup: institution × donor → interventions[]
+  const lookup = {};
+  interventions.forEach(iv => {
+    const key = `${iv.institution}__${iv.donor}`;
+    if (!lookup[key]) lookup[key] = [];
+    lookup[key].push(iv);
+  });
+
+  // DP coordination lookup
+  const coordPairs = new Set(dp_coordination.map(d => `${d.from}__${d.to}`));
+  const isCoordinated = (donor, targetDonor) =>
+    coordPairs.has(`${donor}__${targetDonor}`) || coordPairs.has(`${targetDonor}__${donor}`);
+
+  institutions.forEach(inst => {
+    const tr = document.createElement('tr');
+    let row = `<td class="inst-cell axis-${inst.axis.toLowerCase()}">${inst.label}</td>`;
+    donors.forEach(donor => {
+      const key = `${inst.id}__${donor}`;
+      const ivs = lookup[key] || [];
+      if (ivs.length === 0) {
+        row += '<td></td>';
+      } else {
+        const coordPartners = dp_coordination
+          .filter(d => d.from === donor || d.to === donor)
+          .map(d => d.from === donor ? d.to : d.from);
+        const coordStr = coordPartners.length > 0
+          ? ` <span class="coord-glyph" title="DP coordination with: ${coordPartners.join(', ')}">↔</span>`
+          : '';
+        const entries = ivs.map(iv => `
+          <div class="cell-entry">
+            ${statusIcon(iv.status)}
+            <span>${iv.label}${iv.tbc ? ' <span class="tag tag-tbc" style="font-size:0.65rem">TBC</span>' : ''}</span>
+          </div>`).join('');
+        row += `<td>${entries}${coordStr}</td>`;
+      }
+    });
+    tr.innerHTML = row;
+    tbody.appendChild(tr);
+  });
+}
+
+// ─── TAB 1: OTHER DONORS FOOTNOTE ───────────────────────────────
+function renderOtherDonors() {
+  const box = document.getElementById('other-donors-footnote');
+  const others = donorsData.footnote_other_donors;
+  let html = '<strong>Other active donors (not in matrix columns):</strong> ';
+  html += others.map(o => `<strong>${o.donor}</strong>: ${o.interventions.join('; ')}`).join(' · ');
+  box.innerHTML = html;
+}
+
+// ─── TAB 2: DLI DASHBOARD ────────────────────────────────────────
+function renderDLIDashboard() {
+  const dlis = dlisData;
+  const totalM = dlis.reduce((s,d) => s + d.amount_eur_m, 0);
+  const axisA = dlis.filter(d=>d.axis==='A').reduce((s,d)=>s+d.amount_eur_m,0);
+  const axisB = dlis.filter(d=>d.axis==='B').reduce((s,d)=>s+d.amount_eur_m,0);
+  const immediate = dlis.filter(d=>d.tier==='Immediate').length;
+  const secondary = dlis.filter(d=>d.tier==='Secondary').length;
+
+  const fy1 = dlis.filter(d=>d.fy_26_27).length;
+  const fy2 = dlis.filter(d=>d.fy_27_28).length;
+  const fy3 = dlis.filter(d=>d.fy_28_29).length;
+  const maxFy = Math.max(fy1,fy2,fy3);
+
+  const pctA = Math.round(axisA/totalM*100);
+  const pctB = 100 - pctA;
+
+  const dash = document.getElementById('dli-dashboard');
+  dash.innerHTML = `
+    <div class="dash-card">
+      <div class="dc-label">Total indicative envelope</div>
+      <div class="dc-value">€${totalM.toFixed(1)}M</div>
+      <div class="dc-sub">${dlis.length} DLIs across 5 sub-axes</div>
+      <div class="stacked-bar" style="margin-top:0.7rem">
+        <div class="sb-a" style="width:${pctA}%" title="Axis A — €${axisA}M"></div>
+        <div class="sb-b" style="width:${pctB}%" title="Axis B — €${axisB}M"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-soft);margin-top:0.2rem">
+        <span>Axis A €${axisA}M</span><span>Axis B €${axisB}M</span>
+      </div>
+    </div>
+    <div class="dash-card">
+      <div class="dc-label">Priority tiers</div>
+      <div style="display:flex;gap:0.5rem;margin-top:0.4rem;flex-wrap:wrap">
+        <span class="tier-badge tier-immediate">Immediate: ${immediate}</span>
+        <span class="tier-badge tier-secondary">Secondary: ${secondary}</span>
+      </div>
+      <div class="dc-sub" style="margin-top:0.5rem">Composite score ≥ 3.0 → Immediate</div>
+    </div>
+    <div class="dash-card">
+      <div class="dc-label">Year-by-year trajectory</div>
+      <div class="mini-chart" style="margin-top:0.8rem">
+        <div class="mc-bar" style="height:${Math.round(fy1/maxFy*100)}%"><span>FY 26/27</span></div>
+        <div class="mc-bar" style="height:${Math.round(fy2/maxFy*100)}%"><span>FY 27/28</span></div>
+        <div class="mc-bar" style="height:${Math.round(fy3/maxFy*100)}%"><span>FY 28/29</span></div>
+      </div>
+      <div style="height:1.2rem"></div>
+    </div>
+    <div class="dash-card">
+      <div class="dc-label">Budget support</div>
+      <div class="dc-value" style="font-size:1.1rem;color:var(--mef-500)">~€40M</div>
+      <div class="dc-sub">DLI envelope + TA</div>
+      <div class="dc-value" style="font-size:0.9rem;color:var(--bnr-500);margin-top:0.3rem">~€1.5M</div>
+      <div class="dc-sub">TA (Expertise France)</div>
+    </div>`;
+}
+
+// ─── TAB 2: DLI CARDS ────────────────────────────────────────────
+const SUBAXIS_ORDER = ['A1','A2','B1','B2','B3'];
+const AXIS_LABELS = {
+  A: 'Axis A — Green Central Banking (BNR)',
+  B: 'Axis B — Green Financial Products &amp; Markets (MINECOFIN/CMA)'
+};
+
+function renderDots(val, axis) {
+  return Array.from({length:4}).map((_,i) =>
+    `<div class="dot${i < val ? ' filled' : ''}"></div>`
+  ).join('');
+}
+
+function renderDLICards() {
+  const container = document.getElementById('dli-cards-view');
+  const bySubaxis = {};
+  dlisData.forEach(d => {
+    if (!bySubaxis[d.subaxis]) bySubaxis[d.subaxis] = [];
+    bySubaxis[d.subaxis].push(d);
+  });
+
+  let currentAxis = null;
+  SUBAXIS_ORDER.forEach(sa => {
+    const dlis = bySubaxis[sa] || [];
+    if (!dlis.length) return;
+    const axis = sa[0];
+
+    if (axis !== currentAxis) {
+      currentAxis = axis;
+      const ah = el('div', `axis-header axis-${axis.toLowerCase()}`);
+      ah.innerHTML = `
+        <span class="tag tag-${axis.toLowerCase()}">${axis}</span>
+        <h2>${AXIS_LABELS[axis]}</h2>`;
+      container.appendChild(ah);
+    }
+
+    const saLabel = dlis[0].subaxis_label;
+    const sh = el('div', `subaxis-header sa-${sa}`);
+    sh.textContent = `${sa} — ${saLabel} (${dlis.length} DLI${dlis.length>1?'s':''})`;
+    container.appendChild(sh);
+
+    dlis.forEach(dli => {
+      const isA = dli.axis === 'A';
+      const card = el('div', `dli-card axis-${dli.axis.toLowerCase()}`);
+      const s = dli.scoring;
+      const composite = ((s.legal_mandate + s.policy_alignment + s.donor_complementarity + s.institutional_ownership) / 4).toFixed(1);
+      const tierCls = dli.tier === 'Immediate' ? 'tier-immediate' : 'tier-secondary';
+      const tierDot = dli.tier === 'Immediate' ? '🟢' : '🟡';
+
+      card.innerHTML = `
+        <div class="dli-header">
+          <div style="display:flex;align-items:flex-start;gap:0.7rem;flex:1;flex-wrap:wrap">
+            <span class="dli-id${isA ? '' : ' axis-b'}">${dli.id}</span>
+            <div>
+              <p class="dli-title">${dli.title}</p>
+              <p class="dli-counterpart">${dli.counterpart.join(' · ')}</p>
+            </div>
+          </div>
+          <div class="dli-header-meta">
+            <span class="tag ${tierCls}">${tierDot} ${dli.tier}</span>
+            <span class="tag tag-type">${dli.year_tag}</span>
+            <span class="tag tag-type" style="font-weight:700">€${dli.amount_eur_m}M</span>
+          </div>
+        </div>
+        <div class="trigger-box">${dli.trigger}</div>
+        <div class="dli-divider"></div>
+        <div class="dli-body">
+          <div class="dli-field">
+            <div class="dli-field-label">Rationale</div>
+            <div class="dli-field-value">${dli.rationale}</div>
+          </div>
+          <div class="dli-field">
+            <div class="dli-field-label">Scalable ambition</div>
+            <div class="dli-field-value">
+              <strong>Baseline:</strong> ${dli.scalable_ambition.baseline}<br/>
+              <strong>Advanced:</strong> ${dli.scalable_ambition.advanced}
+            </div>
+          </div>
+          <div class="dli-field">
+            <div class="dli-field-label">Technical assistance</div>
+            <div class="dli-field-value">${dli.ta}</div>
+          </div>
+          <div class="dli-field">
+            <div class="dli-field-label">Donor complementarity</div>
+            <div class="dli-field-value">${dli.donor_complementarity}</div>
+          </div>
+        </div>
+        <div class="dli-divider"></div>
+        <div style="padding:0 1.2rem 1rem">
+          <div class="dli-field-label" style="margin-bottom:0.6rem">Feasibility scoring (1–4)</div>
+          <div class="score-grid">
+            <div class="score-item">
+              <div class="score-dots">${renderDots(s.legal_mandate, dli.axis)}</div>
+              <div class="score-metric">Legal Mandate<br/>${s.legal_mandate}/4</div>
+            </div>
+            <div class="score-item">
+              <div class="score-dots">${renderDots(s.policy_alignment, dli.axis)}</div>
+              <div class="score-metric">Policy Align.<br/>${s.policy_alignment}/4</div>
+            </div>
+            <div class="score-item">
+              <div class="score-dots">${renderDots(s.donor_complementarity, dli.axis)}</div>
+              <div class="score-metric">Donor Compl.<br/>${s.donor_complementarity}/4</div>
+            </div>
+            <div class="score-item">
+              <div class="score-dots">${renderDots(s.institutional_ownership, dli.axis)}</div>
+              <div class="score-metric">Inst. Ownership<br/>${s.institutional_ownership}/4</div>
+            </div>
+          </div>
+          <div class="composite-row">
+            <span style="color:var(--text-soft);font-size:0.82rem">Composite: <strong>${composite}</strong></span>
+            <span class="tier-badge ${tierCls}">${tierDot} ${dli.tier} Actionable Priority</span>
+          </div>
+        </div>
+        <div class="dli-divider"></div>
+        <div style="padding:0 1.2rem 1rem">
+          <div class="dli-field-label" style="margin-bottom:0.5rem">Year-by-year trajectory</div>
+          <div class="fy-cols">
+            <div class="fy-col"><div class="fy-yr">FY 26/27</div><div class="fy-text">${dli.fy_26_27}</div></div>
+            <div class="fy-col"><div class="fy-yr">FY 27/28</div><div class="fy-text">${dli.fy_27_28}</div></div>
+            <div class="fy-col"><div class="fy-yr">FY 28/29</div><div class="fy-text">${dli.fy_28_29}</div></div>
+          </div>
+        </div>
+        <div class="dli-divider"></div>
+        <div style="padding:0 1.2rem 1rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start">
+          <div class="dli-field" style="flex:1;min-width:200px">
+            <div class="dli-field-label">IMF RSF / FSAP link</div>
+            <div class="dli-field-value">${dli.rsf_fsap_link}</div>
+          </div>
+          <div class="dli-field" style="flex:1;min-width:200px">
+            <div class="dli-field-label">Risks</div>
+            <ul class="risks-list">${dli.risks.map(r=>`<li>${r}</li>`).join('')}</ul>
+          </div>
+        </div>`;
+      container.appendChild(card);
+    });
+  });
+
+  // View toggle
+  document.getElementById('btn-cards').addEventListener('click', () => {
+    document.getElementById('dli-cards-view').style.display = 'block';
+    document.getElementById('compact-table-view').style.display = 'none';
+    document.getElementById('btn-cards').classList.add('active');
+    document.getElementById('btn-compact').classList.remove('active');
+  });
+  document.getElementById('btn-compact').addEventListener('click', () => {
+    document.getElementById('dli-cards-view').style.display = 'none';
+    document.getElementById('compact-table-view').style.display = 'block';
+    document.getElementById('btn-cards').classList.remove('active');
+    document.getElementById('btn-compact').classList.add('active');
+  });
+}
+
+// ─── TAB 2: COMPACT TABLE ────────────────────────────────────────
+function renderCompactTable() {
+  const tbody = document.getElementById('compact-tbody');
+  dlisData.forEach(d => {
+    const s = d.scoring;
+    const composite = ((s.legal_mandate + s.policy_alignment + s.donor_complementarity + s.institutional_ownership)/4).toFixed(1);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="dli-num">${d.id}</td>
+      <td><strong>${d.title}</strong><br/><span style="color:var(--text-soft);font-size:0.75rem">${d.counterpart.join(', ')}</span></td>
+      <td>${d.scalable_ambition.baseline}</td>
+      <td>${d.fy_26_27}</td>
+      <td>${d.fy_27_28}</td>
+      <td>${d.fy_28_29}</td>
+      <td>${d.rsf_fsap_link}</td>
+      <td>${d.counterpart.join(', ')}</td>
+      <td style="text-align:right;font-weight:700">€${d.amount_eur_m}M</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ─── TAB 3: RESOURCES ────────────────────────────────────────────
+const SECTION_TITLES = {
+  1: 'Rwandan Strategic Framework',
+  2: 'Rwandan Regulatory &amp; Institutional',
+  3: 'Phase I &amp; Phase II Mission Documents',
+  4: 'Donor &amp; IFI Reports',
+  5: 'International Standards &amp; Best Practice'
+};
+const AXIS_FILTER_OPTS = ['All','Axis A (Green CB)','Axis B (Green Products & Markets)','Cross-cutting'];
+const AXIS_FILTER_VALS = ['all','A','B','cross'];
+
+let resAxisFilter = 'all', resIssuerFilter = 'all', resSearch = '';
+
+function renderResources() {
+  // Build issuer list
+  const issuers = ['All', ...new Set(resourcesData.map(r=>r.issuer))];
+
+  // Axis filter buttons
+  const axisF = document.getElementById('axis-filters');
+  AXIS_FILTER_OPTS.forEach((label, i) => {
+    const btn = el('button', `res-filter-btn${i===0?' active':''}`, label);
+    btn.addEventListener('click', () => {
+      resAxisFilter = AXIS_FILTER_VALS[i];
+      document.querySelectorAll('#axis-filters .res-filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      applyResFilter();
+    });
+    axisF.appendChild(btn);
+  });
+
+  // Issuer filter buttons
+  const issuerF = document.getElementById('issuer-filters');
+  issuers.forEach(issuer => {
+    const btn = el('button', `res-filter-btn${issuer==='All'?' active':''}`, issuer);
+    btn.addEventListener('click', () => {
+      resIssuerFilter = issuer === 'All' ? 'all' : issuer;
+      document.querySelectorAll('#issuer-filters .res-filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      applyResFilter();
+    });
+    issuerF.appendChild(btn);
+  });
+
+  // Search
+  document.getElementById('res-search').addEventListener('input', e => {
+    resSearch = e.target.value.toLowerCase();
+    applyResFilter();
+  });
+
+  // Build sections
+  const container = document.getElementById('resources-container');
+  [1,2,3,4,5].forEach(sNum => {
+    const section = el('div', 'res-section');
+    section.dataset.section = sNum;
+    const hd = el('div', 'res-section-hd');
+    hd.innerHTML = `<h3>${sNum}. ${SECTION_TITLES[sNum]}</h3><span class="toggle-icon">▼</span>`;
+    hd.addEventListener('click', () => {
+      const body = section.querySelector('.res-section-body');
+      const collapsed = body.classList.toggle('collapsed');
+      hd.classList.toggle('collapsed', collapsed);
+    });
+    section.appendChild(hd);
+    const body = el('div', 'res-section-body');
+    const grid = el('div', 'res-grid');
+    grid.dataset.sectionGrid = sNum;
+    resourcesData.filter(r=>r.section===sNum).forEach(r => {
+      const card = buildResCard(r);
+      grid.appendChild(card);
+    });
+    body.appendChild(grid);
+    section.appendChild(body);
+    container.appendChild(section);
+  });
+}
+
+function buildResCard(r) {
+  const card = el('div', 'res-card');
+  card.dataset.axes = r.axes.join(',');
+  card.dataset.issuer = r.issuer;
+  card.dataset.title = (r.title + ' ' + (r.description||'')).toLowerCase();
+  const axesTags = r.axes.map(a=>`<span class="tag tag-${a.toLowerCase()}">${a}</span>`).join('');
+  const accessCls = r.access==='public' ? 'access-public' : r.access==='internal' ? 'access-internal' : 'access-tbc';
+  const accessLabel = r.access==='public' ? '🌐 Public' : r.access==='internal' ? '🔒 Internal' : '? Availability TBC';
+  const openBtn = (r.access==='public' && r.url)
+    ? `<a href="${r.url}" target="_blank" rel="noopener" class="res-open-btn">Open ↗</a>`
+    : '';
+  card.innerHTML = `
+    <div class="res-card-title">${r.title}</div>
+    <div class="res-card-meta">${r.issuer} · ${r.year||'n.d.'} · <span class="tag tag-type" style="font-size:0.7rem">${r.type}</span></div>
+    <div class="res-card-desc">${r.description||''}</div>
+    <div class="res-card-footer">
+      <div class="res-axes">${axesTags}</div>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        <span class="access-badge ${accessCls}">${accessLabel}</span>
+        ${openBtn}
+      </div>
+    </div>`;
+  return card;
+}
+
+function applyResFilter() {
+  document.querySelectorAll('.res-card').forEach(card => {
+    const axes = card.dataset.axes || '';
+    const issuer = card.dataset.issuer || '';
+    const title = card.dataset.title || '';
+
+    const axisMatch = resAxisFilter === 'all' ||
+      (resAxisFilter === 'A' && axes.includes('A')) ||
+      (resAxisFilter === 'B' && axes.includes('B')) ||
+      (resAxisFilter === 'cross' && axes.includes('A') && axes.includes('B'));
+    const issuerMatch = resIssuerFilter === 'all' || issuer === resIssuerFilter;
+    const searchMatch = !resSearch || title.includes(resSearch);
+
+    card.classList.toggle('hidden', !(axisMatch && issuerMatch && searchMatch));
+  });
+}
+</script>
+
+<!-- DSFR JS (nomodule fallback + module) -->
+<script type="module" src="dsfr-v1.14.4/dist/dsfr.module.min.js"></script>
+<script nomodule src="dsfr-v1.14.4/dist/dsfr.nomodule.min.js"></script>
+</body>
+</html>
