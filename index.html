@@ -151,8 +151,11 @@
     .hero {
       text-align: center;
       padding: 3.5rem 1.5rem 2.5rem;
-      background: linear-gradient(160deg, var(--bnr-100) 0%, var(--mef-100) 100%);
+      background:
+        linear-gradient(160deg, rgba(232,240,248,0.90) 0%, rgba(234,244,236,0.90) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Kigali_buildings.jpg/1280px-Kigali_buildings.jpg') center/cover no-repeat;
       border-bottom: 1px solid var(--border);
+      position: relative;
     }
     .hero-label {
       font-size: 0.72rem;
@@ -197,6 +200,12 @@
       gap: 1.2rem;
     }
     @media (max-width: 680px) { .card-grid-2 { grid-template-columns: 1fr; } }
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+    @media (max-width: 860px) { .card-grid-3 { grid-template-columns: 1fr; } }
     .card-accent { border-left: 4px solid var(--border); padding-left: 1rem; }
     .card-accent.amber { border-left-color: var(--dp-coordination); }
     .card-accent.blue-green {
@@ -227,12 +236,13 @@
       margin: 2.5rem 0 1.2rem;
     }
     .section-hd h2 {
-      font-size: 1.25rem;
+      font-size: 1.75rem;
       font-weight: 700;
       color: var(--text);
-      margin: 0 0 0.25rem;
+      margin: 0 0 0.35rem;
+      letter-spacing: -0.01em;
     }
-    .section-hd p { font-size: 0.87rem; color: var(--text-soft); margin: 0; }
+    .section-hd p { font-size: 0.9rem; color: var(--text-soft); margin: 0; line-height: 1.6; }
 
     /* ── TIMELINE ──────────────────────────────────── */
     .timeline { position: relative; }
@@ -911,11 +921,32 @@
     </div>
 
     <div class="container">
-      <!-- 4-card objective grid (order: 1, 3, 4, 2) -->
       <div class="section-hd">
         <h2>Mission overview</h2>
       </div>
-      <div class="card-grid-2" id="objective-cards"></div>
+
+      <!-- Presentation + scope -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem 1.8rem;margin-bottom:1.6rem;line-height:1.7;">
+        <p style="font-size:0.95rem;color:var(--text);margin:0 0 1rem;">
+          This report presents the findings of the <strong>Green PFM Phase II feasibility mission</strong> conducted in Kigali, Rwanda in April–May 2026 by Yoan Raih (consultant, Expertise France) on behalf of AFD. The mission builds on the results of Phase I and assesses the feasibility of a second budget support programme aimed at <strong>greening Rwanda's financial system</strong>.
+        </p>
+        <p style="font-size:0.92rem;color:var(--text-soft);margin:0 0 0.8rem;">The scope of the programme crystallised around two axes and two principal beneficiaries:</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+          <div style="background:var(--bnr-100);border-left:4px solid var(--bnr-500);border-radius:0 6px 6px 0;padding:0.8rem 1rem;">
+            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--bnr-500);margin-bottom:0.3rem;">Axis A — Green Central Banking</div>
+            <div style="font-size:0.88rem;color:var(--bnr-700);">National Bank of Rwanda (BNR) — monetary policy climate integration, net-zero central banking, reserves management.</div>
+          </div>
+          <div style="background:var(--mef-100);border-left:4px solid var(--mef-500);border-radius:0 6px 6px 0;padding:0.8rem 1rem;">
+            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--mef-500);margin-bottom:0.3rem;">Axis B — Green Financial Products &amp; Markets</div>
+            <div style="font-size:0.88rem;color:var(--mef-700);">MINECOFIN (with CMA, RSE as line institutions) — sustainable debt, climate insurance, capital markets.</div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-soft);margin:1rem 0 0;">Phase II budget support envelope: <strong>~€40M</strong> · Technical assistance (Expertise France): <strong>~€1.5M</strong></p>
+      </div>
+
+      <!-- 3-card takeaways -->
+      <p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-soft);margin:0 0 0.8rem;">Key mission findings</p>
+      <div class="card-grid-3" id="objective-cards"></div>
 
       <!-- Agenda -->
       <div class="section-hd" style="margin-top:3rem">
@@ -931,7 +962,7 @@
       <!-- Donor mapping -->
       <div class="section-hd" style="margin-top:3.5rem">
         <h2>Donor mapping — active DP support to Rwandan beneficiaries</h2>
-        <p>Only interventions in the mission scope (BNR and MINECOFIN beneficiaries) are mapped. Other Phase I interventions (REMA, NPDQAD, RPPA, etc.) are not shown.</p>
+        <p>This map illustrates the different interventions from development partners to Rwandan stakeholders in the field of (a) green central banking and (b) green financial products and markets. Only interventions in the mission scope are shown.</p>
       </div>
 
       <div class="donor-controls">
@@ -950,36 +981,165 @@
       </div>
 
       <div id="map-view">
-        <div id="rwanda-svg-wrap">
-          <!-- Rwanda SVG outline — stylised, not cartographic -->
-          <svg viewBox="0 0 500 440" fill="none" xmlns="http://www.w3.org/2000/svg" id="rwanda-svg">
-            <!-- Rwanda country outline — simplified polygon -->
-            <path d="
-              M 185 60
-              C 200 40, 230 35, 260 45
-              C 285 52, 320 50, 345 65
-              C 365 78, 375 100, 380 125
-              C 390 155, 400 185, 395 215
-              C 388 245, 375 270, 360 295
-              C 345 318, 325 338, 300 355
-              C 278 370, 255 382, 230 385
-              C 205 388, 180 378, 158 362
-              C 138 348, 122 328, 110 305
-              C 95 278, 88 248, 90 218
-              C 92 190, 100 162, 112 138
-              C 124 115, 148 82, 185 60
-              Z
-            " fill="#EDF4F0" stroke="#A8C5B5" stroke-width="2.5"/>
-            <!-- Subtle hill shading -->
-            <ellipse cx="250" cy="210" rx="80" ry="60" fill="#D9EDE3" opacity="0.4"/>
-            <!-- Kigali label anchor -->
-            <circle cx="248" cy="210" r="6" fill="#1F4E79" opacity="0.8"/>
-            <text x="258" y="208" font-size="11" fill="#1F4E79" font-weight="700" font-family="system-ui, sans-serif">Kigali</text>
-            <!-- Institution nodes rendered by JS -->
-            <g id="map-nodes"></g>
-            <!-- Coordination arcs rendered by JS -->
-            <g id="map-arcs"></g>
+        <div id="rwanda-svg-wrap" style="position:relative;width:100%;max-width:960px;margin:0 auto;">
+
+          <!-- Real Rwanda map with donors spread around it -->
+          <svg id="rwanda-svg" viewBox="0 0 1200 960" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+            <defs>
+              <!-- Clip paths for institution logos -->
+              <clipPath id="clip-bnr"><circle cx="422" cy="490" r="38"/></clipPath>
+              <clipPath id="clip-mef"><circle cx="598" cy="490" r="38"/></clipPath>
+              <!-- Drop shadow filter -->
+              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.15"/>
+              </filter>
+              <!-- Glow for Kigali -->
+              <radialGradient id="kigali-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#F9A825" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#F9A825" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <!-- ── RWANDA COUNTRY SHAPE (offset 110,45 to centre in viewBox) ── -->
+            <g transform="translate(110,45)">
+              <path d="M116.2 784.1l-6.8-7.6-9.2-4.6-13.3-1.4-6-2.4-16.7-10.9-3.5-3.6 3-34.2-3-10.4-4.6-4.7-5-2.4-4-2.7-1.6-5.8 1.6-5.9 7.7-6.9-1.5-5.5-4.6-8.1-1.6-8.9-0.9-9.5 3.3-11.8 6.3-5.4 12-4.2 9.4-2.7 7.7-4.6 6.4-6.5 5.2-8.1 3.4-6.7 1.5-4.8 0.5-3.9 4.6-4.3 3.8-1.3 12.9 0.4 19.9-5.3 15.4-12.2 11.2-17.4 7.1-21.2 2.6-18.7-1-16.2-11.9-70.3-0.9-16.4 2.2-16 8.4-19.7 16.7-26.8 11.5-18.3 9.4-17.9 5.4-7.9 21.7-17.9 4.5-5.9 12.3-25.3 5.1-6.7 7.1-2.9 34.2-1.4 1.1-0.3 1-0.6 0.9-1 1.5-2.4 8.7-13.6 15.4-16 17.8-12.9 17.6-6.3 18 1 9.4-0.7 8.3-2.2 9.3-5.2 6.9-5 7.5-3.9 10.8-2 5.4 1.2 9.5 5.8 3.1 1.1 3.7-2.1 2.7-8.9 4-4.8 4.2-2.6 3.9-1.1 3.9 0.6 0.1 0 4.9 2.5 12.6 18.2 2 9.4 1 18.5 4.4 9.4 7.7 7.2 8.7 2.5 9.4-1 9.9-3.7 30.4-16.8 4.6-1 4.1-9.7 5.8-6.1 2.3-1.2 13.2-7.1 18.3-7.1 4.9-4.5 2.3-6.9 2.7-17.3 3.2-6.1 3.5-2.1 3.6-0.6 3.5-0.3 3.4-1 6.9-4.1 19.9-18.9 5.8-7.5 4.9-8.1 0.8-3 1-6.4 1.3-2.7 1.5-1.2 1.6-1.4 7.5-3.3 2.8-2.3 2.3-6.8 2.9-18.5 3.8-6.4 6.8-2.5 7.4 1.1 7.6 2.3 7.6 0.9 7-1.7 5.9-2.7 6.1-0.8 6.8 2.1 4.9 1.6-3.6 3.7-3.4 4.9-1.4 5 1.5 4.8 6.5 4.5 1.5 6.1-1 2.7-1.7 2.5-1.2 2.7 0.8 2.7 3.9 2.6 3.6-0.5 2.9-1.6 1.8-0.5 5.5 4 1.9 2.7 1.8 11.6 2.7 6.5 8.2 13.5 2.6 9.2 4.2 5.4 0.9 3.6-0.5 1.4-1 2-1.1 2.6-0.4 3.3 2.4 7.2 5.8 4.4 13.2 5.4 4.7 3.4 6.7 6.3 4.1 2.5 29.6 11 8.8 1.3 8.7 5.2 2.5 11.7-0.8 11.7-1.4 5.3-2.4 2.6 2.7 5.8 7.4 9.9 5.5 5.9 2 3.5 4.4 16.1 4.3 10.1 7 5.5 10.6-4.1 3.3 9.5-0.4 11.5-5.8 35.3-0.1 4.9 1 2.3 4 6.1 1.1 4.1-5.1 12.3 1.5 4.7 3.6 18-2.5 7.6-4.5 6.7-2.5 6.9 3.4 8-7.3 5.7-2.7 2.9-2.2 3.6 13.4 2.2 1.3 11.8-5.9 26.1 8.4-1.8 8.1 4 6.8 6.9 4.8 6.4 3.7 13-15.4 49.9-3.8 19.7 1.8 30.7-1.8 9.1-4.7 8.4-5.8 4.2-7.5 3.4-6.9 3.9-6.3 1.6-3.2 1.8-4.1 1.1-3.7-0.9-23.3-11.5-4.8-1.5-5.8 0.8-5.2 4-6.3 12-5.1 4.3-9.3 0.5-9.7-2.8-9.6-1.2-8.6 5.1-14.7-0.6-14.9-7-24.4-19.9-2.5-3.6-2.3-6.2-2.2-2.5-1.5 0.6-14.2-3.4-2.1-1.1-7.2 2.1-4.4 4.1-1.9 2.4-2 2.7-5.8 5.3-6.4 3.3-8.4 2.8-8.6 1.7-7.2 0.3-5.6-1.2-13.9-6.8-5.2-0.5-1.6 3-0.3 4.2-0.9 3.1-20.2 25.4-7.6 5.3-10 0.3-10.3-4-9.4-6.2-7.3-6.4-13.9-16.4-5.5-4.3-5.1-1.8-4.3-0.1-3.7 0.4-3.5-0.5-7.9-6.8-0.8-0.7-3-2.6-3.6-2.1-4.6 0.2-1.3 2.5 0 4.1-2.9 23 3.2 34.4-9.7 33.9-1.8 45.9-0.2 5-2.4 9.9-4.3 9.8-5.5 9.2-5.9 8.1-9.2 9.3-8.4 5-9.1 1.7-11.1-0.3-10-3-5.1 0-3.3 4.2-1.5 9.4-2 4.2-4.3 2.6-10 1.3-8.5-1.3-18.6-6.2-4.8-1.6-3.2-0.2-13.3 4.9-3.3 2-3.6 1.4-4.6-0.2-9.8 1.3-8.4 5.3-8.5 2.9-10.4-5.9-16.2-3-8.7-1.6-8 0.9-19.3 8.4-11.1 1-3.9-8.5-0.5-5.6-4.2-9.3-1-5.2 1.5-4.7 6.2-7.6 1-5.1-2.8-5.5-9.7-9.2-0.1-0.4-1.5-6.1 0.6-5.2-0.4-2.1-5.4-4.1-8.2-4.7-9.5-2.2-18.9-2.4-10-3.1-27.2-11.8-7.2-1.1-26.1 1.7-10.1 10-7.8 44.8z"
+                fill="#c8dfc9" stroke="#6fa878" stroke-width="1.2"/>
+              <!-- Kigali glow -->
+              <circle cx="545" cy="475" r="55" fill="url(#kigali-glow)"/>
+              <!-- Kigali dot -->
+              <circle cx="545" cy="475" r="6" fill="#F9A825" stroke="#fff" stroke-width="2"/>
+              <text x="555" y="470" font-size="11" font-weight="700" fill="#333" font-family="system-ui,sans-serif">Kigali</text>
+            </g>
+
+            <!-- ══ CONNECTION LINES (donors → institutions) ══ -->
+            <!-- Axis A lines → BNR (blue, solid) -->
+            <!-- AFD → BNR -->
+            <line x1="130" y1="130" x2="422" y2="490" stroke="#1F4E79" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- GIZ → BNR -->
+            <line x1="860" y1="155" x2="422" y2="490" stroke="#1F4E79" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- World Bank → BNR -->
+            <line x1="330" y1="880" x2="422" y2="490" stroke="#1F4E79" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- IMF → BNR -->
+            <line x1="80" y1="600" x2="422" y2="490" stroke="#1F4E79" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+
+            <!-- Axis B lines → MINECOFIN (green, solid) -->
+            <!-- GIZ → MINECOFIN -->
+            <line x1="860" y1="155" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- KfW → MINECOFIN -->
+            <line x1="1010" y1="380" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- LuxDev → MINECOFIN -->
+            <line x1="980" y1="610" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- GGGI → MINECOFIN -->
+            <line x1="700" y1="875" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- World Bank → MINECOFIN -->
+            <line x1="330" y1="880" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- IMF → MINECOFIN -->
+            <line x1="80" y1="600" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- EU → MINECOFIN -->
+            <line x1="75" y1="350" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+            <!-- EIB → MINECOFIN (major funder of ecosystem) -->
+            <line x1="500" y1="60" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
+
+            <!-- ══ INSTITUTION NODES (BNR + MINECOFIN with logos) ══ -->
+            <!-- BNR -->
+            <g filter="url(#shadow)" style="cursor:pointer" onclick="document.getElementById('map-panel').classList.add('open');document.getElementById('map-panel-title').textContent='BNR — National Bank of Rwanda';document.getElementById('map-panel-body').innerHTML=window._BNR_HTML;">
+              <circle cx="422" cy="490" r="42" fill="white" stroke="#1F4E79" stroke-width="2.5"/>
+              <image href="bnr-logo.jpg" x="384" y="452" width="76" height="76" clip-path="url(#clip-bnr)" preserveAspectRatio="xMidYMid slice"/>
+              <rect x="370" y="536" width="104" height="24" rx="5" fill="#1F4E79"/>
+              <text x="422" y="553" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="system-ui,sans-serif">BNR</text>
+            </g>
+
+            <!-- MINECOFIN -->
+            <g filter="url(#shadow)" style="cursor:pointer" onclick="document.getElementById('map-panel').classList.add('open');document.getElementById('map-panel-title').textContent='MINECOFIN';document.getElementById('map-panel-body').innerHTML=window._MEF_HTML;">
+              <circle cx="598" cy="490" r="42" fill="white" stroke="#2E7D32" stroke-width="2.5"/>
+              <image href="minecofin-logo.jpg" x="560" y="452" width="76" height="76" clip-path="url(#clip-mef)" preserveAspectRatio="xMidYMid slice"/>
+              <rect x="543" y="536" width="110" height="24" rx="5" fill="#2E7D32"/>
+              <text x="598" y="553" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="system-ui,sans-serif">MINECOFIN</text>
+            </g>
+
+            <!-- ══ DONOR NODES (spread evenly around the map) ══ -->
+            <!-- AFD — top-left -->
+            <g filter="url(#shadow)">
+              <rect x="60" y="100" width="140" height="58" rx="8" fill="white" stroke="#1F4E79" stroke-width="1.5"/>
+              <rect x="60" y="100" width="8" height="58" rx="4" fill="#1F4E79"/>
+              <text x="140" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#1F4E79" font-family="system-ui,sans-serif">AFD</text>
+              <text x="140" y="143" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis A · TA</text>
+            </g>
+
+            <!-- EIB — top-center -->
+            <g filter="url(#shadow)">
+              <rect x="430" y="20" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+              <rect x="430" y="20" width="8" height="58" rx="4" fill="#2E7D32"/>
+              <text x="510" y="44" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">EIB</text>
+              <text x="510" y="63" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · Loan+TA</text>
+            </g>
+
+            <!-- GIZ — top-right -->
+            <g filter="url(#shadow)">
+              <rect x="790" y="100" width="140" height="58" rx="8" fill="white" stroke="#1F4E79" stroke-width="1.5"/>
+              <rect x="790" y="100" width="8" height="58" rx="4" fill="#1F4E79"/>
+              <text x="870" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#1F4E79" font-family="system-ui,sans-serif">GIZ</text>
+              <text x="870" y="143" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis A+B · TA</text>
+            </g>
+
+            <!-- KfW — right-upper -->
+            <g filter="url(#shadow)">
+              <rect x="940" y="320" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+              <rect x="940" y="320" width="8" height="58" rx="4" fill="#2E7D32"/>
+              <text x="1020" y="344" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">KfW</text>
+              <text x="1020" y="363" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · Co-fin</text>
+            </g>
+
+            <!-- LuxDev — right-lower -->
+            <g filter="url(#shadow)">
+              <rect x="910" y="560" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+              <rect x="910" y="560" width="8" height="58" rx="4" fill="#2E7D32"/>
+              <text x="990" y="584" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">LuxDev</text>
+              <text x="990" y="603" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · TA</text>
+            </g>
+
+            <!-- GGGI — bottom-right -->
+            <g filter="url(#shadow)">
+              <rect x="640" y="845" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+              <rect x="640" y="845" width="8" height="58" rx="4" fill="#2E7D32"/>
+              <text x="720" y="869" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">GGGI</text>
+              <text x="720" y="888" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · TA</text>
+            </g>
+
+            <!-- World Bank — bottom-center -->
+            <g filter="url(#shadow)">
+              <rect x="255" y="845" width="150" height="58" rx="8" fill="white" stroke="#1F4E79" stroke-width="1.5"/>
+              <rect x="255" y="845" width="8" height="58" rx="4" fill="#1F4E79"/>
+              <text x="335" y="869" text-anchor="middle" font-size="13" font-weight="700" fill="#1F4E79" font-family="system-ui,sans-serif">World Bank</text>
+              <text x="335" y="888" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis A+B · TA</text>
+            </g>
+
+            <!-- IMF — left-lower -->
+            <g filter="url(#shadow)">
+              <rect x="10" y="560" width="140" height="58" rx="8" fill="white" stroke="#1F4E79" stroke-width="1.5"/>
+              <rect x="10" y="560" width="8" height="58" rx="4" fill="#1F4E79"/>
+              <text x="90" y="584" text-anchor="middle" font-size="15" font-weight="700" fill="#1F4E79" font-family="system-ui,sans-serif">IMF</text>
+              <text x="90" y="603" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis A+B · Surveill.</text>
+            </g>
+
+            <!-- EU — left-center -->
+            <g filter="url(#shadow)">
+              <rect x="10" y="310" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
+              <rect x="10" y="310" width="8" height="58" rx="4" fill="#2E7D32"/>
+              <text x="90" y="334" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">EU</text>
+              <text x="90" y="353" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · Platform</text>
+            </g>
+
+            <!-- ══ LEGEND ══ -->
+            <rect x="10" y="10" width="220" height="72" rx="6" fill="white" fill-opacity="0.92" stroke="#E0E0E0" stroke-width="1"/>
+            <line x1="22" y1="30" x2="55" y2="30" stroke="#1F4E79" stroke-width="2" stroke-dasharray="5,2"/>
+            <text x="62" y="35" font-size="11" fill="#333" font-family="system-ui,sans-serif">→ BNR (Axis A)</text>
+            <line x1="22" y1="50" x2="55" y2="50" stroke="#2E7D32" stroke-width="2" stroke-dasharray="5,2"/>
+            <text x="62" y="55" font-size="11" fill="#333" font-family="system-ui,sans-serif">→ MINECOFIN (Axis B)</text>
+            <text x="22" y="74" font-size="10" fill="#777" font-family="system-ui,sans-serif">Click BNR / MINECOFIN for details</text>
           </svg>
+
+          <!-- Side panel -->
           <div id="map-panel" class="map-panel">
             <button class="map-panel-close" id="map-panel-close">✕</button>
             <h4 id="map-panel-title"></h4>
@@ -1216,37 +1376,32 @@ function initApp() {
   renderResources();
 }
 
-// ─── TAB 1: OBJECTIVE CARDS ──────────────────────────────────────
+// ─── TAB 1: OBJECTIVE CARDS (3 key findings) ─────────────────────
 function renderObjectiveCards() {
   const cards = [
     {
-      accent: '', title: 'Strong appetite among Rwandan counterparts',
-      body: `Building on Green PFM I, the mission confirmed a strong appetite among Rwandan counterparts (BNR, MINECOFIN, CMA, RSE, BRD, BoK) to deepen the greening of the financial system. Sustainability is now formally embedded in BNR's 5-year strategic plan, the FSSP, and the National Sustainable Finance Roadmap.`
+      accent: '', icon: '🌱',
+      title: 'Strong appetite among Rwandan counterparts',
+      body: `Building on Green PFM I, the mission confirmed strong appetite across all institutions visited (BNR, MINECOFIN, CMA, RSE, BRD, BoK) to deepen the greening of the financial system. Sustainability is now formally embedded in BNR's 5-year strategic plan, the FSSP, and the National Sustainable Finance Roadmap.`
     },
     {
-      accent: 'blue-green', title: 'Scope of work: two axes, two principal beneficiaries',
-      body: '',
-      list: [
-        'Axis A — Green Central Banking (Green CB), with the National Bank of Rwanda (BNR)',
-        'Axis B — Green Financial Products & Markets, with MINECOFIN (and CMA, RSE as line institutions)'
-      ]
+      accent: 'amber', icon: '🌐',
+      title: 'Dense donor landscape — narrow positioning required',
+      body: `Development partners active in scope include EIB, GIZ, LuxDev, GGGI, World Bank, IMF, and EU. Phase II must complement — not duplicate — active initiatives: EIB Greening Financial Systems, GIZ taxonomy, IFC capital markets partnership, GSFF DRF support, WB-RAMP, and others.`
     },
     {
-      accent: '', title: 'Limited resources — modular menu of options',
-      body: `Phase II budget support envelope (~€40M) and accompanying technical assistance (~€1.5M via Expertise France) are finite. The proposed matrix is therefore a modular "menu of options", designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework.`
-    },
-    {
-      accent: 'amber', title: 'Active donor landscape — positioning matters',
-      body: `The development partner landscape is dense. Development partners consulted include LuxDev, GGGI, World Bank, IMF, AFD. Phase II must position narrowly to complement — not duplicate — active initiatives (EIB Greening Financial Systems, GIZ taxonomy work, IFC capital markets partnership, GSFF DRF support, WB-RAMP, etc.).`
+      accent: '', icon: '⚖️',
+      title: 'Finite resources — modular menu of options',
+      body: `The Phase II envelope (~€40M budget support, ~€1.5M TA) is finite. The proposed Policy Reform Matrix is a modular "menu of options" — not yet an integrated DLI framework — designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations.`
     }
   ];
   const grid = document.getElementById('objective-cards');
   cards.forEach(c => {
     const div = el('div', `card card-accent ${c.accent}`);
-    let inner = `<h3>${c.title}</h3>`;
-    if (c.body) inner += `<p>${c.body}</p>`;
-    if (c.list) inner += '<ul>' + c.list.map(i=>`<li>${i}</li>`).join('') + '</ul>';
-    div.innerHTML = inner;
+    div.innerHTML = `
+      <div style="font-size:1.6rem;margin-bottom:0.5rem">${c.icon}</div>
+      <h3>${c.title}</h3>
+      <p>${c.body}</p>`;
     grid.appendChild(div);
   });
 }
@@ -1294,84 +1449,45 @@ function renderAgenda() {
   });
 }
 
-// ─── TAB 1: DONOR MAP (SVG) ──────────────────────────────────────
+// ─── TAB 1: DONOR MAP ───────────────────────────────────────────
 function renderDonorMap() {
-  const SVG_W = 500, SVG_H = 440;
-  const institutions = donorsData.institutions;
   const interventions = donorsData.interventions;
-  const dp = donorsData.dp_coordination;
 
-  // SVG coordinate mapping: kigali_pin [x,y] in 0-1 range, map to SVG viewBox
-  // Rwanda outline roughly spans x:90-400, y:40-390
-  const toSVG = pin => ({
-    x: 90 + pin[0] * 310,
-    y: 40 + pin[1] * 350
-  });
+  // Build panel HTML for BNR (axis A institutions)
+  const bnrIds = ['bnr-strategy','bnr-monpol','bnr-fm','bnr-supervision'];
+  const mefIds = ['minecofin-debt','minecofin-cfd','minecofin-mfad'];
 
-  const nodesG = document.getElementById('map-nodes');
-  const arcsG = document.getElementById('map-arcs');
-
-  // Draw coordination arcs between donor positions (conceptual — arcs between institution groups)
-  // We'll draw arcs between institution nodes that share DP coordination
-  const donorPos = {};
-  donorsData.donors.forEach((d, i) => {
-    donorPos[d] = { x: 80 + i * 50, y: 420 }; // below map
-  });
-
-  // Draw institution nodes
-  institutions.forEach(inst => {
-    const pos = toSVG(inst.kigali_pin);
-    const color = inst.axis === 'A' ? '#1F4E79' : '#2E7D32';
-    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
-    g.setAttribute('style', 'cursor:pointer');
-    g.setAttribute('data-id', inst.id);
-
-    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circle.setAttribute('cx', pos.x);
-    circle.setAttribute('cy', pos.y);
-    circle.setAttribute('r', '7');
-    circle.setAttribute('fill', color);
-    circle.setAttribute('opacity', '0.85');
-    circle.setAttribute('stroke', '#fff');
-    circle.setAttribute('stroke-width', '1.5');
-
-    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
-    text.setAttribute('x', pos.x + 10);
-    text.setAttribute('y', pos.y + 4);
-    text.setAttribute('font-size', '9');
-    text.setAttribute('fill', '#333');
-    text.setAttribute('font-family', 'system-ui, sans-serif');
-    text.textContent = inst.label.length > 22 ? inst.label.substring(0,20)+'…' : inst.label;
-
-    g.appendChild(circle);
-    g.appendChild(text);
-    g.addEventListener('click', () => openMapPanel(inst));
-    nodesG.appendChild(g);
-  });
-
-  // Panel open
-  function openMapPanel(inst) {
-    const panel = document.getElementById('map-panel');
-    const title = document.getElementById('map-panel-title');
-    const body = document.getElementById('map-panel-body');
-    title.textContent = inst.label;
-    const instInterventions = interventions.filter(i => i.institution === inst.id);
-    if (instInterventions.length === 0) {
-      body.innerHTML = '<p style="color:var(--text-soft);font-size:0.82rem">No mapped interventions in mission scope.</p>';
-    } else {
-      body.innerHTML = instInterventions.map(iv => `
-        <div class="panel-intervention">
-          ${statusIcon(iv.status)}
-          <div>
-            <span class="pi-donor">${iv.donor}</span>
-            <span style="font-size:0.78rem;color:var(--text-soft);margin-left:0.3rem">${iv.type}</span>
-            <div style="margin-top:0.15rem">${iv.label}${iv.tbc ? ' <span class="tag tag-tbc">TBC</span>' : ''}</div>
-          </div>
-        </div>`).join('');
-    }
-    panel.classList.add('open');
+  function buildPanelHTML(instIds) {
+    const ivs = interventions.filter(iv => instIds.includes(iv.institution));
+    if (!ivs.length) return '<p style="color:var(--text-soft);font-size:0.82rem">No interventions mapped.</p>';
+    // Group by sub-institution
+    const groups = {};
+    ivs.forEach(iv => {
+      if (!groups[iv.institution]) groups[iv.institution] = [];
+      groups[iv.institution].push(iv);
+    });
+    const instLabels = {};
+    donorsData.institutions.forEach(i => instLabels[i.id] = i.label);
+    return Object.entries(groups).map(([instId, list]) => `
+      <div style="margin-bottom:0.8rem">
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--text-soft);letter-spacing:0.06em;margin-bottom:0.4rem">${instLabels[instId]||instId}</div>
+        ${list.map(iv => `
+          <div class="panel-intervention">
+            ${statusIcon(iv.status)}
+            <div>
+              <span class="pi-donor">${iv.donor}</span>
+              <span style="font-size:0.78rem;color:var(--text-soft);margin-left:0.3rem">${iv.type}</span>
+              <div style="margin-top:0.15rem;font-size:0.8rem">${iv.label}${iv.tbc ? ' <span class="tag tag-tbc">TBC</span>' : ''}</div>
+            </div>
+          </div>`).join('')}
+      </div>`).join('');
   }
 
+  // Pre-build panel HTML and store on window for the inline SVG onclick handlers
+  window._BNR_HTML = buildPanelHTML(bnrIds);
+  window._MEF_HTML = buildPanelHTML(mefIds);
+
+  // Close button
   document.getElementById('map-panel-close').addEventListener('click', () => {
     document.getElementById('map-panel').classList.remove('open');
   });
