@@ -15,7 +15,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Green PFM Phase II — Feasibility Study, Rwanda</title>
-  <link rel="stylesheet" href="dsfr-v1.14.4/dist/dsfr.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/dsfr.min.css" />
   <style>
     :root {
       --bnr-100: #E8F0F8;
@@ -1184,15 +1184,14 @@ const el = (tag, cls, html) => {
 };
 
 // ─── MAIN APP INIT ───────────────────────────────────────────────
+// Data is embedded inline — no fetch() needed, works on any server or file://
 let donorsData, dlisData, resourcesData, agendaData;
 
-async function initApp() {
-  [donorsData, dlisData, resourcesData, agendaData] = await Promise.all([
-    fetch('data/donors.json').then(r=>r.json()),
-    fetch('data/dlis.json').then(r=>r.json()),
-    fetch('data/resources.json').then(r=>r.json()),
-    fetch('data/agenda.json').then(r=>r.json()),
-  ]);
+function initApp() {
+  donorsData  = window._DONORS_DATA;
+  dlisData    = window._DLIS_DATA;
+  resourcesData = window._RESOURCES_DATA;
+  agendaData  = window._AGENDA_DATA;
   renderObjectiveCards();
   renderAgenda();
   renderDonorMap();
@@ -1203,8 +1202,6 @@ async function initApp() {
   renderCompactTable();
   renderResources();
 }
-
-if (sessionStorage.getItem('gpfm_auth') === '1') initApp();
 
 // ─── TAB 1: OBJECTIVE CARDS ──────────────────────────────────────
 function renderObjectiveCards() {
@@ -1791,7 +1788,7 @@ function applyResFilter() {
 </script>
 
 <!-- DSFR JS (nomodule fallback + module) -->
-<script type="module" src="dsfr-v1.14.4/dist/dsfr.module.min.js"></script>
-<script nomodule src="dsfr-v1.14.4/dist/dsfr.nomodule.min.js"></script>
+<script type="module" src="https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/dsfr.module.min.js"></script>
+<script nomodule src="https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/dsfr.nomodule.min.js"></script>
 </body>
 </html>
