@@ -212,8 +212,8 @@
     /* Axis header */
     .axis-section { margin-bottom: 2rem; }
     .axis-header {
-      padding: 0.6rem 1rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700;
-      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.75rem;
+      padding: 0.6rem 1rem; border-radius: 6px; font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 0.03em; text-transform: none; margin-bottom: 0.75rem;
       display: flex; align-items: center; gap: 0.5rem;
     }
     .axis-header.axis-a { background: var(--bnr-100); color: var(--bnr-700); }
@@ -222,8 +222,8 @@
     /* Subaxis header */
     .subaxis-section { margin-bottom: 1.25rem; }
     .subaxis-label {
-      font-size: 0.75rem; font-weight: 700; color: var(--text-soft);
-      text-transform: uppercase; letter-spacing: .08em;
+      font-size: 0.95rem; font-weight: 700; color: var(--text-soft);
+      text-transform: none; letter-spacing: .02em;
       margin-bottom: 0.5rem; padding-left: 0.25rem;
       border-left: 3px solid var(--border);
       padding-left: 0.5rem;
@@ -245,19 +245,19 @@
     .dli-head-meta { flex: 1; }
     .dli-id-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
     .dli-id {
-      font-family: var(--mono); font-size: 0.75rem; font-weight: 700;
-      color: var(--republic-blue); background: #F0F4FF; padding: 2px 8px; border-radius: 4px;
+      font-family: var(--mono); font-size: 0.9rem; font-weight: 700;
+      color: var(--republic-blue); background: #F0F4FF; padding: 3px 10px; border-radius: 4px;
     }
     .dli-type-pill {
       display: inline-flex; align-items: center; gap: 4px;
-      font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 99px;
+      font-size: 0.82rem; font-weight: 600; padding: 3px 10px; border-radius: 99px;
     }
     .dli-type-pill.process-reform   { background: #E3F2FD; color: #1565C0; }
     .dli-type-pill.strategy-fw      { background: #F3E5F5; color: #6A1B9A; }
     .dli-type-pill.market-act       { background: #E8F5E9; color: #2E7D32; }
     .dli-type-pill.data-infra       { background: #FFF3E0; color: #E65100; }
     .dli-tier-badge {
-      font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+      font-size: 0.82rem; font-weight: 700; padding: 3px 10px; border-radius: 99px;
     }
     .dli-tier-badge.immediate { background: #E8F5E9; color: var(--mef-500); }
     .dli-tier-badge.secondary { background: #FFF8E1; color: #E65100; }
@@ -375,11 +375,35 @@
 
     /* Status legend */
     .status-legend {
-      display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.78rem;
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 6px; padding: 0.5rem 0.85rem; margin-bottom: 1rem;
+      border-radius: 8px; padding: 0.85rem 1.25rem; margin-bottom: 1rem;
     }
-    .legend-item { display: flex; align-items: center; gap: 4px; color: var(--text-soft); }
+    .legend-item { display: flex; align-items: center; gap: 6px; color: var(--text); font-size: 0.95rem; }
+    .legend-icon { font-size: 1.15rem; line-height: 1; }
+
+    /* Axis legend */
+    .axis-legend {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem;
+    }
+    .axis-legend-item {
+      display: flex; align-items: center; gap: 0.85rem;
+      padding: 0.85rem 1.25rem; border-radius: 8px; border: 1px solid var(--border);
+      flex: 1; min-width: 220px;
+    }
+    .axis-legend-a { background: var(--bnr-100); border-color: var(--bnr-300); }
+    .axis-legend-b { background: var(--mef-100); border-color: var(--mef-300); }
+    .axis-legend-badge {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .axis-legend-a .axis-legend-badge { background: var(--bnr-500); }
+    .axis-legend-b .axis-legend-badge { background: var(--mef-500); }
+    .axis-legend-name { font-size: 1.15rem; font-weight: 700; }
+    .axis-legend-a .axis-legend-name { color: var(--bnr-500); }
+    .axis-legend-b .axis-legend-name { color: var(--mef-500); }
+    .axis-legend-sub { font-size: 0.82rem; color: var(--text-soft); margin-top: 0.1rem; }
 
     /* Rwanda map */
     #map-view { position: relative; }
@@ -415,16 +439,18 @@
     .i-tbc { font-size: 0.65rem; background: #FFF3E0; color: var(--status-tbc); border-radius: 3px; padding: 1px 5px; font-weight: 700; flex-shrink: 0; }
 
     /* Donor matrix */
-    #matrix-view { overflow-x: auto; }
-    .donor-matrix-table { border-collapse: collapse; font-size: 0.78rem; min-width: 800px; }
+    #matrix-table-wrap { overflow-x: auto; }
+    .donor-matrix-table { border-collapse: collapse; font-size: 0.88rem; min-width: 800px; width: 100%; }
     .donor-matrix-table th, .donor-matrix-table td {
-      border: 1px solid var(--border); padding: 6px 8px; vertical-align: top;
+      border: 1px solid var(--border); padding: 10px 12px; vertical-align: top;
     }
-    .donor-matrix-table th { background: var(--republic-blue); color: #fff; font-weight: 600; text-align: center; white-space: nowrap; }
-    .donor-matrix-table .inst-cell { background: var(--bg); font-weight: 700; white-space: nowrap; }
-    .donor-matrix-table .inst-cell.bnr { color: var(--bnr-500); }
-    .donor-matrix-table .inst-cell.mef { color: var(--mef-500); }
-    .matrix-entry { margin-bottom: 4px; font-size: 0.75rem; line-height: 1.4; }
+    .donor-matrix-table th { background: var(--republic-blue); color: #fff; font-weight: 700; font-size: 0.95rem; text-align: center; white-space: nowrap; }
+    .donor-matrix-table .inst-cell { background: var(--bg); font-weight: 700; white-space: nowrap; padding: 12px 16px; }
+    .donor-matrix-table .inst-cell.bnr { color: var(--bnr-500); border-left: 4px solid var(--bnr-500); }
+    .donor-matrix-table .inst-cell.mef { color: var(--mef-500); border-left: 4px solid var(--mef-500); }
+    .inst-cell-name { font-size: 1.1rem; font-weight: 700; }
+    .inst-cell-axis { font-size: 0.78rem; font-weight: 400; color: var(--text-soft); margin-top: 2px; }
+    .matrix-entry { margin-bottom: 6px; font-size: 0.82rem; line-height: 1.45; }
     .matrix-entry:last-child { margin-bottom: 0; }
 
     /* DP coordination */
@@ -566,40 +592,24 @@
         <div class="hero-author">Yoan Raih, consultant · Expertise France</div>
       </section>
 
-      <!-- Stats box -->
-      <section id="stats-box" class="stats-box">
-        <div class="stat-chip">
-          <div class="stat-icon">📅</div>
-          <div class="stat-num" id="stat-online">—</div>
-          <div class="stat-label">Online preparatory meetings</div>
-        </div>
-        <div class="stat-chip">
-          <div class="stat-icon">🏛</div>
-          <div class="stat-num" id="stat-inperson">—</div>
-          <div class="stat-label">In-person meetings in Kigali</div>
-        </div>
-        <div class="stat-chip">
-          <div class="stat-icon">🤝</div>
-          <div class="stat-num" id="stat-institutions">—</div>
-          <div class="stat-label">Institutions met (May 4–9, 2026)</div>
-        </div>
-        <div class="stat-chip">
-          <div class="stat-icon">📋</div>
-          <div class="stat-num" id="stat-post">—</div>
-          <div class="stat-label">Post-mission follow-up meetings</div>
-        </div>
-      </section>
-
-      <!-- Objective cards — order: 1, 3, 4, 2 -->
+      <!-- Mission overview -->
       <section>
         <div class="section-hd"><h2>Mission overview</h2></div>
+        <!-- Scope of work blue box -->
+        <div class="matrix-banner" style="margin-bottom:1.25rem;">
+          <strong>Scope of work —</strong> The AFD Green PFM Phase II Feasibility Study mission (April–May 2026) aims to design a modular policy reform matrix of Disbursement-Linked Indicators (DLIs) to anchor a future AFD budget support operation to Rwanda. The mission scope crystallised around <strong>two axes</strong> and two principal beneficiaries:
+          <ul style="margin-top:0.5rem; margin-bottom:0; padding-left:1.25rem; font-style:normal;">
+            <li><strong>Axis A — Green Central Banking</strong>, with the National Bank of Rwanda (BNR) — covering monetary policy climate integration and net-zero central banking.</li>
+            <li><strong>Axis B — Green Financial Products &amp; Markets</strong>, with <strong>MINECOFIN</strong> (and CMA, RSE as line institutions) — covering sustainable debt instruments, climate insurance, and green capital markets.</li>
+          </ul>
+        </div>
         <div class="obj-grid" id="obj-grid"></div>
       </section>
 
       <!-- DLI Matrix -->
       <section class="matrix-section">
         <div class="section-hd">
-          <h2>Policy Reform Matrix — Disbursement-Linked Indicators</h2>
+          <h2>Policy Reform Matrix — Potential Disbursement-Linked Indicators</h2>
         </div>
         <div class="matrix-banner">
           <strong>"This is a 'menu of options'</strong> — a prioritized, modular Policy Reform Matrix designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework."<br>
@@ -626,6 +636,29 @@
         <h2>Mission agenda — meetings conducted</h2>
         <p>Online preparatory meetings, in-person Kigali mission (May 4–9, 2026), and post-mission follow-up.</p>
       </div>
+      <!-- Stats box -->
+      <section id="stats-box" class="stats-box">
+        <div class="stat-chip">
+          <div class="stat-icon">📅</div>
+          <div class="stat-num" id="stat-online">—</div>
+          <div class="stat-label">Online preparatory meetings</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-icon">🏛</div>
+          <div class="stat-num" id="stat-inperson">—</div>
+          <div class="stat-label">In-person meetings in Kigali</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-num" id="stat-institutions">—</div>
+          <div class="stat-label">Institutions met</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-icon">📋</div>
+          <div class="stat-num" id="stat-post">—</div>
+          <div class="stat-label">Post-mission follow-up meetings</div>
+        </div>
+      </section>
       <div id="agenda-container"></div>
     </div>
   </div>
@@ -638,64 +671,50 @@
         <p>Mapping donor interventions targeting BNR and MINECOFIN in the mission scope. Department-level details are available in each intervention's description.</p>
       </div>
 
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-bottom:1rem;">
-        <div class="status-legend" id="status-legend">
-          <span class="legend-item">● active</span>
-          <span class="legend-item">○ completed</span>
-          <span class="legend-item">◐ planned</span>
-          <span class="legend-item">▷ exploratory</span>
-          <span class="legend-item">⚑ TBC</span>
+      <!-- Status legend -->
+      <div class="status-legend" id="status-legend">
+        <span class="legend-item">
+          <span class="legend-icon" style="color:var(--status-active)">●</span> Active
+        </span>
+        <span class="legend-item">
+          <span class="legend-icon" style="color:var(--status-completed)">○</span> Completed
+        </span>
+        <span class="legend-item">
+          <span class="legend-icon" style="color:var(--status-planned)">◐</span> Planned
+        </span>
+        <span class="legend-item">
+          <span class="legend-icon" style="color:var(--status-exploratory)">▷</span> Exploratory
+        </span>
+        <span class="legend-item">
+          <span class="legend-icon" style="color:var(--status-tbc)">⚑</span> TBC
+        </span>
+      </div>
+
+      <!-- Axis legend -->
+      <div class="axis-legend">
+        <div class="axis-legend-item axis-legend-a">
+          <div class="axis-legend-badge">A</div>
+          <div>
+            <div class="axis-legend-name">BNR</div>
+            <div class="axis-legend-sub">Axis A — Green Central Banking</div>
+          </div>
         </div>
-        <div class="donor-view-toggle">
-          <button class="donor-view-btn active" id="btn-map-view">Map view</button>
-          <button class="donor-view-btn" id="btn-matrix-view">Matrix view</button>
+        <div class="axis-legend-item axis-legend-b">
+          <div class="axis-legend-badge">B</div>
+          <div>
+            <div class="axis-legend-name">MINECOFIN</div>
+            <div class="axis-legend-sub">Axis B — Green Financial Products & Markets</div>
+          </div>
         </div>
       </div>
 
-      <!-- Map view -->
-      <div id="map-view">
-        <div class="rwanda-map-container">
-          <div class="rwanda-svg-wrap">
-            <svg id="rwanda-svg" width="420" height="370" viewBox="0 0 420 370"
-                 style="border:1px solid var(--border); border-radius:8px; background:#F7F9F7;">
-              <!-- Rwanda outline — stylised, no place labels -->
-              <path id="rwanda-outline"
-                d="M 75,45 C 130,28 200,25 260,35 C 310,43 360,62 390,100
-                   C 405,135 408,175 400,220 C 390,265 370,310 340,340
-                   C 305,370 260,382 215,378 C 165,374 120,358 88,328
-                   C 58,300 40,258 36,210 C 30,158 40,100 75,45 Z"
-                fill="#D8EDDA" stroke="#7CBF8A" stroke-width="1.5"/>
-              <!-- Nodes rendered by JS -->
-              <g id="map-nodes"></g>
-            </svg>
-            <div class="map-legend">
-              <div class="map-legend-item">
-                <div class="map-legend-dot" style="background:var(--bnr-500)"></div>
-                <span>Axis A — BNR (Green Central Banking)</span>
-              </div>
-              <div class="map-legend-item">
-                <div class="map-legend-dot" style="background:var(--mef-500)"></div>
-                <span>Axis B — MINECOFIN (Green Financial Products & Markets)</span>
-              </div>
-            </div>
-          </div>
-          <div id="node-panel">
-            <div class="node-panel-empty">Click a node on the map to see interventions.</div>
-          </div>
-        </div>
-        <div class="dp-coord-section">
-          <div class="dp-coord-title">⬡ DP–DP Coordination flows</div>
-          <div class="dp-coord-list" id="dp-coord-list"></div>
-        </div>
-      </div>
+      <!-- Matrix -->
+      <div id="matrix-table-wrap"></div>
 
-      <!-- Matrix view -->
-      <div id="matrix-view" style="display:none">
-        <div id="matrix-table-wrap"></div>
-        <div class="dp-coord-section">
-          <div class="dp-coord-title">⬡ DP–DP Coordination flows</div>
-          <div class="dp-coord-list" id="dp-coord-list-matrix"></div>
-        </div>
+      <!-- DP coordination -->
+      <div class="dp-coord-section">
+        <div class="dp-coord-title">⬡ DP–DP Coordination flows</div>
+        <div class="dp-coord-list" id="dp-coord-list-matrix"></div>
       </div>
 
     </div>
@@ -965,8 +984,9 @@ function renderStats(agenda){
   const online   = (agenda.online||[]).length;
   const inperson = (agenda.in_person||[]).length;
   const post     = (agenda.post_mission||[]).length;
-  // unique institutions from in_person
-  const insts = new Set((agenda.in_person||[]).map(m=>m.counterpart));
+  // unique institutions across ALL meeting types
+  const allMeetings = [...(agenda.online||[]), ...(agenda.in_person||[]), ...(agenda.post_mission||[])];
+  const insts = new Set(allMeetings.map(m=>m.counterpart));
   document.getElementById('stat-online').textContent    = online;
   document.getElementById('stat-inperson').textContent  = inperson;
   document.getElementById('stat-institutions').textContent = insts.size;
@@ -1102,7 +1122,7 @@ function buildDLICard(d){
   return `<div class="dli-card">
     <div class="dli-card-head">
       <div class="dli-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${icon24}</svg>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${icon24}</svg>
       </div>
       <div class="dli-head-meta">
         <div class="dli-id-row">
@@ -1118,6 +1138,11 @@ function buildDLICard(d){
       </div>
     </div>
     <div class="dli-card-body">
+      <div class="dli-foot" style="margin-top:0; margin-bottom:0.75rem; padding-top:0; border-top:none; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+        <span class="dli-chip">⏱ ${d.year_tag||''}</span>
+        <span class="dli-chip">💶 €${d.amount_eur_m}M indicative</span>
+        ${d.rsf_fsap_link?`<span class="dli-chip" title="${d.rsf_fsap_link}">🔗 IMF RSF/FSAP link</span>`:''}
+      </div>
       <div class="dli-field-label">Trigger</div>
       <div class="dli-trigger">${d.trigger}</div>
 
@@ -1150,13 +1175,7 @@ function buildDLICard(d){
         <div class="score-item"><div class="score-label">Donor compl.</div><div class="score-dots">${scoreDots(s.donor_complementarity,4)}</div></div>
         <div class="score-item"><div class="score-label">Inst. ownership</div><div class="score-dots">${scoreDots(s.institutional_ownership,4)}</div></div>
       </div>
-      <div class="dli-composite">Composite: ${comp} → Tier: <span class="dli-tier-badge ${tierClass}" style="font-size:0.75rem;">${d.tier}</span></div>
-
-      <div class="dli-foot">
-        <span class="dli-chip">⏱ ${d.year_tag||''}</span>
-        <span class="dli-chip">💶 €${d.amount_eur_m}M indicative</span>
-        ${d.rsf_fsap_link?`<span class="dli-chip" title="${d.rsf_fsap_link}">🔗 IMF RSF/FSAP link</span>`:''}
-      </div>
+      <div class="dli-composite">Composite: ${comp} → Tier: <span class="dli-tier-badge ${tierClass}" style="font-size:0.82rem;">${d.tier}</span></div>
     </div>
   </div>`;
 }
@@ -1269,79 +1288,19 @@ function buildMeetingCard(m, id){
    RENDER: DONOR MAP
 ═══════════════════════════════════════════════════════════════ */
 function renderDonorMap(donors){
-  const institutions = donors.institutions||[];
-  const interventions = donors.interventions||[];
   const dpCoord = donors.dp_coordination||[];
 
-  const SVG_W = 420, SVG_H = 370;
-  const nodesG = document.getElementById('map-nodes');
+  // Render matrix immediately (no map view)
+  renderDonorMatrix(donors);
 
-  institutions.forEach(inst=>{
-    const cx = Math.round(inst.map_pin[0]*SVG_W);
-    const cy = Math.round(inst.map_pin[1]*SVG_H);
-    const fill = inst.axis==='A' ? '#1F4E79' : '#2E7D32';
-    const txtColor = '#fff';
-
-    // Node group
-    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
-    g.setAttribute('class','map-node');
-    g.style.cursor = 'pointer';
-
-    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circle.setAttribute('cx', cx);
-    circle.setAttribute('cy', cy);
-    circle.setAttribute('r', '22');
-    circle.setAttribute('fill', fill);
-    circle.setAttribute('stroke', '#fff');
-    circle.setAttribute('stroke-width', '2.5');
-    circle.setAttribute('opacity','0.92');
-
-    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
-    text.setAttribute('x', cx);
-    text.setAttribute('y', cy+5);
-    text.setAttribute('text-anchor','middle');
-    text.setAttribute('fill', txtColor);
-    text.setAttribute('font-size','10');
-    text.setAttribute('font-weight','700');
-    text.setAttribute('font-family','Marianne,system-ui,sans-serif');
-    text.textContent = inst.label;
-
-    g.appendChild(circle);
-    g.appendChild(text);
-    nodesG.appendChild(g);
-
-    // Click handler
-    g.addEventListener('click',()=> showNodePanel(inst, interventions, donors.donors));
-  });
-
-  // DP coordination arcs (amber, between institution nodes on map)
-  // Since donors aren't shown as nodes, show arcs between the two institution nodes
-  // for cross-institution coordination pairs
-  const dpPanel = document.getElementById('dp-coord-list');
-  const dpMatrix = document.getElementById('dp-coord-list-matrix');
-  let dpHtml = '';
-  dpCoord.forEach(dp=>{
-    dpHtml += `<div class="dp-coord-item">
-      <strong>${dp.from}</strong><span class="dp-coord-glyph"> ↔ </span><strong>${dp.to}</strong> — ${dp.topic}
-    </div>`;
-  });
-  dpPanel.innerHTML = dpHtml;
-  if(dpMatrix) dpMatrix.innerHTML = dpHtml;
-
-  // View toggle
-  document.getElementById('btn-map-view').addEventListener('click',()=>{
-    document.getElementById('map-view').style.display='';
-    document.getElementById('matrix-view').style.display='none';
-    document.getElementById('btn-map-view').classList.add('active');
-    document.getElementById('btn-matrix-view').classList.remove('active');
-  });
-  document.getElementById('btn-matrix-view').addEventListener('click',()=>{
-    document.getElementById('map-view').style.display='none';
-    document.getElementById('matrix-view').style.display='';
-    document.getElementById('btn-matrix-view').classList.add('active');
-    document.getElementById('btn-map-view').classList.remove('active');
-    renderDonorMatrix(donors);
-  });
+  // DP coordination flows
+  const dpList = document.getElementById('dp-coord-list-matrix');
+  if(dpList){
+    dpList.innerHTML = dpCoord.map(dp=>`
+      <div class="dp-coord-item">
+        <strong>${dp.from}</strong><span class="dp-coord-glyph"> ↔ </span><strong>${dp.to}</strong> — ${dp.topic}
+      </div>`).join('');
+  }
 }
 
 function showNodePanel(inst, interventions, donorList){
@@ -1390,7 +1349,10 @@ function renderDonorMatrix(donors){
 
   institutions.forEach(inst=>{
     const instClass = inst.axis==='A'?'bnr':'mef';
-    html += `<tr><td class="inst-cell ${instClass}">${inst.label}<br><span style="font-size:0.7rem;font-weight:400;color:var(--text-soft)">Axis ${inst.axis}</span></td>`;
+    html += `<tr><td class="inst-cell ${instClass}">
+      <div class="inst-cell-name">${inst.label}</div>
+      <div class="inst-cell-axis">Axis ${inst.axis}</div>
+    </td>`;
     donorList.forEach(donor=>{
       const items = interventions.filter(i=>i.institution===inst.id && i.donor===donor);
       if(!items.length){ html += `<td></td>`; return; }
