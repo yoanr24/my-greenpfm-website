@@ -1,0 +1,39 @@
+{
+  "donors": ["AFD", "EIB", "GIZ", "KfW", "LuxDev", "GGGI", "World Bank", "IMF", "EU"],
+  "institutions": [
+    { "id": "bnr",       "label": "BNR",       "axis": "A", "map_pin": [0.43, 0.50] },
+    { "id": "minecofin", "label": "MINECOFIN", "axis": "B", "map_pin": [0.52, 0.43] }
+  ],
+  "interventions": [
+    { "institution": "bnr",       "donor": "AFD",        "status": "planned",     "type": "TA",        "label": "BNR Monetary Policy — ESTEEM mission (June 2026): climate macro modelling (floods, landslides)" },
+    { "institution": "minecofin", "donor": "AFD",        "status": "active",      "type": "TA",        "label": "BRD / Ireme Invest — €1M TA for KPI assessment & reporting (Ireme Invest)" },
+    { "institution": "minecofin", "donor": "AFD",        "status": "active",      "type": "TA",        "label": "Bank of Kigali — €1M TA for green funding development & capital markets" },
+    { "institution": "minecofin", "donor": "EIB",        "status": "active",      "type": "Loan+TA",   "label": "BRD / Ireme Invest — €20M green credit line + TA (Greening Financial Systems programme)" },
+    { "institution": "minecofin", "donor": "EIB",        "status": "active",      "type": "Loan",      "label": "Bank of Kigali — €100M climate finance credit line (2024)" },
+    { "institution": "minecofin", "donor": "GIZ",        "status": "active",      "type": "TA",        "label": "CMA — green taxonomy support (with UNDP)" },
+    { "institution": "minecofin", "donor": "GIZ",        "status": "active",      "type": "TA",        "label": "MINECOFIN CFD — green taxonomy support; IFRS S1/S2 bi-monthly coordination with AFD" },
+    { "institution": "bnr",       "donor": "GIZ",        "status": "active",      "type": "TA",        "label": "BNR Supervision — IFRS S1/S2 supervisory implementation support" },
+    { "institution": "minecofin", "donor": "KfW",        "status": "active",      "type": "Co-fin",    "label": "MINECOFIN CFD — Team Europe / Rwanda Climate Finance Partnership co-financing" },
+    { "institution": "minecofin", "donor": "LuxDev",     "status": "active",      "type": "TA",        "label": "CMA — legal support; fund regulations; impact fund regulation" },
+    { "institution": "minecofin", "donor": "LuxDev",     "status": "active",      "type": "TA",        "label": "RSE — Green Exchange Window programme with Luxembourg Stock Exchange" },
+    { "institution": "minecofin", "donor": "GGGI",       "status": "planned",     "type": "TA",        "label": "MINECOFIN CFD — 2 embedded advisors to strengthen Climate Finance Unit (under recruitment)", "tbc": true },
+    { "institution": "minecofin", "donor": "GGGI",       "status": "exploratory", "type": "TA",        "label": "CMA — support to be confirmed", "tbc": true },
+    { "institution": "minecofin", "donor": "GGGI",       "status": "active",      "type": "TA",        "label": "RSE — Financial Services High Council support" },
+    { "institution": "bnr",       "donor": "World Bank", "status": "exploratory", "type": "TA",        "label": "BNR Financial Markets — WB-RAMP: green bonds in reserves investment strategy (discussions)" },
+    { "institution": "minecofin", "donor": "World Bank", "status": "active",      "type": "Project",   "label": "BRD / Ireme Invest — carbon credit standardised crediting framework / clean cooking pilot (~$19M)" },
+    { "institution": "minecofin", "donor": "World Bank", "status": "planned",     "type": "Project",   "label": "BDF / SACCO ecosystem — MSME Bridge Lending Window + macro parametric insurance backstop (GSFF-funded)" },
+    { "institution": "minecofin", "donor": "World Bank", "status": "completed",   "type": "Report",    "label": "MINECOFIN CFD — DRF Diagnostic Report + National DRF Strategy (GSFF-funded, 2025)" },
+    { "institution": "bnr",       "donor": "IMF",        "status": "active",      "type": "TA",        "label": "BNR Monetary Policy — QPM forecasting model (BIVA / Jan Vlcek, CzNB)" },
+    { "institution": "minecofin", "donor": "IMF",        "status": "active",      "type": "Surveill.", "label": "MINECOFIN CFD — Article IV 2025; RSF arrangement; FSAP signal (post-June 2026 ECF Board)" },
+    { "institution": "minecofin", "donor": "EU",         "status": "active",      "type": "Platform",  "label": "MINECOFIN CFD — Team Europe: Rwanda Climate Finance Partnership coordination (€300M)" },
+    { "institution": "minecofin", "donor": "EU",         "status": "planned",     "type": "Guarantee", "label": "BRD / Ireme Invest — EFSD+ guarantee backstopping EIB credit line" },
+    { "institution": "minecofin", "donor": "EU",         "status": "planned",     "type": "Guarantee", "label": "Bank of Kigali — EFSD+ guarantee backstopping EIB credit line" },
+    { "institution": "minecofin", "donor": "EU",         "status": "active",      "type": "TA",        "label": "NISR — environment data foundations (with REMA & Ministry of Environment)" }
+  ],
+  "dp_coordination": [
+    { "from": "AFD",        "to": "GIZ",    "topic": "IFRS S1/S2 bi-monthly coordination" },
+    { "from": "EIB",        "to": "EU",     "topic": "EFSD+ guarantee structure (BRD and BoK lines)" },
+    { "from": "AFD",        "to": "LuxDev", "topic": "April 28 cross-DP coordination call" },
+    { "from": "World Bank", "to": "AFD",    "topic": "ESTEEM / climate macro modelling alignment" }
+  ]
+}

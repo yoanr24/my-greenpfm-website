@@ -1,0 +1,151 @@
+{
+  "online": [
+    {
+      "type": "online",
+      "date": "2026-04-17",
+      "time_slot": "",
+      "counterpart": "Expertise France",
+      "attendees": "Mission team (internal)",
+      "topic": "Green PFM II feasibility study — kick-off and methodology alignment",
+      "axis": "",
+      "status": "confirmed",
+      "note_summary": "Internal kick-off call to align the mission team on methodology, scope, and the two-axis structure (Green Central Banking / Green Financial Products & Markets). Deliverables, timeline, and counterpart prioritisation were confirmed ahead of the field mission.",
+      "note_pdf": ""
+    },
+    {
+      "type": "online",
+      "date": "2026-04-22",
+      "time_slot": "",
+      "counterpart": "AFD",
+      "attendees": "Hannah Thombansen, Céline Boulay",
+      "topic": "AFD internal kick-off — mission scope, donor mapping, DLI ambition",
+      "axis": "",
+      "status": "confirmed",
+      "note_summary": "AFD-side kick-off with Hannah Thombansen and Céline Boulay (IDRIMA). The conversation aligned on the programme envelope (€40M budget support + €1.5M TA), the modular 'menu of options' approach for the DLI matrix, and key counterparts to prioritise during the Kigali mission.",
+      "note_pdf": ""
+    },
+    {
+      "type": "online",
+      "date": "2026-04-28",
+      "time_slot": "",
+      "counterpart": "LuxDev / AFD",
+      "attendees": "LuxDev Rwanda team, AFD mission team",
+      "topic": "Cross-DP coordination — donor landscape in green financial markets",
+      "axis": "",
+      "status": "confirmed",
+      "note_summary": "Cross-donor coordination call between AFD and LuxDev ahead of the Kigali mission. LuxDev provided an update on its active programmes at CMA (legal support, fund regulations) and RSE (Green Exchange Window with Luxembourg Stock Exchange). Both teams agreed to position complementarily to avoid duplication.",
+      "note_pdf": ""
+    }
+  ],
+  "in_person": [
+    {
+      "type": "in-person",
+      "date": "2026-05-04",
+      "time_slot": "09:00–11:00",
+      "counterpart": "BNR — Strategy Directorate",
+      "attendees": "Edward Gasore, Samuel Ruzindana",
+      "topic": "Net-Zero Central Banking strategy and NZCB roadmap request",
+      "axis": "A",
+      "status": "confirmed",
+      "note_summary": "The Strategy Directorate confirmed a direct request for an AFD-supported corporate sustainability diagnostic and NZCB roadmap, with the July 2026 mid-term strategy review as a natural timing hook. BNR's Sustainability Steering Committee exists but remains fragmented across directorates, and the Sustainability Report is on hold pending this diagnostic. BNR expressed clear preference for central-bank-specific support (IBFI-style) over generic capacity-building programmes.",
+      "note_pdf": "Meeting Notes - BNR — Strategy Directorate.pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-05",
+      "time_slot": "09:00–11:00",
+      "counterpart": "BNR — Financial Markets / Reserve Management",
+      "attendees": "Boniface Mutabazi",
+      "topic": "Carbon footprint of BNR reserves and green Investment Policy integration",
+      "axis": "A",
+      "status": "confirmed",
+      "note_summary": "BNR Financial Markets directorate reacted positively to the idea of carbon footprinting the foreign reserves portfolio. Discussions on green bonds as a reserve asset class are already underway through the WB-RAMP programme, and BNR explicitly requested Banque de France and BIS peer exchange as a differentiating value-add from AFD. Board approval will be required to update the Investment Policy with climate criteria.",
+      "note_pdf": "Meeting Notes - BNR — Financial Markets Department.pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-05",
+      "time_slot": "14:00–16:00",
+      "counterpart": "Capital Market Authority (CMA)",
+      "attendees": "Romeo Ruganintwali (CEO), Eric Ngabonziza, Penina",
+      "topic": "CMA sustainable finance function and GSS+ certification mechanism",
+      "axis": "B",
+      "status": "confirmed",
+      "note_summary": "CMA's new CEO and lean team (20 staff) confirmed the absence of an in-house sustainable finance function and the lack of local SPO / verification capacity — citing BRD's experience as a concrete illustration of the gap. The team explicitly requested advisory support on establishing a dedicated sustainability unit alongside operationalising existing GSS+ bond certification guidelines. With 92 potential issuers identified by RSE, CMA sees certification infrastructure as the near-term bottleneck.",
+      "note_pdf": "Meeting Notes - Capital Market Authority (CMA).pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-06",
+      "time_slot": "09:00–11:00",
+      "counterpart": "Rwanda Stock Exchange (RSE)",
+      "attendees": "Pierre Celestin Rwabukumba (CEO), Alice Iribagiza",
+      "topic": "Green Exchange Window launch and ESG GPS™ issuer uptake",
+      "axis": "B",
+      "status": "confirmed",
+      "note_summary": "RSE had just launched the Green Exchange Window with ESG GPS™ on April 27, 2026 in partnership with the Luxembourg Stock Exchange (LuxDev-supported). The CEO emphasised the urgent need for an issuer-side uptake programme and a regional dimension (EAC harmonisation). The platform is operational but requires active onboarding support to generate meaningful ESG data.",
+      "note_pdf": "Meeting Notes - Rwanda Stock Exchange (RSE).pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-06",
+      "time_slot": "14:00–16:00",
+      "counterpart": "Rwanda Development Bank (BRD) — IREME Invest",
+      "attendees": "Ally (Senior Specialist Green Finance)",
+      "topic": "Climate finance pipeline and MRV bottlenecks at BRD / IREME Invest",
+      "axis": "B",
+      "status": "confirmed",
+      "note_summary": "BRD / IREME Invest is receiving active support from AFD and EIB through green credit lines. The Green Finance Senior Specialist confirmed that MRV and KPI frameworks for the climate lending portfolio remain nascent and that data verification is the key operational bottleneck. AFD Phase II could complement existing credit lines with a forestry and REDD+ KPI layer, pending robust MRV infrastructure.",
+      "note_pdf": "Meeting Notes - Rwanda Development Bank (BRD) — IREME Invest.pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-07",
+      "time_slot": "09:00–11:00",
+      "counterpart": "Bank of Kigali",
+      "attendees": "Gaaga Isibo",
+      "topic": "Green funding strategy and capital markets readiness at BoK",
+      "axis": "B",
+      "status": "confirmed",
+      "note_summary": "Bank of Kigali is the largest commercial bank and is already receiving AFD and EIB climate finance credit lines. The ESG team discussed the bank's ambition to develop green funding instruments and access capital markets. The meeting explored how AFD Phase II could support BoK's green bond preparation in conjunction with CMA's developing certification mechanism (B3.1).",
+      "note_pdf": "Meeting Notes - Bank of Kigali.pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-07",
+      "time_slot": "14:00–16:00",
+      "counterpart": "MINECOFIN — DG Debt",
+      "attendees": "Gérard, Nick, Tom",
+      "topic": "Sustainability-Linked Finance framework — KPI expansion and sovereign SLL ambition",
+      "axis": "B",
+      "status": "confirmed",
+      "note_summary": "The DG Debt team confirmed active engagement on the existing WB-supported SLF framework and strong interest in expanding it with a climate KPI aligned to NDC 3.0 forestry commitments. AFD's Kenya SLF experience was well received as a peer reference, and the potential for a sovereign SLL with a verifiable climate KPI was discussed as a near-term target. Coordination with the EFSD+ guarantee structure (EIB and EU) was noted.",
+      "note_pdf": "Meeting Notes - MINECOFIN — DG Debt.pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-08",
+      "time_slot": "09:00–11:00",
+      "counterpart": "National Institute of Statistics of Rwanda (NISR)",
+      "attendees": "David, Sandrine, Monique",
+      "topic": "Climate data infrastructure — satellite-based deforestation monitoring",
+      "axis": "",
+      "status": "confirmed",
+      "note_summary": "NISR confirmed a critical gap in satellite-based deforestation monitoring that currently limits Rwanda's ability to produce credible climate KPI baselines for financial instruments. EU is supporting NISR's environment data foundations with REMA and the Ministry of Environment, but the finance-linked MRV dimension (suitable for SLF verification) remains uncovered. NISR confirmed willingness to collaborate on building national climate data infrastructure in partnership with REMA and the Rwanda Forestry Authority.",
+      "note_pdf": "Meeting Notes - National Institute of Statistics of Rwanda (NISR).pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-09",
+      "time_slot": "09:00–11:00",
+      "counterpart": "BNR — Monetary Policy Department",
+      "attendees": "Joy (NGFS focal point), Placide",
+      "topic": "Climate channels in the macro framework and QPM integration",
+      "axis": "A",
+      "status": "confirmed",
+      "note_summary": "The Monetary Policy Department confirmed that climate scenarios (particularly weather patterns) already enter MPC discussions informally — the November 2025 MPC explicitly flagged a climate-negative scenario that subsequently materialised. BNR's NGFS co-chairmanship creates an expectation of formal published research, and the department requested AFD support for a research paper on climate channels in the Rwandan macro framework and their integration into the Quarterly Projection Model (QPM).",
+      "note_pdf": "Meeting Notes - BNR - Monetary Policy Department.pdf"
+    }
+  ],
+  "post_mission": []
+}

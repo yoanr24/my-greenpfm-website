@@ -1,1923 +1,1513 @@
 <!DOCTYPE html>
-<!--
-  Green PFM Phase II — Feasibility Study Mission Website
-  Author: Yoan Raih, consultant · Expertise France
-  Password: SHA-256 gated (hash: a0cd2d82e967368a854ed11bc3fc38bd4addae1e8b8dcb270ee694060e134e7d)
-
-  SECURITY NOTE: The JS password gate below is a friction layer only — it prevents
-  casual access but offers no cryptographic protection. For production deployment,
-  layer on Vercel Password Protection (vercel.json → "passwordProtection") or
-  Netlify Password Protection (Site settings → Access control). The JS gate should
-  never be treated as a substitute for platform-level authentication.
--->
-<html lang="en" data-fr-scheme="system">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Green PFM Phase II — Feasibility Study, Rwanda</title>
-  <link rel="stylesheet" href="https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/dsfr.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green PFM II — Feasibility Study · Rwanda 2026</title>
+  <!--
+    SECURITY NOTE: The JS password gate below is a friction layer, NOT a security layer.
+    For production, also enable Vercel Password Protection (vercel.json → "passwordProtection")
+    or Netlify's site-level password feature. The JS hash can be read by anyone with DevTools.
+    Password: greenpfm2026  |  SHA-256: a0cd2d82e967368a854ed11bc3fc38bd4addae1e8b8dcb270ee694060e134e7d
+  -->
   <style>
+    /* ── Marianne font (French Republic typeface, from DSFR CDN) ── */
+    @font-face {
+      font-family: 'Marianne';
+      src: url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Regular.woff2') format('woff2'),
+           url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Regular.woff') format('woff');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Marianne';
+      src: url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Medium.woff2') format('woff2'),
+           url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Medium.woff') format('woff');
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Marianne';
+      src: url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Bold.woff2') format('woff2'),
+           url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Bold.woff') format('woff');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+
+    /* ── CSS Custom Properties ── */
     :root {
-      --bnr-100: #E8F0F8;
-      --bnr-300: #6FA8DC;
-      --bnr-500: #1F4E79;
-      --bnr-700: #0B2A4A;
-      --bnr-A1: #1F4E79;
-      --bnr-A2: #2E86AB;
-      --mef-100: #EAF4EC;
-      --mef-300: #7CBF8A;
-      --mef-500: #2E7D32;
-      --mef-700: #1B5E20;
-      --mef-B1: #2E7D32;
-      --mef-B2: #6B8E23;
-      --mef-B3: #8BC34A;
-      --status-active: #2E7D32;
-      --status-planned: #F9A825;
-      --status-completed: #546E7A;
-      --status-exploratory: #9E9E9E;
-      --status-tbc: #E65100;
-      --dp-coordination: #FF9800;
-      --bg: #FAFAFA;
-      --surface: #FFFFFF;
-      --text: #1A1A1A;
-      --text-soft: #555555;
-      --border: #E0E0E0;
-    }
-    * { box-sizing: border-box; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      margin: 0;
-    }
-    code, .mono {
-      font-family: ui-monospace, "SF Mono", "Cascadia Mono", monospace;
-      font-size: 0.85em;
+      --republic-blue: #000091;
+      --bnr-100: #E8F0F8; --bnr-300: #6FA8DC; --bnr-500: #1F4E79; --bnr-700: #0B2A4A;
+      --bnr-A1: #1F4E79; --bnr-A2: #2E86AB;
+      --mef-100: #EAF4EC; --mef-300: #7CBF8A; --mef-500: #2E7D32; --mef-700: #1B5E20;
+      --mef-B1: #2E7D32; --mef-B2: #6B8E23; --mef-B3: #8BC34A;
+      --status-active: #2E7D32; --status-planned: #F9A825;
+      --status-completed: #546E7A; --status-exploratory: #9E9E9E; --status-tbc: #E65100;
+      --dp-coord: #FF9800;
+      --bg: #FAFAFA; --surface: #FFFFFF; --text: #1A1A1A; --text-soft: #555555; --border: #E0E0E0;
+      --font: "Marianne", system-ui, -apple-system, sans-serif;
+      --mono: ui-monospace, "SF Mono", "Cascadia Mono", monospace;
+      --nav-h: 56px;
     }
 
-    /* ── PASSWORD GATE ─────────────────────────────── */
-    #gate-overlay {
-      position: fixed; inset: 0;
-      background: rgba(15,30,50,0.92);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
-    }
-    #gate-overlay.hidden { display: none; }
-    #gate-box {
-      background: var(--surface);
-      border-radius: 12px;
-      padding: 2.5rem 2rem;
-      max-width: 380px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.35);
-    }
-    #gate-box h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--bnr-500);
-      margin: 0 0 0.4rem;
-    }
-    #gate-box p { font-size: 0.85rem; color: var(--text-soft); margin: 0 0 1.4rem; }
-    #gate-box input {
-      width: 100%;
-      padding: 0.65rem 0.9rem;
-      border: 1.5px solid var(--border);
-      border-radius: 6px;
-      font-size: 1rem;
-      margin-bottom: 0.9rem;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-    #gate-box input:focus { border-color: var(--bnr-500); }
-    #gate-error { color: #C62828; font-size: 0.83rem; margin: -0.5rem 0 0.6rem; display: none; }
-    #gate-btn {
-      background: var(--bnr-500);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 0.65rem 2rem;
-      font-size: 0.95rem;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.15s;
-    }
-    #gate-btn:hover { background: var(--bnr-700); }
-    #gate-label {
-      display: block;
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      color: var(--text-soft);
-      margin-bottom: 1.8rem;
-      text-transform: uppercase;
-    }
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); font-size: 15px; line-height: 1.6; color: var(--text); background: var(--bg); }
+    a { color: var(--republic-blue); }
+    button { font-family: var(--font); cursor: pointer; }
+    h1,h2,h3,h4,h5 { font-weight: 700; letter-spacing: -0.02em; color: var(--republic-blue); }
+    p { margin-bottom: 0.75rem; }
+    ul { padding-left: 1.25rem; }
+    li { margin-bottom: 0.25rem; }
 
-    /* ── LAYOUT ────────────────────────────────────── */
-    #site { display: none; }
-    #site.visible { display: block; }
-    .site-header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+    /* ── PASSWORD GATE ── */
+    #gate {
+      position: fixed; inset: 0; background: var(--republic-blue);
+      display: flex; align-items: center; justify-content: center; z-index: 9999;
+    }
+    .gate-card {
+      background: #fff; border-radius: 12px; padding: 2.5rem 2rem;
+      width: min(420px, 92vw); text-align: center; box-shadow: 0 24px 64px rgba(0,0,0,.35);
+    }
+    .gate-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-soft); margin-bottom: 0.5rem;
+    }
+    .gate-title { font-size: 1.25rem; color: var(--republic-blue); margin-bottom: 0.3rem; }
+    .gate-sub { font-size: 0.85rem; color: var(--text-soft); margin-bottom: 1.5rem; }
+    .gate-input {
+      width: 100%; padding: 0.65rem 1rem; border: 1.5px solid var(--border);
+      border-radius: 6px; font-family: var(--font); font-size: 1rem;
+      outline: none; transition: border-color .2s;
+    }
+    .gate-input:focus { border-color: var(--republic-blue); }
+    .gate-btn {
+      margin-top: 0.75rem; width: 100%; padding: 0.65rem;
+      background: var(--republic-blue); color: #fff; border: none; border-radius: 6px;
+      font-size: 0.95rem; font-weight: 600; transition: opacity .2s;
+    }
+    .gate-btn:hover { opacity: 0.88; }
+    .gate-error { font-size: 0.82rem; color: #c62828; margin-top: 0.5rem; min-height: 1.2em; }
+
+    /* ── TOP NAVIGATION ── */
+    #top-nav {
       position: sticky; top: 0; z-index: 100;
+      background: #fff; border-bottom: 1px solid var(--border);
+      height: var(--nav-h); display: flex; align-items: center;
     }
     .nav-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      align-items: stretch;
-      gap: 0;
+      max-width: 1280px; width: 100%; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; gap: 2rem;
     }
+    .nav-brand {
+      font-size: 0.78rem; font-weight: 700; color: var(--republic-blue);
+      letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+    }
+    .nav-tabs { display: flex; gap: 0; }
     .nav-tab {
-      padding: 1rem 1.4rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-soft);
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      border-top: none; border-left: none; border-right: none;
-      background: none;
+      background: none; border: none; padding: 0 1rem; height: var(--nav-h);
+      font-size: 0.88rem; font-weight: 500; color: var(--text-soft);
+      border-bottom: 3px solid transparent; transition: color .15s, border-color .15s;
       white-space: nowrap;
-      transition: color 0.15s, border-color 0.15s;
-      letter-spacing: 0.01em;
     }
-    .nav-tab:hover { color: var(--text); }
-    .nav-tab.active { color: var(--bnr-500); border-bottom-color: var(--bnr-500); }
-    .page { display: none; }
-    .page.active { display: block; }
-    .container { max-width: 1280px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .nav-tab:hover { color: var(--republic-blue); }
+    .nav-tab.active { color: var(--republic-blue); border-bottom-color: var(--republic-blue); font-weight: 700; }
 
-    /* ── HERO ──────────────────────────────────────── */
+    /* ── PAGE / TAB PANELS ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .page-container { max-width: 1280px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+    /* ── HERO ── */
     .hero {
-      text-align: center;
-      padding: 3.5rem 1.5rem 2.5rem;
-      background:
-        linear-gradient(160deg, rgba(232,240,248,0.90) 0%, rgba(234,244,236,0.90) 100%),
-        url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Kigali_buildings.jpg/1280px-Kigali_buildings.jpg') center/cover no-repeat;
-      border-bottom: 1px solid var(--border);
-      position: relative;
+      background: linear-gradient(135deg, var(--republic-blue) 0%, #2B2B8A 50%, #1F4E79 100%);
+      color: #fff; border-radius: 12px; padding: 3rem 2.5rem; margin-bottom: 1.75rem;
     }
     .hero-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      margin-bottom: 1rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,.65); margin-bottom: 1rem;
     }
-    .hero h1 {
-      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
-      font-weight: 700;
-      color: var(--bnr-500);
-      margin: 0 0 0.5rem;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-    }
-    .hero h2 {
-      font-size: clamp(1rem, 2vw, 1.3rem);
-      font-weight: 400;
-      color: var(--text-soft);
-      margin: 0 0 1.5rem;
-    }
-    .hero-author {
-      font-size: 0.85rem;
-      color: var(--text-soft);
-    }
+    .hero h1 { font-size: clamp(1.5rem,3vw,2.2rem); color: #fff; margin-bottom: 0.4rem; line-height: 1.2; }
+    .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,.8); margin-bottom: 1.25rem; }
+    .hero-author { font-size: 0.85rem; color: rgba(255,255,255,.65); font-style: italic; }
 
-    /* ── CARDS ─────────────────────────────────────── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.4rem 1.4rem 1.4rem 1.1rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-      transition: box-shadow 0.15s, transform 0.12s;
-      position: relative;
+    /* ── STATS BOX ── */
+    .stats-box {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.25rem 1.5rem; margin-bottom: 1.75rem;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem;
     }
-    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-1px); }
-    .card-grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.2rem;
+    .stat-chip { text-align: center; }
+    .stat-icon { font-size: 1.5rem; margin-bottom: 0.2rem; }
+    .stat-num { font-size: 2rem; font-weight: 700; color: var(--republic-blue); line-height: 1; }
+    .stat-label { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.2rem; }
+
+    /* ── SECTION HEADERS ── */
+    .section-hd { margin-bottom: 1.25rem; }
+    .section-hd h2 { font-size: 1.5rem; }
+    .section-hd p { color: var(--text-soft); font-size: 0.9rem; margin-top: 0.3rem; }
+
+    /* ── OBJECTIVE CARDS ── */
+    .obj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2.5rem; }
+    .obj-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.25rem 1.25rem 1.25rem 1rem; border-left: 4px solid var(--border);
+      transition: box-shadow .2s;
     }
-    @media (max-width: 680px) { .card-grid-2 { grid-template-columns: 1fr; } }
-    .card-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-    }
-    @media (max-width: 860px) { .card-grid-3 { grid-template-columns: 1fr; } }
-    .card-accent { border-left: 4px solid var(--border); padding-left: 1rem; }
-    .card-accent.amber { border-left-color: var(--dp-coordination); }
-    .card-accent.blue-green {
+    .obj-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .obj-card.accent-neutral { border-left-color: #ccc; }
+    .obj-card.accent-amber { border-left-color: var(--status-planned); }
+    .obj-card.accent-blue { border-left-color: var(--bnr-500); }
+    .obj-card.accent-split {
+      border-left: 4px solid;
       border-image: linear-gradient(to bottom, var(--bnr-500) 50%, var(--mef-500) 50%) 1;
     }
-    .card h3 { font-size: 0.95rem; font-weight: 700; margin: 0 0 0.6rem; color: var(--text); }
-    .card p { font-size: 0.87rem; color: var(--text-soft); margin: 0; line-height: 1.6; }
-    .card ul { font-size: 0.87rem; color: var(--text-soft); margin: 0.4rem 0 0; padding-left: 1.2rem; line-height: 1.7; }
+    .obj-card h3 { font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--text); }
+    .obj-card p { font-size: 0.88rem; color: var(--text-soft); margin: 0; line-height: 1.55; }
 
-    /* ── TAGS / PILLS ──────────────────────────────── */
-    .tag {
-      display: inline-block;
-      padding: 0.18rem 0.6rem;
-      border-radius: 20px;
-      font-size: 0.73rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    }
-    .tag-a { background: var(--bnr-100); color: var(--bnr-700); }
-    .tag-b { background: var(--mef-100); color: var(--mef-700); }
-    .tag-immediate { background: #E8F5E9; color: #1B5E20; }
-    .tag-secondary { background: #FFF8E1; color: #E65100; }
-    .tag-tbc { background: #FBE9E7; color: var(--status-tbc); }
-    .tag-type { background: #F3F4F6; color: #374151; }
-
-    /* ── SECTION HEADERS ───────────────────────────── */
-    .section-hd {
-      margin: 2.5rem 0 1.2rem;
-    }
-    .section-hd h2 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--text);
-      margin: 0 0 0.35rem;
-      letter-spacing: -0.01em;
-    }
-    .section-hd p { font-size: 0.9rem; color: var(--text-soft); margin: 0; line-height: 1.6; }
-
-    /* ── TIMELINE ──────────────────────────────────── */
-    .timeline { position: relative; }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 90px;
-      top: 0; bottom: 0;
-      width: 2px;
-      background: var(--border);
-    }
-    @media (max-width: 520px) {
-      .timeline::before { left: 16px; }
-    }
-    .tl-item {
-      display: flex;
-      gap: 1.2rem;
-      margin-bottom: 0.8rem;
-      position: relative;
-    }
-    .tl-date {
-      flex-shrink: 0;
-      width: 80px;
-      text-align: right;
-      font-size: 0.78rem;
-      color: var(--text-soft);
-      padding-top: 0.9rem;
-      font-weight: 600;
-    }
-    @media (max-width: 520px) {
-      .tl-date { display: none; }
-    }
-    .tl-dot {
-      flex-shrink: 0;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--bnr-500);
-      margin-top: 1.05rem;
-      position: relative;
-      z-index: 1;
-    }
-    .tl-dot.axis-b { background: var(--mef-500); }
-    .tl-dot.axis-ab {
-      background: linear-gradient(135deg, var(--bnr-500) 50%, var(--mef-500) 50%);
-    }
-    .tl-content {
-      flex: 1;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.8rem 1rem;
-      cursor: pointer;
-      transition: box-shadow 0.15s;
-    }
-    .tl-content:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .tl-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 0.5rem;
-    }
-    .tl-institution { font-weight: 600; font-size: 0.88rem; }
-    .tl-attendees { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.15rem; }
-    .tl-topic { font-size: 0.82rem; color: var(--text-soft); margin-top: 0.25rem; }
-    .tl-expand {
-      font-size: 0.83rem;
-      color: var(--text-soft);
-      margin-top: 0.6rem;
-      line-height: 1.55;
-      display: none;
-      border-top: 1px solid var(--border);
-      padding-top: 0.6rem;
-    }
-    .tl-expand.open { display: block; }
-    .tl-axis-tags { display: flex; gap: 0.3rem; flex-shrink: 0; }
-
-    /* Online prep strip */
-    .online-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    @media (max-width: 600px) { .online-strip { grid-template-columns: 1fr; } }
-    .online-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.9rem 1rem;
-    }
-    .online-card.dp { border-left: 3px solid var(--dp-coordination); }
-    .online-card.internal { border-left: 3px solid var(--bnr-300); }
-    .online-card .oc-date { font-size: 0.75rem; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.06em; }
-    .online-card .oc-label { font-size: 0.9rem; font-weight: 600; margin: 0.2rem 0 0.25rem; }
-    .online-card .oc-topic { font-size: 0.82rem; color: var(--text-soft); }
-
-    /* ── DONOR MAPPING ─────────────────────────────── */
-    .donor-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-    }
-    .view-toggle {
-      display: flex;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    .vt-btn {
-      padding: 0.4rem 0.9rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      background: var(--bg);
-      color: var(--text-soft);
-      border: none;
-      transition: background 0.12s, color 0.12s;
-    }
-    .vt-btn.active { background: var(--bnr-500); color: #fff; }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem 1.2rem;
-      font-size: 0.78rem;
-      color: var(--text-soft);
-    }
-    .legend-item { display: flex; align-items: center; gap: 0.3rem; }
-
-    /* Map view */
-    #map-view { position: relative; }
-    #rwanda-svg-wrap {
-      position: relative;
-      width: 100%;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    #rwanda-svg-wrap svg { width: 100%; height: auto; display: block; }
-    .map-panel {
-      position: absolute;
-      right: 0; top: 0;
-      width: 320px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-      max-height: 480px;
-      overflow-y: auto;
-      display: none;
-      z-index: 10;
-    }
-    .map-panel.open { display: block; }
-    @media (max-width: 800px) {
-      .map-panel { position: static; width: 100%; margin-top: 1rem; }
-    }
-    .map-panel h4 { font-size: 0.9rem; font-weight: 700; margin: 0 0 0.8rem; }
-    .map-panel-close {
-      float: right;
-      background: none;
-      border: none;
-      font-size: 1.1rem;
-      cursor: pointer;
-      color: var(--text-soft);
-      line-height: 1;
-    }
-    .panel-intervention {
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.4rem 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.8rem;
-      line-height: 1.45;
-      align-items: flex-start;
-    }
-    .panel-intervention:last-child { border-bottom: none; }
-    .pi-donor {
-      font-weight: 700;
-      font-size: 0.72rem;
-      background: var(--bnr-100);
-      color: var(--bnr-700);
-      border-radius: 4px;
-      padding: 0.1rem 0.4rem;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    /* Matrix view */
-    #matrix-view { overflow-x: auto; display: none; }
-    .donor-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
-    }
-    .donor-table th {
-      background: var(--bnr-500);
-      color: #fff;
-      padding: 0.5rem 0.6rem;
-      text-align: left;
-      white-space: nowrap;
-      font-weight: 600;
-      font-size: 0.75rem;
-    }
-    .donor-table th.inst-col { background: var(--text); }
-    .donor-table td {
-      padding: 0.45rem 0.6rem;
-      border-bottom: 1px solid var(--border);
-      border-right: 1px solid var(--border);
-      vertical-align: top;
-      min-width: 120px;
-      line-height: 1.4;
-    }
-    .donor-table tr:hover td { background: var(--bg); }
-    .donor-table .inst-cell {
-      font-weight: 600;
-      white-space: nowrap;
-      background: var(--bg);
-      position: sticky;
-      left: 0;
-      z-index: 2;
-      border-right: 2px solid var(--border);
-    }
-    .donor-table .axis-a { border-left: 3px solid var(--bnr-500); }
-    .donor-table .axis-b { border-left: 3px solid var(--mef-500); }
-    .cell-entry { margin-bottom: 0.3rem; display: flex; gap: 0.2rem; align-items: flex-start; flex-wrap: wrap; }
-    .cell-entry:last-child { margin-bottom: 0; }
-
-    /* ── STATUS ICONS ───────────────────────────────── */
-    .si { font-style: normal; font-size: 0.85em; }
-    .si-active { color: var(--status-active); }
-    .si-planned { color: var(--status-planned); }
-    .si-completed { color: var(--status-completed); }
-    .si-exploratory { color: var(--status-exploratory); }
-    .si-tbc { color: var(--status-tbc); font-size: 0.7em; font-weight: 700; }
-    .si-coord { color: var(--dp-coordination); }
-
-    /* ── DP COORDINATION ARC IN MATRIX ─────────────── */
-    .coord-glyph {
-      display: inline-block;
-      color: var(--dp-coordination);
-      font-size: 0.7em;
-      cursor: help;
-    }
-
-    /* Footnote box */
-    .footnote-box {
-      margin-top: 1.5rem;
-      background: #FFFDE7;
-      border: 1px solid #F9A825;
-      border-radius: 8px;
-      padding: 1rem 1.2rem;
-      font-size: 0.83rem;
-      color: var(--text-soft);
-    }
-    .footnote-box strong { color: var(--text); }
-
-    /* ── TAB 2 — MATRIX ────────────────────────────── */
+    /* ── DLI MATRIX SECTION ── */
+    .matrix-section { margin-bottom: 3rem; }
     .matrix-banner {
-      background: linear-gradient(90deg, var(--bnr-100), var(--mef-100));
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.4rem;
-      font-size: 0.88rem;
-      color: var(--text-soft);
-      margin-bottom: 2rem;
-      font-style: italic;
+      background: #F0F4FF; border-left: 4px solid var(--republic-blue);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin-bottom: 1.25rem;
+      font-size: 0.88rem; color: var(--text-soft); font-style: italic; line-height: 1.55;
     }
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
+    .matrix-banner strong { font-style: normal; color: var(--text); }
+
+    /* Aggregate dashboard */
+    .agg-dashboard {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1rem 1.25rem; margin-bottom: 1.25rem;
+      display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
     }
-    @media (max-width: 760px) { .dashboard { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 440px) { .dashboard { grid-template-columns: 1fr; } }
-    .dash-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
+    .agg-item { text-align: center; }
+    .agg-label { font-size: 0.72rem; color: var(--text-soft); text-transform: uppercase; letter-spacing: .06em; }
+    .agg-val { font-size: 1.5rem; font-weight: 700; color: var(--republic-blue); }
+    .agg-bar { flex: 1; min-width: 200px; }
+    .agg-bar-label { font-size: 0.72rem; color: var(--text-soft); margin-bottom: 0.3rem; }
+    .stacked-bar { height: 10px; border-radius: 5px; display: flex; overflow: hidden; }
+    .stacked-seg-a { background: var(--bnr-500); }
+    .stacked-seg-b { background: var(--mef-500); }
+    .stacked-legend { display: flex; gap: 1rem; margin-top: 0.3rem; font-size: 0.72rem; }
+    .stacked-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 3px; vertical-align: middle; }
+    .tier-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .tier-pill {
+      padding: 3px 12px; border-radius: 99px; font-size: 0.78rem; font-weight: 600;
     }
-    .dash-card .dc-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-soft); margin-bottom: 0.3rem; }
-    .dash-card .dc-value { font-size: 1.5rem; font-weight: 700; color: var(--bnr-500); }
-    .dash-card .dc-sub { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.2rem; }
-    .stacked-bar {
-      display: flex;
-      height: 8px;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: 0.5rem;
+    .tier-pill.immediate { background: #E8F5E9; color: var(--mef-500); }
+    .tier-pill.secondary { background: #FFF8E1; color: #E65100; }
+
+    /* View toggle */
+    .view-toggle-row {
+      display: flex; justify-content: flex-end; align-items: center;
+      gap: 0.5rem; margin-bottom: 1rem;
     }
-    .sb-a { background: var(--bnr-500); }
-    .sb-b { background: var(--mef-500); }
-    .mini-chart {
-      display: flex;
-      gap: 4px;
-      align-items: flex-end;
-      height: 36px;
-      margin-top: 0.4rem;
+    .view-toggle-btn {
+      padding: 5px 14px; border: 1.5px solid var(--border); border-radius: 6px;
+      background: var(--surface); font-size: 0.82rem; font-weight: 500; color: var(--text-soft);
+      transition: all .15s;
     }
-    .mc-bar {
-      flex: 1;
-      background: var(--mef-300);
-      border-radius: 2px 2px 0 0;
-      position: relative;
-    }
-    .mc-bar span {
-      position: absolute;
-      bottom: -1.2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.62rem;
-      color: var(--text-soft);
-      white-space: nowrap;
+    .view-toggle-btn.active {
+      background: var(--republic-blue); color: #fff; border-color: var(--republic-blue);
     }
 
-    /* Axis super-header */
+    /* Axis header */
+    .axis-section { margin-bottom: 2rem; }
     .axis-header {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      padding: 1rem 1.2rem;
-      border-radius: 8px;
-      margin: 2rem 0 1rem;
+      padding: 0.6rem 1rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
     }
-    .axis-header.axis-a {
-      background: var(--bnr-100);
-      border-left: 4px solid var(--bnr-500);
-    }
-    .axis-header.axis-b {
-      background: var(--mef-100);
-      border-left: 4px solid var(--mef-500);
-    }
-    .axis-header h2 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin: 0;
-      color: var(--text);
-    }
-    .subaxis-header {
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--text-soft);
-      margin: 1.4rem 0 0.7rem;
-      padding-bottom: 0.3rem;
-      border-bottom: 2px solid var(--border);
-    }
-    .subaxis-header.sa-A1 { border-color: var(--bnr-A1); color: var(--bnr-A1); }
-    .subaxis-header.sa-A2 { border-color: var(--bnr-A2); color: var(--bnr-A2); }
-    .subaxis-header.sa-B1 { border-color: var(--mef-B1); color: var(--mef-B1); }
-    .subaxis-header.sa-B2 { border-color: var(--mef-B2); color: var(--mef-B2); }
-    .subaxis-header.sa-B3 { border-color: var(--mef-B3); color: var(--mef-B3); }
+    .axis-header.axis-a { background: var(--bnr-100); color: var(--bnr-700); }
+    .axis-header.axis-b { background: var(--mef-100); color: var(--mef-700); }
 
-    /* DLI Card */
-    .dli-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      margin-bottom: 1.2rem;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    }
-    .dli-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      padding: 1rem 1.2rem 0.8rem;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .dli-id {
-      font-family: ui-monospace, "SF Mono", monospace;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--bnr-500);
-      background: var(--bnr-100);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      flex-shrink: 0;
-    }
-    .dli-id.axis-b { color: var(--mef-700); background: var(--mef-100); }
-    .dli-title { font-size: 1rem; font-weight: 700; flex: 1; margin: 0; }
-    .dli-counterpart { font-size: 0.8rem; color: var(--text-soft); margin: 0.3rem 0 0; }
-    .dli-header-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
-    .dli-body {
-      padding: 0 1.2rem 1.2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem 2rem;
-    }
-    @media (max-width: 640px) { .dli-body { grid-template-columns: 1fr; } }
-    .dli-body.single { grid-template-columns: 1fr; }
-    .dli-field { }
-    .dli-field-label {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: var(--text-soft);
-      margin-bottom: 0.3rem;
-    }
-    .dli-field-value {
-      font-size: 0.85rem;
-      color: var(--text);
-      line-height: 1.55;
-    }
-    .dli-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0 1.2rem 1rem;
-    }
-    .trigger-box {
-      background: var(--bg);
+    /* Subaxis header */
+    .subaxis-section { margin-bottom: 1.25rem; }
+    .subaxis-label {
+      font-size: 0.75rem; font-weight: 700; color: var(--text-soft);
+      text-transform: uppercase; letter-spacing: .08em;
+      margin-bottom: 0.5rem; padding-left: 0.25rem;
       border-left: 3px solid var(--border);
-      padding: 0.7rem 1rem;
-      margin: 0 1.2rem 1rem;
-      border-radius: 0 6px 6px 0;
-      font-size: 0.87rem;
-      font-style: italic;
-      line-height: 1.55;
+      padding-left: 0.5rem;
     }
-    .axis-a .trigger-box { border-left-color: var(--bnr-500); }
-    .axis-b .trigger-box { border-left-color: var(--mef-500); }
+    .dli-cards-row { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    /* DLI card */
+    .dli-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; transition: box-shadow .2s;
+    }
+    .dli-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .dli-card-head {
+      padding: 0.9rem 1.1rem 0.7rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 0.75rem;
+    }
+    .dli-icon { flex-shrink: 0; color: var(--republic-blue); }
+    .dli-head-meta { flex: 1; }
+    .dli-id-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .dli-id {
+      font-family: var(--mono); font-size: 0.75rem; font-weight: 700;
+      color: var(--republic-blue); background: #F0F4FF; padding: 2px 8px; border-radius: 4px;
+    }
+    .dli-type-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 99px;
+    }
+    .dli-type-pill.process-reform   { background: #E3F2FD; color: #1565C0; }
+    .dli-type-pill.strategy-fw      { background: #F3E5F5; color: #6A1B9A; }
+    .dli-type-pill.market-act       { background: #E8F5E9; color: #2E7D32; }
+    .dli-type-pill.data-infra       { background: #FFF3E0; color: #E65100; }
+    .dli-tier-badge {
+      font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+    }
+    .dli-tier-badge.immediate { background: #E8F5E9; color: var(--mef-500); }
+    .dli-tier-badge.secondary { background: #FFF8E1; color: #E65100; }
+    .dli-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-top: 0.3rem; }
+    .dli-counterpart { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.15rem; }
+
+    .dli-card-body { padding: 1rem 1.1rem; font-size: 0.88rem; }
+    .dli-field-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+      color: var(--republic-blue); margin-top: 0.9rem; margin-bottom: 0.25rem;
+    }
+    .dli-field-label:first-child { margin-top: 0; }
+    .dli-trigger, .dli-rationale, .dli-ta, .dli-donor-compl { color: var(--text); line-height: 1.55; }
+    .dli-ambition { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .dli-ambition-item { background: var(--bg); border-radius: 6px; padding: 0.5rem 0.75rem; }
+    .dli-ambition-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: var(--text-soft); margin-bottom: 0.2rem; }
 
     /* Scoring dots */
-    .score-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
-      margin-bottom: 0.6rem;
-    }
-    @media (max-width: 480px) { .score-grid { grid-template-columns: repeat(2,1fr); } }
+    .dli-scoring { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.5rem; margin-top: 0.25rem; }
     .score-item { text-align: center; }
-    .score-dots { display: flex; gap: 3px; justify-content: center; margin-bottom: 0.2rem; }
-    .dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      border: 1.5px solid var(--border);
-      background: transparent;
-    }
-    .dot.filled { background: var(--bnr-500); border-color: var(--bnr-500); }
-    .axis-b .dot.filled { background: var(--mef-500); border-color: var(--mef-500); }
-    .score-metric { font-size: 0.65rem; color: var(--text-soft); text-align: center; line-height: 1.3; }
-    .composite-row {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.83rem;
-      margin-top: 0.4rem;
-    }
-    .tier-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.2rem 0.65rem;
-      border-radius: 20px;
-      font-size: 0.77rem;
-      font-weight: 700;
-    }
-    .tier-immediate { background: #E8F5E9; color: #1B5E20; }
-    .tier-secondary { background: #FFF8E1; color: #E65100; }
-    .fy-cols {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 0.5rem;
-    }
-    .fy-col { }
-    .fy-col .fy-yr {
-      font-size: 0.67rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--text-soft);
-      margin-bottom: 0.2rem;
-    }
-    .fy-col .fy-text { font-size: 0.8rem; line-height: 1.45; }
-    .risks-list {
-      list-style: none;
-      padding: 0; margin: 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-    }
-    .risks-list li {
-      background: #FFF8E1;
-      border: 1px solid #F9A825;
-      border-radius: 4px;
-      padding: 0.15rem 0.5rem;
-      font-size: 0.76rem;
-      color: #5D4037;
+    .score-label { font-size: 0.65rem; color: var(--text-soft); margin-bottom: 0.2rem; }
+    .score-dots { display: flex; gap: 3px; justify-content: center; }
+    .score-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--bnr-300); }
+    .score-dot.filled { background: var(--bnr-500); border-color: var(--bnr-500); }
+    .dli-composite { margin-top: 0.5rem; font-size: 0.82rem; font-weight: 600; }
+
+    /* Footer chips */
+    .dli-foot { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+    .dli-chip {
+      font-size: 0.72rem; padding: 3px 10px; border-radius: 99px;
+      background: var(--bg); border: 1px solid var(--border); color: var(--text-soft);
     }
 
-    /* Compact table */
-    #compact-table-view { display: none; overflow-x: auto; }
-    .compact-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
+    /* FY timeline */
+    .fy-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.5rem; margin-top: 0.25rem; }
+    .fy-item { background: var(--bg); border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.78rem; }
+    .fy-tag { font-size: 0.65rem; font-weight: 700; color: var(--text-soft); text-transform: uppercase; }
+
+    /* Compact table view */
+    .dli-table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+    .dli-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    .dli-table th {
+      background: var(--republic-blue); color: #fff; padding: 8px 10px;
+      text-align: left; font-weight: 600; white-space: nowrap;
     }
-    .compact-table th {
-      background: var(--text);
-      color: #fff;
-      padding: 0.5rem 0.7rem;
-      text-align: left;
-      white-space: nowrap;
-      font-size: 0.73rem;
-      border-right: 1px solid rgba(255,255,255,0.15);
+    .dli-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .dli-table tr:last-child td { border-bottom: none; }
+    .dli-table tr:nth-child(even) td { background: #FAFAFA; }
+    .dli-table .mono { font-family: var(--mono); font-size: 0.75rem; }
+
+    /* ── AGENDA TAB ── */
+    .agenda-section { margin-bottom: 2.5rem; }
+    .agenda-section-hd {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.75rem 1rem; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
     }
-    .compact-table td {
-      padding: 0.5rem 0.7rem;
-      border-bottom: 1px solid var(--border);
-      border-right: 1px solid var(--border);
-      vertical-align: top;
-      line-height: 1.45;
+    .agenda-section-hd h3 { font-size: 1rem; color: var(--republic-blue); }
+    .agenda-section-hd .count-badge {
+      background: var(--republic-blue); color: #fff; border-radius: 99px;
+      font-size: 0.72rem; font-weight: 700; padding: 2px 9px;
     }
-    .compact-table tr:hover td { background: var(--bg); }
-    .compact-table .dli-num {
-      font-family: ui-monospace, monospace;
-      font-weight: 700;
-      white-space: nowrap;
+    .meeting-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.75rem; }
+    .meeting-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; transition: box-shadow .2s; cursor: pointer;
+    }
+    .meeting-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+    .meeting-card-head { padding: 0.85rem 1rem 0.75rem; }
+    .meeting-date-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+    .meeting-date { font-size: 0.72rem; color: var(--text-soft); font-weight: 500; }
+    .meeting-axis-pill {
+      font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 99px;
+    }
+    .meeting-axis-pill.a { background: var(--bnr-100); color: var(--bnr-500); }
+    .meeting-axis-pill.b { background: var(--mef-100); color: var(--mef-500); }
+    .meeting-axis-pill.cross { background: #F3F0F8; color: #5A3E8A; }
+    .meeting-counterpart { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 0.25rem; }
+    .meeting-attendees { font-size: 0.75rem; color: var(--text-soft); }
+    .meeting-topic { font-size: 0.8rem; color: var(--text); margin-top: 0.4rem; }
+    .meeting-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+    .meeting-status.confirmed { background: var(--status-active); }
+    .meeting-status.planned    { background: var(--status-planned); }
+
+    /* Expand / collapse */
+    .meeting-expand {
+      padding: 0 1rem 0.85rem;
+      display: none; border-top: 1px solid var(--border); margin-top: 0.5rem; padding-top: 0.75rem;
+    }
+    .meeting-card.expanded .meeting-expand { display: block; }
+    .meeting-summary { font-size: 0.83rem; color: var(--text-soft); line-height: 1.55; margin-bottom: 0.5rem; }
+    .meeting-expand-hint { font-size: 0.7rem; color: var(--text-soft); text-align: right; margin-top: 0.5rem; }
+    .meeting-dl-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--republic-blue); color: #fff; text-decoration: none;
+      font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 6px;
+    }
+    .meeting-dl-btn:hover { opacity: 0.88; }
+    .agenda-empty-note {
+      text-align: center; color: var(--text-soft); font-size: 0.88rem;
+      padding: 2rem; background: var(--surface); border: 1px dashed var(--border);
+      border-radius: 8px; font-style: italic;
     }
 
-    /* ── TAB 3 — RESOURCES ─────────────────────────── */
-    .res-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-bottom: 1.5rem;
-      align-items: center;
+    /* ── DONOR MAPPING TAB ── */
+    .donor-view-toggle { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .donor-view-btn {
+      padding: 6px 16px; border: 1.5px solid var(--border); border-radius: 6px;
+      background: var(--surface); font-size: 0.85rem; font-weight: 500; color: var(--text-soft);
+      transition: all .15s;
     }
-    .res-filter-group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .res-filter-btn {
-      padding: 0.3rem 0.75rem;
-      font-size: 0.78rem;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: var(--surface);
-      cursor: pointer;
-      transition: background 0.12s, color 0.12s;
-      font-weight: 500;
-      color: var(--text-soft);
+    .donor-view-btn.active {
+      background: var(--republic-blue); color: #fff; border-color: var(--republic-blue);
     }
-    .res-filter-btn.active { background: var(--bnr-500); color: #fff; border-color: var(--bnr-500); }
-    .res-search {
-      padding: 0.4rem 0.9rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.85rem;
-      outline: none;
-      min-width: 220px;
-      transition: border-color 0.15s;
+
+    /* Status legend */
+    .status-legend {
+      display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.78rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.5rem 0.85rem; margin-bottom: 1rem;
     }
-    .res-search:focus { border-color: var(--bnr-500); }
-    .res-section {
-      margin-bottom: 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
+    .legend-item { display: flex; align-items: center; gap: 4px; color: var(--text-soft); }
+
+    /* Rwanda map */
+    #map-view { position: relative; }
+    .rwanda-map-container {
+      display: flex; gap: 1.5rem; align-items: flex-start;
     }
+    .rwanda-svg-wrap { flex: 0 0 auto; }
+    .rwanda-svg-wrap svg { display: block; }
+    .map-legend { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.75rem; display: flex; gap: 1rem; }
+    .map-legend-item { display: flex; align-items: center; gap: 5px; }
+    .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+    /* Node panel */
+    #node-panel {
+      flex: 1; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.25rem; min-height: 300px;
+    }
+    .node-panel-empty { color: var(--text-soft); font-size: 0.88rem; font-style: italic; }
+    .node-panel-title { font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .node-panel-sub { font-size: 0.82rem; color: var(--text-soft); margin-bottom: 1rem; }
+    .intervention-group { margin-bottom: 0.75rem; }
+    .intervention-donor-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-soft); margin-bottom: 0.25rem; border-bottom: 1px solid var(--border);
+      padding-bottom: 0.2rem;
+    }
+    .intervention-entry {
+      display: flex; gap: 0.5rem; align-items: flex-start;
+      font-size: 0.82rem; padding: 0.25rem 0; color: var(--text);
+    }
+    .i-status { flex-shrink: 0; font-size: 0.9rem; margin-top: 1px; }
+    .i-type { font-size: 0.65rem; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; white-space: nowrap; flex-shrink: 0; }
+    .i-tbc { font-size: 0.65rem; background: #FFF3E0; color: var(--status-tbc); border-radius: 3px; padding: 1px 5px; font-weight: 700; flex-shrink: 0; }
+
+    /* Donor matrix */
+    #matrix-view { overflow-x: auto; }
+    .donor-matrix-table { border-collapse: collapse; font-size: 0.78rem; min-width: 800px; }
+    .donor-matrix-table th, .donor-matrix-table td {
+      border: 1px solid var(--border); padding: 6px 8px; vertical-align: top;
+    }
+    .donor-matrix-table th { background: var(--republic-blue); color: #fff; font-weight: 600; text-align: center; white-space: nowrap; }
+    .donor-matrix-table .inst-cell { background: var(--bg); font-weight: 700; white-space: nowrap; }
+    .donor-matrix-table .inst-cell.bnr { color: var(--bnr-500); }
+    .donor-matrix-table .inst-cell.mef { color: var(--mef-500); }
+    .matrix-entry { margin-bottom: 4px; font-size: 0.75rem; line-height: 1.4; }
+    .matrix-entry:last-child { margin-bottom: 0; }
+
+    /* DP coordination */
+    .dp-coord-section { margin-top: 1.5rem; }
+    .dp-coord-title { font-size: 0.8rem; font-weight: 700; color: var(--dp-coord); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 0.5rem; }
+    .dp-coord-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .dp-coord-item {
+      background: #FFF8E1; border: 1px solid #FFE082; border-radius: 6px;
+      padding: 0.3rem 0.7rem; font-size: 0.78rem;
+    }
+    .dp-coord-glyph { color: var(--dp-coord); font-weight: 700; margin: 0 3px; }
+
+    /* ── RESOURCES TAB ── */
+    .resources-controls {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+      display: flex; gap: 1.25rem; flex-wrap: wrap; align-items: flex-end;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .filter-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-soft); }
+    .filter-pills { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .filter-pill {
+      padding: 4px 12px; border: 1.5px solid var(--border); border-radius: 99px;
+      font-size: 0.78rem; font-weight: 500; background: var(--surface); color: var(--text-soft); cursor: pointer;
+      transition: all .15s;
+    }
+    .filter-pill.active {
+      background: var(--republic-blue); color: #fff; border-color: var(--republic-blue);
+    }
+    .search-input {
+      padding: 6px 12px; border: 1.5px solid var(--border); border-radius: 6px;
+      font-family: var(--font); font-size: 0.88rem; outline: none; width: 220px;
+    }
+    .search-input:focus { border-color: var(--republic-blue); }
+
+    /* Collapsible resource sections */
+    .res-section { margin-bottom: 1.5rem; }
     .res-section-hd {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.9rem 1.2rem;
-      cursor: pointer;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      user-select: none;
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.75rem 1rem; cursor: pointer; user-select: none;
+      transition: background .15s;
     }
-    .res-section-hd h3 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin: 0;
-    }
-    .res-section-hd .toggle-icon {
-      font-size: 0.85rem;
-      color: var(--text-soft);
-      transition: transform 0.2s;
-    }
-    .res-section-hd.collapsed .toggle-icon { transform: rotate(-90deg); }
-    .res-section-body { padding: 0.8rem; }
-    .res-section-body.collapsed { display: none; }
-    .res-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 0.8rem;
-    }
-    .res-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.9rem 1rem;
-      font-size: 0.83rem;
-      line-height: 1.5;
-    }
-    .res-card.hidden { display: none; }
-    .res-card-title { font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
-    .res-card-meta { color: var(--text-soft); font-size: 0.76rem; margin-bottom: 0.4rem; }
-    .res-card-desc { color: var(--text-soft); margin-bottom: 0.5rem; }
-    .res-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
-    .res-axes { display: flex; gap: 0.3rem; }
-    .access-badge {
-      font-size: 0.72rem;
-      padding: 0.1rem 0.5rem;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-    .access-public { background: #E8F5E9; color: #1B5E20; }
-    .access-internal { background: #F3F4F6; color: #374151; }
-    .access-tbc { background: #FFF8E1; color: #E65100; }
-    .res-open-btn {
-      font-size: 0.76rem;
-      color: var(--bnr-500);
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
-    .res-open-btn:hover { text-decoration: underline; }
+    .res-section-hd:hover { background: #F5F5F5; }
+    .res-section-hd h3 { font-size: 0.95rem; color: var(--republic-blue); }
+    .res-section-toggle { font-size: 1.1rem; color: var(--text-soft); transition: transform .2s; }
+    .res-section.collapsed .res-section-toggle { transform: rotate(-90deg); }
+    .res-section-body { padding-top: 0.75rem; }
+    .res-section.collapsed .res-section-body { display: none; }
+    .res-cards { display: flex; flex-direction: column; gap: 0.6rem; }
 
-    /* ── RESPONSIVE TWEAKS ─────────────────────────── */
-    @media (max-width: 520px) {
-      .container { padding: 1.2rem 1rem; }
-      .dli-header { flex-direction: column; }
-      .score-grid { grid-template-columns: repeat(2,1fr); }
+    /* Resource card */
+    .res-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.9rem 1.1rem; transition: box-shadow .2s;
+    }
+    .res-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+    .res-card-title { font-size: 0.92rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+    .res-card-meta { font-size: 0.75rem; color: var(--text-soft); margin-bottom: 0.4rem; }
+    .res-card-desc { font-size: 0.83rem; color: var(--text); margin-bottom: 0.5rem; line-height: 1.5; }
+    .res-card-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .res-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .res-axis-pill {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+    }
+    .res-axis-pill.a { background: var(--bnr-100); color: var(--bnr-500); }
+    .res-axis-pill.b { background: var(--mef-100); color: var(--mef-500); }
+    .res-access { font-size: 0.72rem; color: var(--text-soft); }
+    .res-link {
+      font-size: 0.78rem; font-weight: 600; color: var(--republic-blue);
+      text-decoration: none; border: 1.5px solid var(--republic-blue);
+      padding: 3px 10px; border-radius: 5px;
+    }
+    .res-link:hover { background: var(--republic-blue); color: #fff; }
+    .res-hidden { display: none !important; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .stats-box { grid-template-columns: repeat(2,1fr); }
+      .obj-grid { grid-template-columns: 1fr; }
+      .meeting-grid { grid-template-columns: repeat(2,1fr); }
+      .dli-ambition { grid-template-columns: 1fr; }
+      .dli-scoring { grid-template-columns: repeat(2,1fr); }
+      .rwanda-map-container { flex-direction: column; }
+    }
+    @media (max-width: 600px) {
+      .nav-inner { padding: 0 0.75rem; gap: 0.75rem; }
+      .nav-brand { display: none; }
+      .nav-tab { padding: 0 0.6rem; font-size: 0.78rem; }
+      .page-container { padding: 1.25rem 0.75rem 3rem; }
+      .hero { padding: 2rem 1.25rem; }
+      .stats-box { grid-template-columns: 1fr 1fr; }
+      .meeting-grid { grid-template-columns: 1fr; }
+      .dli-scoring { grid-template-columns: repeat(2,1fr); }
+      .fy-grid { grid-template-columns: 1fr; }
+      .agg-dashboard { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-<!-- PASSWORD GATE -->
-<div id="gate-overlay">
-  <div id="gate-box">
-    <span id="gate-label">AFD · Green PFM Phase II · Internal Access</span>
-    <h2>Mission Report — Access Restricted</h2>
-    <p>Enter the mission password to view this document.</p>
-    <input type="password" id="gate-input" placeholder="Password" autocomplete="current-password" />
-    <div id="gate-error">Incorrect password. Please try again.</div>
-    <button id="gate-btn">Enter</button>
+<!-- ═══ PASSWORD GATE ═══ -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-label">AFD · Green PFM Phase II · Internal</div>
+    <div class="gate-title">Green PFM II — Feasibility Study</div>
+    <div class="gate-sub">Rwanda field mission, May 2026 · Enter the access code to continue</div>
+    <input type="password" id="gate-input" class="gate-input" placeholder="Access code" autocomplete="off">
+    <button id="gate-btn" class="gate-btn">Access →</button>
+    <div id="gate-error" class="gate-error"></div>
   </div>
 </div>
 
-<!-- MAIN SITE -->
-<div id="site">
-  <header class="site-header">
-    <nav class="nav-inner" aria-label="Main tabs">
-      <button class="nav-tab active" data-tab="front">Front Page</button>
-      <button class="nav-tab" data-tab="matrix">Policy Reform Matrix</button>
-      <button class="nav-tab" data-tab="resources">Resources</button>
-    </nav>
-  </header>
+<!-- ═══ APP SHELL ═══ -->
+<div id="app" style="display:none">
 
-  <!-- ╔══════════════════════════════════════════╗ -->
-  <!-- ║  TAB 1 — FRONT PAGE                      ║ -->
-  <!-- ╚══════════════════════════════════════════╝ -->
-  <div id="tab-front" class="page active">
-    <div class="hero">
-      <p class="hero-label">AFD · Green PFM Phase II · Field Mission · April–May 2026</p>
-      <h1>Green PFM Phase II — Feasibility Study, Rwanda</h1>
-      <h2>Greening the Financial System — Field Mission Findings</h2>
-      <p class="hero-author">Yoan Raih, consultant · Expertise France</p>
+  <!-- Navigation -->
+  <nav id="top-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">Green PFM II · Rwanda</div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="front">Front Page</button>
+        <button class="nav-tab" data-tab="agenda">Mission Agenda</button>
+        <button class="nav-tab" data-tab="donors">Donor Mapping</button>
+        <button class="nav-tab" data-tab="resources">Resources</button>
+      </div>
     </div>
+  </nav>
 
-    <div class="container">
-      <div class="section-hd">
-        <h2>Mission overview</h2>
-      </div>
+  <!-- ════ TAB: FRONT PAGE ════ -->
+  <div id="tab-front" class="tab-panel active">
+    <div class="page-container">
 
-      <!-- Presentation + scope -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem 1.8rem;margin-bottom:1.6rem;line-height:1.7;">
-        <p style="font-size:0.95rem;color:var(--text);margin:0 0 1rem;">
-          This report presents the findings of the <strong>Green PFM Phase II feasibility mission</strong> conducted in Kigali, Rwanda in April–May 2026 by Yoan Raih (consultant, Expertise France) on behalf of AFD. The mission builds on the results of Phase I and assesses the feasibility of a second budget support programme aimed at <strong>greening Rwanda's financial system</strong>.
-        </p>
-        <p style="font-size:0.92rem;color:var(--text-soft);margin:0 0 0.8rem;">The scope of the programme crystallised around two axes and two principal beneficiaries:</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
-          <div style="background:var(--bnr-100);border-left:4px solid var(--bnr-500);border-radius:0 6px 6px 0;padding:0.8rem 1rem;">
-            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--bnr-500);margin-bottom:0.3rem;">Axis A — Green Central Banking</div>
-            <div style="font-size:0.88rem;color:var(--bnr-700);">National Bank of Rwanda (BNR) — monetary policy climate integration, net-zero central banking, reserves management.</div>
-          </div>
-          <div style="background:var(--mef-100);border-left:4px solid var(--mef-500);border-radius:0 6px 6px 0;padding:0.8rem 1rem;">
-            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--mef-500);margin-bottom:0.3rem;">Axis B — Green Financial Products &amp; Markets</div>
-            <div style="font-size:0.88rem;color:var(--mef-700);">MINECOFIN (with CMA, RSE as line institutions) — sustainable debt, climate insurance, capital markets.</div>
-          </div>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-label">AFD · Green PFM Phase II · Feasibility Study · April–May 2026</div>
+        <h1>Green PFM Phase II — Feasibility Study, Rwanda</h1>
+        <div class="hero-sub">Greening the Financial System — Field Mission Findings</div>
+        <div class="hero-author">Yoan Raih, consultant · Expertise France</div>
+      </section>
+
+      <!-- Stats box -->
+      <section id="stats-box" class="stats-box">
+        <div class="stat-chip">
+          <div class="stat-icon">📅</div>
+          <div class="stat-num" id="stat-online">—</div>
+          <div class="stat-label">Online preparatory meetings</div>
         </div>
-        <p style="font-size:0.85rem;color:var(--text-soft);margin:1rem 0 0;">Phase II budget support envelope: <strong>~€40M</strong> · Technical assistance (Expertise France): <strong>~€1.5M</strong></p>
-      </div>
+        <div class="stat-chip">
+          <div class="stat-icon">🏛</div>
+          <div class="stat-num" id="stat-inperson">—</div>
+          <div class="stat-label">In-person meetings in Kigali</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-num" id="stat-institutions">—</div>
+          <div class="stat-label">Institutions met (May 4–9, 2026)</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-icon">📋</div>
+          <div class="stat-num" id="stat-post">—</div>
+          <div class="stat-label">Post-mission follow-up meetings</div>
+        </div>
+      </section>
 
-      <!-- 3-card takeaways -->
-      <p style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-soft);margin:0 0 0.8rem;">Key mission findings</p>
-      <div class="card-grid-3" id="objective-cards"></div>
+      <!-- Objective cards — order: 1, 3, 4, 2 -->
+      <section>
+        <div class="section-hd"><h2>Mission overview</h2></div>
+        <div class="obj-grid" id="obj-grid"></div>
+      </section>
 
-      <!-- Agenda -->
-      <div class="section-hd" style="margin-top:3rem">
+      <!-- DLI Matrix -->
+      <section class="matrix-section">
+        <div class="section-hd">
+          <h2>Policy Reform Matrix — Disbursement-Linked Indicators</h2>
+        </div>
+        <div class="matrix-banner">
+          <strong>"This is a 'menu of options'</strong> — a prioritized, modular Policy Reform Matrix designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework."<br>
+          <span style="font-size:0.8rem;">— aligned with the inception report methodology (Section 5.3).</span>
+        </div>
+        <div class="agg-dashboard" id="agg-dashboard">
+          <!-- filled by JS -->
+        </div>
+        <div class="view-toggle-row">
+          <button class="view-toggle-btn active" id="btn-card-view">Cards</button>
+          <button class="view-toggle-btn" id="btn-table-view">Compact table</button>
+        </div>
+        <div id="dli-card-view"></div>
+        <div id="dli-table-view" style="display:none"></div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ════ TAB: MISSION AGENDA ════ -->
+  <div id="tab-agenda" class="tab-panel">
+    <div class="page-container">
+      <div class="section-hd">
         <h2>Mission agenda — meetings conducted</h2>
+        <p>Online preparatory meetings, in-person Kigali mission (May 4–9, 2026), and post-mission follow-up.</p>
+      </div>
+      <div id="agenda-container"></div>
+    </div>
+  </div>
+
+  <!-- ════ TAB: DONOR MAPPING ════ -->
+  <div id="tab-donors" class="tab-panel">
+    <div class="page-container">
+      <div class="section-hd">
+        <h2>Donor mapping — active DP support to Rwanda's financial system</h2>
+        <p>Mapping donor interventions targeting BNR and MINECOFIN in the mission scope. Department-level details are available in each intervention's description.</p>
       </div>
 
-      <h3 style="font-size:0.9rem;font-weight:700;color:var(--text-soft);margin:0 0 0.8rem;text-transform:uppercase;letter-spacing:0.07em;">Online preparatory meetings — April 2026</h3>
-      <div class="online-strip" id="online-strip"></div>
-
-      <h3 style="font-size:0.9rem;font-weight:700;color:var(--text-soft);margin:1.5rem 0 0.8rem;text-transform:uppercase;letter-spacing:0.07em;">In-person Kigali mission — May 4–9, 2026</h3>
-      <div class="timeline" id="timeline"></div>
-
-      <!-- Donor mapping -->
-      <div class="section-hd" style="margin-top:3.5rem">
-        <h2>Donor mapping — active DP support to Rwandan beneficiaries</h2>
-        <p>This map illustrates the different interventions from development partners to Rwandan stakeholders in the field of (a) green central banking and (b) green financial products and markets. Only interventions in the mission scope are shown.</p>
-      </div>
-
-      <div class="donor-controls">
-        <div class="legend" id="status-legend">
-          <span class="legend-item"><i class="si si-active">●</i> Active</span>
-          <span class="legend-item"><i class="si si-completed">○</i> Completed</span>
-          <span class="legend-item"><i class="si si-planned">◐</i> Planned</span>
-          <span class="legend-item"><i class="si si-exploratory">▷</i> Exploratory</span>
-          <span class="legend-item"><i class="si si-tbc">⚑</i> TBC</span>
-          <span class="legend-item"><i class="si si-coord">↔</i> DP coordination</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-bottom:1rem;">
+        <div class="status-legend" id="status-legend">
+          <span class="legend-item">● active</span>
+          <span class="legend-item">○ completed</span>
+          <span class="legend-item">◐ planned</span>
+          <span class="legend-item">▷ exploratory</span>
+          <span class="legend-item">⚑ TBC</span>
         </div>
-        <div class="view-toggle">
-          <button class="vt-btn active" id="btn-map">Map</button>
-          <button class="vt-btn" id="btn-matrix">Matrix</button>
+        <div class="donor-view-toggle">
+          <button class="donor-view-btn active" id="btn-map-view">Map view</button>
+          <button class="donor-view-btn" id="btn-matrix-view">Matrix view</button>
         </div>
       </div>
 
+      <!-- Map view -->
       <div id="map-view">
-        <div id="rwanda-svg-wrap" style="position:relative;width:100%;max-width:960px;margin:0 auto;">
-
-          <!-- Real Rwanda map with donors spread around it -->
-          <svg id="rwanda-svg" viewBox="0 0 1200 960" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
-            <defs>
-              <!-- Clip paths for institution logos -->
-              <clipPath id="clip-bnr"><circle cx="422" cy="490" r="38"/></clipPath>
-              <clipPath id="clip-mef"><circle cx="598" cy="490" r="38"/></clipPath>
-              <!-- Drop shadow filter -->
-              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.15"/>
-              </filter>
-              <!-- Glow for Kigali -->
-              <radialGradient id="kigali-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#F9A825" stop-opacity="0.25"/>
-                <stop offset="100%" stop-color="#F9A825" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-
-            <!-- ── RWANDA COUNTRY SHAPE (offset 110,45 to centre in viewBox) ── -->
-            <g transform="translate(110,45)">
-              <path d="M116.2 784.1l-6.8-7.6-9.2-4.6-13.3-1.4-6-2.4-16.7-10.9-3.5-3.6 3-34.2-3-10.4-4.6-4.7-5-2.4-4-2.7-1.6-5.8 1.6-5.9 7.7-6.9-1.5-5.5-4.6-8.1-1.6-8.9-0.9-9.5 3.3-11.8 6.3-5.4 12-4.2 9.4-2.7 7.7-4.6 6.4-6.5 5.2-8.1 3.4-6.7 1.5-4.8 0.5-3.9 4.6-4.3 3.8-1.3 12.9 0.4 19.9-5.3 15.4-12.2 11.2-17.4 7.1-21.2 2.6-18.7-1-16.2-11.9-70.3-0.9-16.4 2.2-16 8.4-19.7 16.7-26.8 11.5-18.3 9.4-17.9 5.4-7.9 21.7-17.9 4.5-5.9 12.3-25.3 5.1-6.7 7.1-2.9 34.2-1.4 1.1-0.3 1-0.6 0.9-1 1.5-2.4 8.7-13.6 15.4-16 17.8-12.9 17.6-6.3 18 1 9.4-0.7 8.3-2.2 9.3-5.2 6.9-5 7.5-3.9 10.8-2 5.4 1.2 9.5 5.8 3.1 1.1 3.7-2.1 2.7-8.9 4-4.8 4.2-2.6 3.9-1.1 3.9 0.6 0.1 0 4.9 2.5 12.6 18.2 2 9.4 1 18.5 4.4 9.4 7.7 7.2 8.7 2.5 9.4-1 9.9-3.7 30.4-16.8 4.6-1 4.1-9.7 5.8-6.1 2.3-1.2 13.2-7.1 18.3-7.1 4.9-4.5 2.3-6.9 2.7-17.3 3.2-6.1 3.5-2.1 3.6-0.6 3.5-0.3 3.4-1 6.9-4.1 19.9-18.9 5.8-7.5 4.9-8.1 0.8-3 1-6.4 1.3-2.7 1.5-1.2 1.6-1.4 7.5-3.3 2.8-2.3 2.3-6.8 2.9-18.5 3.8-6.4 6.8-2.5 7.4 1.1 7.6 2.3 7.6 0.9 7-1.7 5.9-2.7 6.1-0.8 6.8 2.1 4.9 1.6-3.6 3.7-3.4 4.9-1.4 5 1.5 4.8 6.5 4.5 1.5 6.1-1 2.7-1.7 2.5-1.2 2.7 0.8 2.7 3.9 2.6 3.6-0.5 2.9-1.6 1.8-0.5 5.5 4 1.9 2.7 1.8 11.6 2.7 6.5 8.2 13.5 2.6 9.2 4.2 5.4 0.9 3.6-0.5 1.4-1 2-1.1 2.6-0.4 3.3 2.4 7.2 5.8 4.4 13.2 5.4 4.7 3.4 6.7 6.3 4.1 2.5 29.6 11 8.8 1.3 8.7 5.2 2.5 11.7-0.8 11.7-1.4 5.3-2.4 2.6 2.7 5.8 7.4 9.9 5.5 5.9 2 3.5 4.4 16.1 4.3 10.1 7 5.5 10.6-4.1 3.3 9.5-0.4 11.5-5.8 35.3-0.1 4.9 1 2.3 4 6.1 1.1 4.1-5.1 12.3 1.5 4.7 3.6 18-2.5 7.6-4.5 6.7-2.5 6.9 3.4 8-7.3 5.7-2.7 2.9-2.2 3.6 13.4 2.2 1.3 11.8-5.9 26.1 8.4-1.8 8.1 4 6.8 6.9 4.8 6.4 3.7 13-15.4 49.9-3.8 19.7 1.8 30.7-1.8 9.1-4.7 8.4-5.8 4.2-7.5 3.4-6.9 3.9-6.3 1.6-3.2 1.8-4.1 1.1-3.7-0.9-23.3-11.5-4.8-1.5-5.8 0.8-5.2 4-6.3 12-5.1 4.3-9.3 0.5-9.7-2.8-9.6-1.2-8.6 5.1-14.7-0.6-14.9-7-24.4-19.9-2.5-3.6-2.3-6.2-2.2-2.5-1.5 0.6-14.2-3.4-2.1-1.1-7.2 2.1-4.4 4.1-1.9 2.4-2 2.7-5.8 5.3-6.4 3.3-8.4 2.8-8.6 1.7-7.2 0.3-5.6-1.2-13.9-6.8-5.2-0.5-1.6 3-0.3 4.2-0.9 3.1-20.2 25.4-7.6 5.3-10 0.3-10.3-4-9.4-6.2-7.3-6.4-13.9-16.4-5.5-4.3-5.1-1.8-4.3-0.1-3.7 0.4-3.5-0.5-7.9-6.8-0.8-0.7-3-2.6-3.6-2.1-4.6 0.2-1.3 2.5 0 4.1-2.9 23 3.2 34.4-9.7 33.9-1.8 45.9-0.2 5-2.4 9.9-4.3 9.8-5.5 9.2-5.9 8.1-9.2 9.3-8.4 5-9.1 1.7-11.1-0.3-10-3-5.1 0-3.3 4.2-1.5 9.4-2 4.2-4.3 2.6-10 1.3-8.5-1.3-18.6-6.2-4.8-1.6-3.2-0.2-13.3 4.9-3.3 2-3.6 1.4-4.6-0.2-9.8 1.3-8.4 5.3-8.5 2.9-10.4-5.9-16.2-3-8.7-1.6-8 0.9-19.3 8.4-11.1 1-3.9-8.5-0.5-5.6-4.2-9.3-1-5.2 1.5-4.7 6.2-7.6 1-5.1-2.8-5.5-9.7-9.2-0.1-0.4-1.5-6.1 0.6-5.2-0.4-2.1-5.4-4.1-8.2-4.7-9.5-2.2-18.9-2.4-10-3.1-27.2-11.8-7.2-1.1-26.1 1.7-10.1 10-7.8 44.8z"
-                fill="#c8dfc9" stroke="#6fa878" stroke-width="1.2"/>
-              <!-- Kigali glow -->
-              <circle cx="545" cy="475" r="55" fill="url(#kigali-glow)"/>
-              <!-- Kigali dot -->
-              <circle cx="545" cy="475" r="6" fill="#F9A825" stroke="#fff" stroke-width="2"/>
-              <text x="555" y="470" font-size="11" font-weight="700" fill="#333" font-family="system-ui,sans-serif">Kigali</text>
-            </g>
-
-            <!-- ══ CONNECTION LINES (donors → institutions) ══ -->
-            <!-- Axis A lines → BNR (blue, solid) -->
-            <!-- AFD → BNR -->
-            <line x1="130" y1="130" x2="422" y2="490" stroke="#1F4E79" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- GIZ → BNR -->
-            <line x1="860" y1="155" x2="422" y2="490" stroke="#1F4E79" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- World Bank → BNR -->
-            <line x1="330" y1="880" x2="422" y2="490" stroke="#1F4E79" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- IMF → BNR -->
-            <line x1="80" y1="600" x2="422" y2="490" stroke="#1F4E79" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-
-            <!-- Axis B lines → MINECOFIN (green, solid) -->
-            <!-- GIZ → MINECOFIN -->
-            <line x1="860" y1="155" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- KfW → MINECOFIN -->
-            <line x1="1010" y1="380" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- LuxDev → MINECOFIN -->
-            <line x1="980" y1="610" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- GGGI → MINECOFIN -->
-            <line x1="700" y1="875" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- World Bank → MINECOFIN -->
-            <line x1="330" y1="880" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- IMF → MINECOFIN -->
-            <line x1="80" y1="600" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- EU → MINECOFIN -->
-            <line x1="75" y1="350" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-            <!-- EIB → MINECOFIN (major funder of ecosystem) -->
-            <line x1="500" y1="60" x2="598" y2="490" stroke="#2E7D32" stroke-width="1.8" stroke-opacity="0.55" stroke-dasharray="6,3"/>
-
-            <!-- ══ INSTITUTION NODES (BNR + MINECOFIN with logos) ══ -->
-            <!-- BNR -->
-            <g filter="url(#shadow)" style="cursor:pointer" onclick="document.getElementById('map-panel').classList.add('open');document.getElementById('map-panel-title').textContent='BNR — National Bank of Rwanda';document.getElementById('map-panel-body').innerHTML=window._BNR_HTML;">
-              <circle cx="422" cy="490" r="42" fill="white" stroke="#1F4E79" stroke-width="2.5"/>
-              <image href="bnr-logo.jpg" x="384" y="452" width="76" height="76" clip-path="url(#clip-bnr)" preserveAspectRatio="xMidYMid slice"/>
-              <rect x="370" y="536" width="104" height="24" rx="5" fill="#1F4E79"/>
-              <text x="422" y="553" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="system-ui,sans-serif">BNR</text>
-            </g>
-
-            <!-- MINECOFIN -->
-            <g filter="url(#shadow)" style="cursor:pointer" onclick="document.getElementById('map-panel').classList.add('open');document.getElementById('map-panel-title').textContent='MINECOFIN';document.getElementById('map-panel-body').innerHTML=window._MEF_HTML;">
-              <circle cx="598" cy="490" r="42" fill="white" stroke="#2E7D32" stroke-width="2.5"/>
-              <image href="minecofin-logo.jpg" x="560" y="452" width="76" height="76" clip-path="url(#clip-mef)" preserveAspectRatio="xMidYMid slice"/>
-              <rect x="543" y="536" width="110" height="24" rx="5" fill="#2E7D32"/>
-              <text x="598" y="553" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="system-ui,sans-serif">MINECOFIN</text>
-            </g>
-
-            <!-- ══ DONOR NODES (spread evenly around the map) ══ -->
-            <!-- AFD — top-left -->
-            <g filter="url(#shadow)">
-              <rect x="60" y="100" width="140" height="58" rx="8" fill="white" stroke="#1F4E79" stroke-width="1.5"/>
-              <rect x="60" y="100" width="8" height="58" rx="4" fill="#1F4E79"/>
-              <text x="140" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#1F4E79" font-family="system-ui,sans-serif">AFD</text>
-              <text x="140" y="143" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis A · TA</text>
-            </g>
-
-            <!-- EIB — top-center -->
-            <g filter="url(#shadow)">
-              <rect x="430" y="20" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
-              <rect x="430" y="20" width="8" height="58" rx="4" fill="#2E7D32"/>
-              <text x="510" y="44" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">EIB</text>
-              <text x="510" y="63" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · Loan+TA</text>
-            </g>
-
-            <!-- GIZ — top-right -->
-            <g filter="url(#shadow)">
-              <rect x="790" y="100" width="140" height="58" rx="8" fill="white" stroke="#1F4E79" stroke-width="1.5"/>
-              <rect x="790" y="100" width="8" height="58" rx="4" fill="#1F4E79"/>
-              <text x="870" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#1F4E79" font-family="system-ui,sans-serif">GIZ</text>
-              <text x="870" y="143" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis A+B · TA</text>
-            </g>
-
-            <!-- KfW — right-upper -->
-            <g filter="url(#shadow)">
-              <rect x="940" y="320" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
-              <rect x="940" y="320" width="8" height="58" rx="4" fill="#2E7D32"/>
-              <text x="1020" y="344" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">KfW</text>
-              <text x="1020" y="363" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · Co-fin</text>
-            </g>
-
-            <!-- LuxDev — right-lower -->
-            <g filter="url(#shadow)">
-              <rect x="910" y="560" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
-              <rect x="910" y="560" width="8" height="58" rx="4" fill="#2E7D32"/>
-              <text x="990" y="584" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">LuxDev</text>
-              <text x="990" y="603" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · TA</text>
-            </g>
-
-            <!-- GGGI — bottom-right -->
-            <g filter="url(#shadow)">
-              <rect x="640" y="845" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
-              <rect x="640" y="845" width="8" height="58" rx="4" fill="#2E7D32"/>
-              <text x="720" y="869" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">GGGI</text>
-              <text x="720" y="888" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · TA</text>
-            </g>
-
-            <!-- World Bank — bottom-center -->
-            <g filter="url(#shadow)">
-              <rect x="255" y="845" width="150" height="58" rx="8" fill="white" stroke="#1F4E79" stroke-width="1.5"/>
-              <rect x="255" y="845" width="8" height="58" rx="4" fill="#1F4E79"/>
-              <text x="335" y="869" text-anchor="middle" font-size="13" font-weight="700" fill="#1F4E79" font-family="system-ui,sans-serif">World Bank</text>
-              <text x="335" y="888" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis A+B · TA</text>
-            </g>
-
-            <!-- IMF — left-lower -->
-            <g filter="url(#shadow)">
-              <rect x="10" y="560" width="140" height="58" rx="8" fill="white" stroke="#1F4E79" stroke-width="1.5"/>
-              <rect x="10" y="560" width="8" height="58" rx="4" fill="#1F4E79"/>
-              <text x="90" y="584" text-anchor="middle" font-size="15" font-weight="700" fill="#1F4E79" font-family="system-ui,sans-serif">IMF</text>
-              <text x="90" y="603" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis A+B · Surveill.</text>
-            </g>
-
-            <!-- EU — left-center -->
-            <g filter="url(#shadow)">
-              <rect x="10" y="310" width="140" height="58" rx="8" fill="white" stroke="#2E7D32" stroke-width="1.5"/>
-              <rect x="10" y="310" width="8" height="58" rx="4" fill="#2E7D32"/>
-              <text x="90" y="334" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32" font-family="system-ui,sans-serif">EU</text>
-              <text x="90" y="353" text-anchor="middle" font-size="10" fill="#555" font-family="system-ui,sans-serif">Axis B · Platform</text>
-            </g>
-
-            <!-- ══ LEGEND ══ -->
-            <rect x="10" y="10" width="220" height="72" rx="6" fill="white" fill-opacity="0.92" stroke="#E0E0E0" stroke-width="1"/>
-            <line x1="22" y1="30" x2="55" y2="30" stroke="#1F4E79" stroke-width="2" stroke-dasharray="5,2"/>
-            <text x="62" y="35" font-size="11" fill="#333" font-family="system-ui,sans-serif">→ BNR (Axis A)</text>
-            <line x1="22" y1="50" x2="55" y2="50" stroke="#2E7D32" stroke-width="2" stroke-dasharray="5,2"/>
-            <text x="62" y="55" font-size="11" fill="#333" font-family="system-ui,sans-serif">→ MINECOFIN (Axis B)</text>
-            <text x="22" y="74" font-size="10" fill="#777" font-family="system-ui,sans-serif">Click BNR / MINECOFIN for details</text>
-          </svg>
-
-          <!-- Side panel -->
-          <div id="map-panel" class="map-panel">
-            <button class="map-panel-close" id="map-panel-close">✕</button>
-            <h4 id="map-panel-title"></h4>
-            <div id="map-panel-body"></div>
+        <div class="rwanda-map-container">
+          <div class="rwanda-svg-wrap">
+            <svg id="rwanda-svg" width="420" height="370" viewBox="0 0 420 370"
+                 style="border:1px solid var(--border); border-radius:8px; background:#F7F9F7;">
+              <!-- Rwanda outline — stylised, no place labels -->
+              <path id="rwanda-outline"
+                d="M 75,45 C 130,28 200,25 260,35 C 310,43 360,62 390,100
+                   C 405,135 408,175 400,220 C 390,265 370,310 340,340
+                   C 305,370 260,382 215,378 C 165,374 120,358 88,328
+                   C 58,300 40,258 36,210 C 30,158 40,100 75,45 Z"
+                fill="#D8EDDA" stroke="#7CBF8A" stroke-width="1.5"/>
+              <!-- Nodes rendered by JS -->
+              <g id="map-nodes"></g>
+            </svg>
+            <div class="map-legend">
+              <div class="map-legend-item">
+                <div class="map-legend-dot" style="background:var(--bnr-500)"></div>
+                <span>Axis A — BNR (Green Central Banking)</span>
+              </div>
+              <div class="map-legend-item">
+                <div class="map-legend-dot" style="background:var(--mef-500)"></div>
+                <span>Axis B — MINECOFIN (Green Financial Products & Markets)</span>
+              </div>
+            </div>
+          </div>
+          <div id="node-panel">
+            <div class="node-panel-empty">Click a node on the map to see interventions.</div>
           </div>
         </div>
-      </div>
-
-      <div id="matrix-view">
-        <div style="overflow-x:auto">
-          <table class="donor-table" id="donor-table">
-            <thead><tr id="donor-thead"></tr></thead>
-            <tbody id="donor-tbody"></tbody>
-          </table>
+        <div class="dp-coord-section">
+          <div class="dp-coord-title">⬡ DP–DP Coordination flows</div>
+          <div class="dp-coord-list" id="dp-coord-list"></div>
         </div>
       </div>
 
-      <div class="footnote-box" id="other-donors-footnote"></div>
+      <!-- Matrix view -->
+      <div id="matrix-view" style="display:none">
+        <div id="matrix-table-wrap"></div>
+        <div class="dp-coord-section">
+          <div class="dp-coord-title">⬡ DP–DP Coordination flows</div>
+          <div class="dp-coord-list" id="dp-coord-list-matrix"></div>
+        </div>
+      </div>
+
     </div>
-  </div><!-- /tab-front -->
+  </div>
 
-  <!-- ╔══════════════════════════════════════════╗ -->
-  <!-- ║  TAB 2 — POLICY REFORM MATRIX            ║ -->
-  <!-- ╚══════════════════════════════════════════╝ -->
-  <div id="tab-matrix" class="page">
-    <div class="container">
-      <div class="matrix-banner">
-        "This is a 'menu of options' — a prioritized, modular Policy Reform Matrix designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework." — aligned with the inception report methodology (Section 5.3).
-      </div>
-
-      <!-- Aggregate dashboard -->
-      <div class="dashboard" id="dli-dashboard"></div>
-
-      <!-- View toggle -->
-      <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-bottom:1.5rem;">
-        <div class="view-toggle">
-          <button class="vt-btn active" id="btn-cards">Cards</button>
-          <button class="vt-btn" id="btn-compact">Compact table</button>
-        </div>
-      </div>
-
-      <div id="dli-cards-view"></div>
-      <div id="compact-table-view">
-        <div style="overflow-x:auto">
-          <table class="compact-table">
-            <thead>
-              <tr>
-                <th>DLI #</th>
-                <th>Description</th>
-                <th>Baseline / Rationale</th>
-                <th>FY 26/27</th>
-                <th>FY 27/28</th>
-                <th>FY 28/29</th>
-                <th>IMF RSF/FSAP link</th>
-                <th>Institution</th>
-                <th style="text-align:right">€M</th>
-              </tr>
-            </thead>
-            <tbody id="compact-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div><!-- /tab-matrix -->
-
-  <!-- ╔══════════════════════════════════════════╗ -->
-  <!-- ║  TAB 3 — RESOURCES                        ║ -->
-  <!-- ╚══════════════════════════════════════════╝ -->
-  <div id="tab-resources" class="page">
-    <div class="container">
+  <!-- ════ TAB: RESOURCES ════ -->
+  <div id="tab-resources" class="tab-panel">
+    <div class="page-container">
       <div class="section-hd">
-        <h2>Resources & Bibliography</h2>
-        <p>Curated reference documents grounding the mission's findings. Publicly available documents are linked to their official source. Internal documents are listed with metadata only — this site does not host any document.</p>
+        <h2>Resources — curated bibliography</h2>
+        <p>All documents grounding the mission's findings. Public documents link to official sources; internal documents are listed with metadata only.</p>
       </div>
-      <div class="res-controls">
-        <div>
-          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-soft);margin-bottom:0.4rem;">Filter by axis</div>
-          <div class="res-filter-group" id="axis-filters"></div>
+
+      <!-- Filter controls -->
+      <div class="resources-controls">
+        <div class="filter-group">
+          <div class="filter-label">Filter by axis</div>
+          <div class="filter-pills" id="axis-filter">
+            <button class="filter-pill active" data-axis="all">All</button>
+            <button class="filter-pill" data-axis="A">Axis A — Green CB</button>
+            <button class="filter-pill" data-axis="B">Axis B — Green Products & Markets</button>
+            <button class="filter-pill" data-axis="cross">Cross-cutting</button>
+          </div>
         </div>
-        <div>
-          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-soft);margin-bottom:0.4rem;">Filter by issuer</div>
-          <div class="res-filter-group" id="issuer-filters"></div>
+        <div class="filter-group">
+          <div class="filter-label">Filter by issuer</div>
+          <div class="filter-pills" id="issuer-filter">
+            <button class="filter-pill active" data-issuer="all">All</button>
+            <button class="filter-pill" data-issuer="rwandese">Rwandese authorities</button>
+            <button class="filter-pill" data-issuer="internal">Internal Doc.</button>
+            <button class="filter-pill" data-issuer="intl">International / DFI</button>
+          </div>
         </div>
-        <div>
-          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-soft);margin-bottom:0.4rem;">Search</div>
-          <input type="search" class="res-search" id="res-search" placeholder="Title or description…" />
+        <div class="filter-group">
+          <div class="filter-label">Search</div>
+          <input type="text" id="res-search" class="search-input" placeholder="Title or description…">
         </div>
       </div>
+
+      <!-- Sections -->
       <div id="resources-container"></div>
     </div>
-  </div><!-- /tab-resources -->
-</div><!-- /site -->
+  </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     INLINE DATA — single source of truth, no fetch() required
-     ═══════════════════════════════════════════════════════════ -->
+</div><!-- /app -->
+
 <script>
-window._AGENDA_DATA = {"online":[{"date":"April 17","label":"Expertise France kick-off","type":"internal","topic":"Internal mission preparation and scope alignment."},{"date":"April 22","label":"AFD kick-off","type":"internal","attendees":"Hannah Thombansen, Céline Boulay","topic":"Internal AFD briefing; scope, methodology, and key contacts confirmed."},{"date":"April 28","label":"LuxDev / AFD coordination","type":"dp-coordination","topic":"Cross-DP coordination call to align on active interventions and avoid duplication."}],"inperson":[{"date":"May 4","time":"Morning","institution":"BNR — Strategy Directorate (NZCB)","attendees":"Edward Gasore, Samuel Ruzindana","topic":"Net-Zero Central Banking roadmap; sustainability governance and reporting pipeline.","axis":["A"],"summary":"The Strategy Directorate confirmed the sustainability steering committee is active but lacks a consolidated roadmap. The July mid-term strategy review was identified as a natural hook for the NZCB diagnostic. An explicit request was made for central-bank-specific expertise rather than generic ESG advisory."},{"date":"May 5","time":"Morning","institution":"BNR — Financial Markets / Reserve Management","attendees":"Boniface Mutabazi","topic":"Reserves portfolio carbon footprinting and green bond integration into investment policy.","axis":["A"],"summary":"The Financial Markets directorate expressed cautious but genuine interest in portfolio carbon footprinting. Green sovereign bonds are already under consideration as a reserve asset class. WB-RAMP engagement on climate was described as exploratory. Board-level approval is the binding constraint for any investment policy change."},{"date":"May 5","time":"Afternoon","institution":"CMA","attendees":"Romeo (CEO), Eric Ngabonziza, Penina","topic":"Green certification mechanism, sustainability function, and capital markets pipeline.","axis":["B"],"summary":"CMA's new CEO made an explicit request for support on a dedicated sustainability function. The existing GSS+ guidelines lack market ownership. The team identified 92 potential issuers and flagged the absence of a local SPO/verification capacity as the critical gap. Active donor coordination required with LuxDev, GIZ, and AfDB."},{"date":"May 6","time":"Morning","institution":"Rwanda Stock Exchange","attendees":"Pierre Celestin Rwabukumba (CEO), Alice Iribagiza","topic":"Green Exchange Window uptake, ESG GPS™ platform, and regional data hub ambition.","axis":["B"],"summary":"The Green Exchange Window was launched on 27 April 2026 with the LuxStock partnership and ESG GPS™ platform. RSE sees Phase II as providing the 'issuer-side uptake' layer — onboarding Rwandan companies onto the reporting platform and extending to EAC cross-border data sharing."},{"date":"May 6","time":"Afternoon","institution":"RDB","attendees":"Ally (Senior Specialist Green Finance, Ireme Invest)","topic":"Ireme Invest pipeline, green project development, and MRV capacity.","axis":["B"],"summary":"Ireme Invest has a strong pipeline of green projects but faces MRV bottlenecks for KPI verification. The EIB credit line is active; the AFD TA on KPI assessment is providing direct support. Forestry KPIs were flagged as a priority for alignment with NDC 3.0."},{"date":"May 7","time":"Morning","institution":"Bank of Kigali","attendees":"Gaaga Isibo","topic":"Green funding strategy, SLB issuance pipeline, and capital markets readiness.","axis":["B"],"summary":"Bank of Kigali has progressed significantly on its green funding strategy with AFD and EIB support. A sustainability-linked bond issuance is in the pipeline; IFC and BII are lined up as anchor investors. The bank is seeking advisory support on SLB KPI calibration and investor roadshow preparation."},{"date":"May 7","time":"Afternoon","institution":"MINECOFIN — DG Debt","attendees":"Gerard, Nick, Tom","topic":"Sovereign SLF framework, forestry KPIs, MRV, and debt management strategy.","axis":["B"],"summary":"DG Debt confirmed the existing WB-supported SLF framework but noted the KPI set is narrow. Expanding to forestry cover/restoration was immediately flagged as aligned with NDC 3.0 and Vision 2050. The MRV system is described as the binding constraint; REMA and the Forestry Authority are the key implementing partners."},{"date":"May 8","time":"Morning","institution":"NISR","attendees":"David, Sandrine, Monique","topic":"Natural capital accounting, environmental statistics, and data infrastructure.","axis":["B"],"summary":"NISR is conducting a natural capital accounting exercise with World Bank support. Environmental data quality was flagged as a systemic cross-cutting constraint consistent with IMF Article IV observations. NISR expressed interest in contributing to the ESG data hub architecture."},{"date":"May 9","time":"Morning","institution":"BNR — Monetary Policy Department","attendees":"Joy (NGFS focal point), Placide","topic":"Climate channels in the macro framework, QPM climate extension, and NGFS engagement.","axis":["A"],"summary":"The Monetary Policy Department confirmed that climate variables (particularly weather patterns) already enter MPC discussions informally. The November 2025 MPC explicitly flagged a climate-negative scenario. The AFD ESTEEM mission in June 2026 is the natural coordination anchor for climate-augmented forecasting. NGFS co-chairmanship creates institutional expectation of published research deliverables."}]};
-
-window._DONORS_DATA = {"donors":["AFD","EIB","GIZ","KfW","LuxDev","GGGI","World Bank","IMF","EU"],"institutions":[{"id":"minecofin-debt","label":"MINECOFIN — DG Debt","axis":"B","kigali_pin":[0.45,0.42]},{"id":"minecofin-cfd","label":"MINECOFIN — CFD (Climate Fin.)","axis":"B","kigali_pin":[0.48,0.40]},{"id":"minecofin-mfad","label":"MINECOFIN — MFAD","axis":"B","kigali_pin":[0.51,0.42]},{"id":"bnr-strategy","label":"BNR — Strategy / NZCB","axis":"A","kigali_pin":[0.40,0.50]},{"id":"bnr-monpol","label":"BNR — Monetary Policy","axis":"A","kigali_pin":[0.43,0.52]},{"id":"bnr-fm","label":"BNR — Financial Markets / RM","axis":"A","kigali_pin":[0.46,0.50]},{"id":"bnr-supervision","label":"BNR — Supervision","axis":"A","kigali_pin":[0.43,0.48]},{"id":"cma","label":"CMA","axis":"B","kigali_pin":[0.55,0.50]},{"id":"rse","label":"Rwanda Stock Exchange","axis":"B","kigali_pin":[0.58,0.48]},{"id":"brd","label":"BRD / Ireme Invest","axis":"B","kigali_pin":[0.52,0.55]},{"id":"bok","label":"Bank of Kigali","axis":"B","kigali_pin":[0.50,0.58]},{"id":"nisr","label":"NISR","axis":"B","kigali_pin":[0.40,0.45]},{"id":"bdf-sacco","label":"BDF / SACCO ecosystem","axis":"B","kigali_pin":[0.55,0.55]}],"interventions":[{"institution":"bok","donor":"AFD","status":"active","type":"TA","label":"€1M TA for green funding development & potential capital markets tap"},{"institution":"brd","donor":"AFD","status":"active","type":"TA","label":"€1M TA — international consultant for KPI assessment & reporting (Ireme Invest)"},{"institution":"bnr-monpol","donor":"AFD","status":"planned","type":"TA","label":"ESTEEM mission (June 2026) — climate macro modelling (floods, landslides)"},{"institution":"brd","donor":"EIB","status":"active","type":"Loan+TA","label":"€20M green credit line + TA under Greening Financial Systems (GFS) programme"},{"institution":"bok","donor":"EIB","status":"active","type":"Loan","label":"€100M climate finance credit line (2024)"},{"institution":"cma","donor":"GIZ","status":"active","type":"TA","label":"Green taxonomy support (with UNDP)"},{"institution":"minecofin-cfd","donor":"GIZ","status":"active","type":"TA","label":"Green taxonomy support; IFRS S1/S2 bi-monthly coordination with AFD"},{"institution":"bnr-supervision","donor":"GIZ","status":"active","type":"TA","label":"IFRS S1/S2 supervisory implementation support"},{"institution":"minecofin-cfd","donor":"KfW","status":"active","type":"Co-fin","label":"Team Europe / Rwanda Climate Finance Partnership co-financing"},{"institution":"cma","donor":"LuxDev","status":"active","type":"TA","label":"Legal support; fund regulations; impact fund regulation"},{"institution":"rse","donor":"LuxDev","status":"active","type":"TA","label":"Green Exchange Window — strategic programme with Luxembourg Stock Exchange"},{"institution":"minecofin-cfd","donor":"GGGI","status":"planned","type":"TA","label":"2 embedded advisors to strengthen Climate Finance Unit (under recruitment)","tbc":true},{"institution":"cma","donor":"GGGI","status":"exploratory","type":"TA","label":"Support to be confirmed","tbc":true},{"institution":"rse","donor":"GGGI","status":"active","type":"TA","label":"Financial Services High Council support"},{"institution":"bnr-fm","donor":"World Bank","status":"exploratory","type":"TA","label":"WB-RAMP — green bonds in reserves investment strategy (discussions)"},{"institution":"brd","donor":"World Bank","status":"active","type":"Project","label":"Carbon credit standardised crediting framework — clean cooking pilot (~$19M)"},{"institution":"nisr","donor":"World Bank","status":"active","type":"TA","label":"Natural Capital Accounting exercise"},{"institution":"bdf-sacco","donor":"World Bank","status":"planned","type":"Project","label":"MSME Bridge Lending Window + macro parametric insurance backstop *(GSFF-funded)*"},{"institution":"minecofin-cfd","donor":"World Bank","status":"completed","type":"Report","label":"DRF Diagnostic Report + National DRF Strategy *(GSFF-funded, 2025)*"},{"institution":"bnr-monpol","donor":"IMF","status":"active","type":"TA","label":"QPM forecasting model (BIVA / Jan Vlcek, CzNB)"},{"institution":"minecofin-cfd","donor":"IMF","status":"active","type":"Surveill.","label":"Article IV 2025; RSF arrangement; FSAP signal (post-June 2026 ECF Board)"},{"institution":"minecofin-cfd","donor":"EU","status":"active","type":"Platform","label":"Team Europe — Rwanda Climate Finance Partnership coordination (€300M)"},{"institution":"brd","donor":"EU","status":"planned","type":"Guarantee","label":"EFSD+ guarantee backstopping EIB Ireme Invest credit line"},{"institution":"bok","donor":"EU","status":"planned","type":"Guarantee","label":"EFSD+ guarantee backstopping EIB BoK credit line"},{"institution":"nisr","donor":"EU","status":"active","type":"TA","label":"Environment data foundations (with REMA & Ministry of Environment)"}],"dp_coordination":[{"from":"AFD","to":"GIZ","topic":"IFRS S1/S2 bi-monthly coordination"},{"from":"EIB","to":"EU","topic":"EFSD+ guarantee structure (BRD and BoK lines)"},{"from":"AFD","to":"LuxDev","topic":"April 28 cross-DP coordination call"},{"from":"World Bank","to":"AFD","topic":"ESTEEM / climate macro modelling alignment"}],"footnote_other_donors":[{"donor":"AfDB","interventions":["CMA 5-year strategy support","MINECOFIN DG Debt — ESG loan (JPM + ADF) + sustainability framework"]},{"donor":"IFC","interventions":["Bank of Kigali — SLB anchor investor (with BII)","CMA × BNR 4-year capital markets partnership (since 2021)"]},{"donor":"BII","interventions":["Bank of Kigali — SLB anchor investor"]},{"donor":"BIS","interventions":["BNR — fund manager for reserves; sustainable finance conferences"]},{"donor":"Banque de France / IBFI","interventions":["BNR — training; NZCB peer exchange (potential AFD/EF entry point)"]}]};
-
-window._DLIS_DATA = [{"id":"A1.1","axis":"A","subaxis":"A1","subaxis_label":"Monetary Policy","title":"Climate macro framework integration","counterpart":["BNR — Monetary Policy Department"],"trigger":"BNR publishes a research paper and concept note on climate channels in the Rwandan macro framework, formally integrated into the MPC briefing cycle.","rationale":"The Monetary Policy Department confirmed that climate (whether patterns in particular) already enters MPC discussions informally; the November 2025 MPC explicitly flagged a climate-negative scenario that materialised. No formal published research yet except a paper on climate risk for the financial system. BNR Review identified as outlet.","scalable_ambition":{"baseline":"Concept note + one published paper.","advanced":"Climate scenarios formally embedded in the Quarterly Projection Model (QPM) documentation."},"ta":"Short-term specialised (NGFS methodology, peer central bank exchange) and medium-term support (macroeconomic modelling, co-authoring of the paper).","donor_complementarity":"No active TA on this exact angle; IMF QPM work covers core forecasting but not climate channels.","scoring":{"legal_mandate":4,"policy_alignment":4,"donor_complementarity":4,"institutional_ownership":3},"tier":"Immediate","year_tag":"Year 1","amount_eur_m":1.0,"fy_26_27":"Concept note drafted; team formed; first paper outline approved.","fy_27_28":"Paper co-authored and submitted to BNR Review; preliminary climate scenarios in MPC briefing.","fy_28_29":"Paper published; climate scenarios formally integrated into QPM documentation.","rsf_fsap_link":"Complements IMF RSF reform agenda on climate macro framework.","risks":["Limited internal modelling capacity","Dependence on meteorological agency data quality","Sequencing with A1.2 / A1.3"]},{"id":"A1.2","axis":"A","subaxis":"A1","subaxis_label":"Monetary Policy","title":"Climate-augmented forecasting horizon","counterpart":["BNR — Monetary Policy Department","BNR — Data Science Team"],"trigger":"BNR extends its forecasting horizon beyond 1 month for weather-sensitive variables by integrating satellite imagery and ESTEEM model outputs into the QPM.","rationale":"BNR model currently capped at 1M (meteorology agency limit); data science team already uses satellite imagery for agri estimates. AFD ESTEEM mission (June) on floods/landslides is the natural anchor. Bridges a tangible data gap.","scalable_ambition":{"baseline":"Pilot integration of satellite data into one model module.","advanced":"Full climate-augmented QPM with extended horizon, gazetted as MPC reference."},"ta":"Mixed — short-term modelling expertise + long-term capacity building for the analysis and research divisions.","donor_complementarity":"Builds directly on AFD ESTEEM; Green PFM II adds the 'absorption' layer (data infrastructure, training).","scoring":{"legal_mandate":4,"policy_alignment":4,"donor_complementarity":3,"institutional_ownership":3},"tier":"Immediate","year_tag":"Year 2-3","amount_eur_m":2.0,"fy_26_27":"Data architecture design; satellite data pipeline scoping.","fy_27_28":"Pilot integration in one model module; capacity building for research division.","fy_28_29":"Full climate-augmented QPM with extended horizon operational.","rsf_fsap_link":"Reinforces IMF RSF climate data infrastructure pillar.","risks":["Data availability and standardisation","Capacity bottlenecks","Coordination with NISR / meteorological agency"]},{"id":"A1.3","axis":"A","subaxis":"A1","subaxis_label":"Monetary Policy","title":"Greening of monetary policy instruments — feasibility study","counterpart":["BNR — Monetary Policy Department","BNR — Financial Stability"],"trigger":"BNR conducts a feasibility assessment of climate-sensitive monetary policy tools (reserve requirements differentiation, collateral framework adjustments) in the context of the ongoing ECF-driven monetary instrument reform.","rationale":"BNR managing live ECF reform (data-driven monetary policy framework, price-based auctions, exchange rate flexibility). NGFS adaptation co-chairmanship creates expectation of deliverables. 'Greening MP instruments' remains untouched but is the highest-profile axis internationally.","scalable_ambition":{"baseline":"Feasibility study + internal concept note.","advanced":"Adoption of one differentiated reserve requirement parameter or green collateral pilot."},"ta":"Long-term institutional — high political sensitivity, must be sequenced behind A1.1.","donor_complementarity":"No active TA; positions AFD against NGFS / Banque de France-aligned expertise.","scoring":{"legal_mandate":2,"policy_alignment":4,"donor_complementarity":4,"institutional_ownership":2},"tier":"Secondary","year_tag":"Year 2-3","amount_eur_m":2.0,"fy_26_27":"Scoping note; political feasibility consultations.","fy_27_28":"Feasibility study completed; internal concept note approved.","fy_28_29":"Pilot adoption (subject to political approval).","rsf_fsap_link":"Forward-looking — supports future RSF discussions on monetary policy greening.","risks":["High political sensitivity","Interaction with live ECF reform","Statutory amendments potentially required"]},{"id":"A2.1","axis":"A","subaxis":"A2","subaxis_label":"Net-Zero Central Banking","title":"Corporate sustainability diagnostic + NZCB roadmap","counterpart":["BNR — Strategy Directorate","BNR — Sustainability Steering Committee"],"trigger":"BNR completes a corporate-level sustainability diagnostic (inventory of fragmented initiatives across directorates) and publishes a coherent NZCB roadmap, validated by the Sustainability Steering Committee.","rationale":"Direct, explicit request from Department of Strategy. July mid-term strategy review is the natural timing hook. Sustainability Report on hold pending exactly this.","scalable_ambition":{"baseline":"Diagnostic + draft roadmap.","advanced":"Operationalised Steering Committee + published Sustainability Report."},"ta":"Mixed — short-term diagnostic + long-term governance support.","donor_complementarity":"BNR explicitly prefers (IBFI-style) central-bank-specific support over generic programmes (GARP).","scoring":{"legal_mandate":4,"policy_alignment":4,"donor_complementarity":4,"institutional_ownership":3},"tier":"Immediate","year_tag":"Year 1 Prerequisite","amount_eur_m":2.5,"fy_26_27":"Diagnostic completed; draft NZCB roadmap circulated.","fy_27_28":"Steering Committee operationalised; first Sustainability Report drafted.","fy_28_29":"Sustainability Report published; roadmap implementation in progress.","rsf_fsap_link":"Anchors BNR's role in IMF FSAP climate accountability dimension.","risks":["Internal coordination capacity","Timing alignment with July mid-term review","Continuity if leadership changes"]},{"id":"A2.2","axis":"A","subaxis":"A2","subaxis_label":"Net-Zero Central Banking","title":"Carbon footprint baseline of BNR reserves + Investment Policy integration","counterpart":["BNR — Financial Markets / Reserve Management","BNR — Board"],"trigger":"BNR completes a carbon footprint assessment of its foreign reserves portfolio and updates its Investment Policy to integrate climate criteria, approved at Board level.","rationale":"BNR Financial Markets directorate reacted positively to portfolio carbon footprinting. Discussions on green bonds as a reserve asset already underway; cautious but receptive — Board approval is the binding step.","scalable_ambition":{"baseline":"Scope 1 corporate footprint + reserves carbon assessment.","advanced":"Updated Investment Policy with climate criteria + pilot green sovereign allocation."},"ta":"Short-term specialised (carbon accounting, peer central bank exchange BdF / BIS).","donor_complementarity":"WB-RAMP covers reserves management technical advice but not climate dimension (to be confirmed). AFD can build on BdF / NZCB peer exchange — BNR's explicit ask.","scoring":{"legal_mandate":4,"policy_alignment":3,"donor_complementarity":3,"institutional_ownership":3},"tier":"Immediate","year_tag":"Year 1-2","amount_eur_m":1.5,"fy_26_27":"Methodology agreed; baseline carbon footprint completed.","fy_27_28":"Investment Policy revised draft submitted to Board.","fy_28_29":"Board approval; pilot green sovereign allocation implemented.","rsf_fsap_link":"Supports IMF FSAP climate dimension and NGFS portfolio management work.","risks":["Board approval uncertainty","Liquidity / safety / return trade-offs","Data availability for issuer-level carbon scoring"]},{"id":"B1.1","axis":"B","subaxis":"B1","subaxis_label":"Financial Instruments: Debt","title":"Expansion of the existing SLF KPI framework (forestry + MRV)","counterpart":["MINECOFIN — DG Debt","REMA","Rwanda Forestry Authority"],"trigger":"MINECOFIN expands the existing Sustainability-Linked Finance (SLF) framework — developed with World Bank support — to include additional measurable sustainability KPIs, with forestry cover / restoration as a flagship indicator, accompanied by a robust MRV framework operationalised through REMA and the Rwanda Forestry Authority.","rationale":"A SLF framework anchored on WB-aligned sustainability KPIs already exists, but the current KPI set is narrow. Expanding it to forestry directly anchors the framework into NDC 3.0 commitments (forest cover, restoration) and Vision 2050. MRV remains the binding constraint — climate data infrastructure flagged by IMF as a cross-cutting bottleneck (Article IV 2025). A credible KPI + MRV layer is the precondition for any future sovereign SLB issuance. AFD's Kenya experience on sovereign SLF instruments provides a direct peer reference for both KPI calibration and MRV design.","scalable_ambition":{"baseline":"Forestry KPI defined + draft MRV methodology produced.","advanced":"Forestry KPI formally integrated into the SLF framework + MRV operationalised with REMA / Rwanda Forestry Authority + first verification cycle completed."},"ta":"Short-term specialised (KPI calibration, MRV technical design, AFD Kenya peer exchange) + long-term institutional capacity (REMA / Forestry Authority MRV systems, MINECOFIN reporting).","donor_complementarity":"Builds on the existing WB SLF framework architecture without overlap. Forestry / MRV layer is a clear additionality. AFD's Kenya SLF experience provides differentiated value vs. WB.","scoring":{"legal_mandate":4,"policy_alignment":4,"donor_complementarity":4,"institutional_ownership":3},"tier":"Immediate","year_tag":"Year 1-2","amount_eur_m":1.5,"fy_26_27":"Forestry KPI definition completed; MRV methodology drafted.","fy_27_28":"KPI integrated into SLF framework; MRV pilot launched with REMA / RFA.","fy_28_29":"First verification cycle completed; KPI used in a sovereign SLB issuance (subject to market conditions).","rsf_fsap_link":"Directly anchors the IMF RSF climate data infrastructure pillar and supports any future sovereign sustainability bond issuance.","risks":["MRV capacity at REMA / RFA","Data quality for baseline measurement","Alignment with NDC 3.0 forestry targets"]},{"id":"B2.1","axis":"B","subaxis":"B2","subaxis_label":"Financial Instruments: Insurance","title":"Regulatory framework for SACCO climate insurance distribution","counterpart":["BNR — Insurance Supervision","MINECOFIN","SACCO ecosystem"],"trigger":"BNR (as insurance regulator) issues a regulatory framework authorising and standardising the distribution of climate insurance products through the SACCO network, aligned with the National Insurance Strategy and the National DRF Strategy.","rationale":"SACCOs are the natural last-mile channel for smallholder climate insurance; current regulatory architecture not yet adapted. Foundational to any product roll-out. Builds on WB-funded MSME Bridge Lending Window + macro parametric backstop (DRF Diagnostic / Strategy).","scalable_ambition":{"baseline":"Regulatory framework gazetted.","advanced":"Framework + supervisory guidance + first SACCO licensed for distribution."},"ta":"Long-term institutional (MINECOFIN / BNR insurance supervision capacity + SACCO operational readiness).","donor_complementarity":"GSFF + IDRIMA.","scoring":{"legal_mandate":4,"policy_alignment":4,"donor_complementarity":4,"institutional_ownership":3},"tier":"Immediate","year_tag":"Year 1 Prerequisite","amount_eur_m":2.0,"fy_26_27":"Regulatory framework drafted and circulated for consultation.","fy_27_28":"Framework gazetted; supervisory guidance issued.","fy_28_29":"First SACCO licensed for climate insurance distribution.","rsf_fsap_link":"Supports IMF FSAP climate accountability dimension; complements WB DRF strategy.","risks":["SACCO provincial consolidation timeline","Supervisory capacity at BNR insurance directorate","Alignment with National Insurance Strategy"]},{"id":"B2.2","axis":"B","subaxis":"B2","subaxis_label":"Financial Instruments: Insurance","title":"Insurer pool for climate insurance distribution","counterpart":["Rwandan insurers","BNR — Insurance Supervision"],"trigger":"Formal constitution of a Rwandan insurer pool (industry coordination structure) for the underwriting and distribution of climate insurance products to smallholders / SACCOs.","rationale":"Rwandan insurance market is small and individual underwriting capacity insufficient for systemic climate risk. Industry pool model could address this. Phase II adds market-structure dimension to the WB / GSFF financial mechanism.","scalable_ambition":{"baseline":"MOU signed by participating insurers.","advanced":"Pool operational with capital + reinsurance arrangements."},"ta":"Short-term specialised (legal structuring, reinsurance sourcing, peer pool exchange).","donor_complementarity":"No active donor on insurance pool architecture; complements WB / GSFF.","scoring":{"legal_mandate":3,"policy_alignment":4,"donor_complementarity":4,"institutional_ownership":2},"tier":"Immediate","year_tag":"Year 2-3","amount_eur_m":1.5,"fy_26_27":"Pool feasibility study; insurer consultations.","fy_27_28":"MOU signed by participating insurers; legal structure formed.","fy_28_29":"Pool operational with capital + reinsurance arrangements.","rsf_fsap_link":"Complements IMF FSAP climate accountability dimension.","risks":["Industry coordination","Reinsurance availability","Capital adequacy"]},{"id":"B2.3","axis":"B","subaxis":"B2","subaxis_label":"Financial Instruments: Insurance","title":"First climate insurance product in active distribution","counterpart":["BNR — Insurance Supervision","Insurer pool","SACCO network"],"trigger":"First parametric climate insurance product (drought / excess rain trigger) designed, priced, approved by BNR, and in active distribution to at least one province's SACCO network with measurable take-up.","rationale":"Concrete deliverable that turns the regulatory and pool work into market reality. Take-up KPI ensures the DLI is not just paperwork. Aligns with IDRIMA's first product target and the MSME BLW macro parametric backstop logic.","scalable_ambition":{"baseline":"Product approved + pilot launch in 1 province.","advanced":"Active distribution in 3+ provinces with [X] policyholders."},"ta":"Long-term — product design, actuarial support, claims process, awareness campaign.","donor_complementarity":"Builds on WB / GSFF macro backstop; AFD funds product-level work.","scoring":{"legal_mandate":3,"policy_alignment":4,"donor_complementarity":4,"institutional_ownership":2},"tier":"Secondary","year_tag":"Year 3","amount_eur_m":2.5,"fy_26_27":"Product design; pricing methodology validated.","fy_27_28":"BNR approval; pilot launch in one province.","fy_28_29":"Active distribution in 3+ provinces with measurable take-up.","rsf_fsap_link":"Operationalises the IMF FSAP and WB DRF Strategy climate insurance dimension.","risks":["Take-up rate uncertainty","Pricing affordability","Claims operational complexity","Sequencing behind B2.1 and B2.2"]},{"id":"B3.1","axis":"B","subaxis":"B3","subaxis_label":"Financial Markets","title":"CMA green products certification mechanism + sustainability function","counterpart":["CMA"],"trigger":"CMA establishes a dedicated sustainable finance function and operationalises a green / social / sustainable / sustainability-linked bond certification / verification mechanism aligned with the Rwanda green taxonomy.","rationale":"CMA's existing GSS+ guidelines are not 'owned' by market actors. Lean team (20 staff, new CEO) explicitly asked for advisory on dedicated sustainability function. Local SPO / verification capacity is missing — confirmed gap from BRD experience. 92 potential issuers identified by RSE.","scalable_ambition":{"baseline":"Function established + certification SOPs published.","advanced":"First 3 certifications delivered for issuers (including one local SPO panel)."},"ta":"Short-term + long-term institutional (capacity building, governance).","donor_complementarity":"LuxDev (legal, fund regs), GIZ (taxonomy), AfDB (5Y strategy), GGGI (TBC) all active — AFD must position narrowly. Certification mechanism + local SPO panel = clean gap.","scoring":{"legal_mandate":4,"policy_alignment":4,"donor_complementarity":3,"institutional_ownership":3},"tier":"Immediate","year_tag":"Year 1-2","amount_eur_m":2.0,"fy_26_27":"Sustainability function established at CMA; staffing completed.","fy_27_28":"Certification SOPs published; first local SPO panel operational.","fy_28_29":"First 3 certifications delivered for issuers.","rsf_fsap_link":"Supports IMF RSF capital markets development pillar.","risks":["Capacity at lean CMA team","Coordination with multiple active donors (LuxDev, GIZ, AfDB)","Market demand for certifications"]},{"id":"B3.2","axis":"B","subaxis":"B3","subaxis_label":"Financial Markets","title":"ESG Data Hub uptake — RSE Green Exchange Window","counterpart":["RSE","Rwandan issuers"],"trigger":"RSE Green Exchange Window operates as a regional ESG data hub with at least [X] Rwandan issuers reporting through ESG GPS™ platform; first cross-border listing or data sharing arrangement signed.","rationale":"RSE launched Green Exchange Window with LuxStock partnership + ESG GPS™ platform on 27 April 2026 — landmark moment. Phase II adds the 'uptake' dimension (issuer reporting, regional integration). ESG data is a binding gap (per IMF) → this could be a concrete remediation.","scalable_ambition":{"baseline":"X% of RSE issuers using ESG GPS™.","advanced":"Regional hub with cross-border data agreements."},"ta":"Short-term specialised (data architecture, issuer onboarding, regional MoUs).","donor_complementarity":"LuxDev already supports Green Exchange Window. AFD layers the issuer-side uptake and the regional dimension. EAC harmonised sustainability criteria angle.","scoring":{"legal_mandate":4,"policy_alignment":4,"donor_complementarity":3,"institutional_ownership":3},"tier":"Immediate","year_tag":"Year 1-2","amount_eur_m":1.5,"fy_26_27":"Issuer onboarding programme launched; data architecture in place.","fy_27_28":"X% of RSE issuers reporting through ESG GPS™.","fy_28_29":"First cross-border listing or data sharing arrangement signed.","rsf_fsap_link":"Directly addresses IMF RSF climate data infrastructure pillar.","risks":["Issuer reporting capacity","Data quality","Regional uptake by EAC peers"]}];
-
-window._RESOURCES_DATA = [{"section":1,"title":"Vision 2050","issuer":"Government of Rwanda","year":2020,"type":"Strategy","axes":["A","B"],"access":"public","url":"https://www.minecofin.gov.rw/","description":"National long-term development vision; anchor for all climate finance commitments."},{"section":1,"title":"NST2 (2024-2029) — Abridged Version","issuer":"Government of Rwanda","year":2024,"type":"Strategy","axes":["A","B"],"access":"public","url":"https://www.minecofin.gov.rw/","description":"Second National Strategy for Transformation; medium-term development plan with climate priorities."},{"section":1,"title":"NDC 3.0 — Turning Commitments into Action","issuer":"Government of Rwanda","year":2025,"type":"Strategy","axes":["A","B"],"access":"public","url":"https://unfccc.int/NDCREG","description":"Latest Nationally Determined Contribution; emissions and adaptation targets anchoring DLI rationales (incl. forestry KPI in B1.1)."},{"section":1,"title":"KIFC Sustainable Finance Roadmap","issuer":"KIFC / MINECOFIN","year":2022,"type":"Roadmap","axes":["A","B"],"access":"public","url":"","description":"Rwanda's national sustainable finance roadmap; sets the policy direction for Phase II."},{"section":1,"title":"Financial Sector Strategic Plan (FSSP 2024-2029)","issuer":"MINECOFIN","year":2024,"type":"Strategy","axes":["A","B"],"access":"public","url":"","description":"Financial sector development strategy embedding sustainability as a pillar."},{"section":1,"title":"Rwanda DRF Diagnostic Report (GSFF-funded)","issuer":"World Bank / GoR","year":2025,"type":"Diagnostic","axes":["B"],"access":"public","url":"","description":"Disaster Risk Finance diagnostic; foundation for B2 (insurance) DLI rationale."},{"section":1,"title":"Rwanda DRF National Strategy (GSFF-funded)","issuer":"Government of Rwanda","year":2025,"type":"Strategy","axes":["B"],"access":"public","url":"","description":"National strategy for disaster risk financing; complements DRF Diagnostic."},{"section":1,"title":"Rwanda Green Taxonomy (under RSF)","issuer":"MINECOFIN","year":2025,"type":"Regulation","axes":["A","B"],"access":"tbc","url":"","description":"Cabinet-approved green taxonomy; reference for B1 and B3 DLIs (UNDP + GIZ supported)."},{"section":2,"title":"Guidelines on Disclosure & Reporting of Sustainability-Related Financial Info","issuer":"BNR","year":2024,"type":"Regulation","axes":["A"],"access":"public","url":"","description":"BNR supervisory guidelines on sustainability disclosures; precondition for IFRS S1/S2 adoption."},{"section":2,"title":"Sustainable Finance Group Structure","issuer":"BNR","year":null,"type":"Governance","axes":["A"],"access":"internal","url":"","description":"Internal organisational structure of BNR's sustainable finance governance."},{"section":2,"title":"BNR Regulatory Framework — Guidelines Document","issuer":"BNR","year":null,"type":"Regulation","axes":["A"],"access":"internal","url":"","description":"Internal BNR regulatory framework document."},{"section":2,"title":"Capital Market Guidelines on Issuance of GSS+ Bonds","issuer":"CMA","year":null,"type":"Regulation","axes":["B"],"access":"public","url":"","description":"CMA's existing guidelines on green / social / sustainable / sustainability-linked bond issuance — basis for B3.1."},{"section":2,"title":"CMA Annual Report 2024-2025","issuer":"CMA","year":2025,"type":"Report","axes":["B"],"access":"public","url":"","description":"CMA's most recent annual report — institutional context for B3.1."},{"section":2,"title":"RSE ESG Reporting Guidelines (GRI-based)","issuer":"RSE","year":null,"type":"Guidelines","axes":["B"],"access":"tbc","url":"","description":"Rwanda Stock Exchange's own ESG reporting guidelines for listed companies."},{"section":2,"title":"RSE Green Exchange Window — ESG GPS™ launch release","issuer":"RSE","year":2026,"type":"Press","axes":["B"],"access":"public","url":"https://www.rse.rw/","description":"Launch of the Green Exchange Window with ESG GPS platform (27 April 2026); core to B3.2."},{"section":3,"title":"Green PFM II — Feasibility Study ToR (CRW1090)","issuer":"AFD / Expertise France","year":2026,"type":"ToR","axes":["A","B"],"access":"internal","url":"","description":"Mission terms of reference for the Phase II feasibility study."},{"section":3,"title":"Inception Report — Green PFM II Feasibility Q2 2026","issuer":"Risksphere / mission team","year":2026,"type":"Report","axes":["A","B"],"access":"internal","url":"","description":"Methodological inception report; basis for the matrix scoring framework."},{"section":3,"title":"Brief on the Activities under Green PFM I","issuer":"AFD","year":2025,"type":"Brief","axes":["A","B"],"access":"internal","url":"","description":"Reference document for Phase I results structure (R1–R7.2) and donor mapping."},{"section":3,"title":"Phase I Programme Matrix (DLIs)","issuer":"AFD","year":2023,"type":"Matrix","axes":["A","B"],"access":"internal","url":"","description":"Format reference for the Phase II policy reform matrix (table view)."},{"section":3,"title":"Tentative Agenda — SYF Components","issuer":"AFD / Expertise France","year":2026,"type":"Agenda","axes":["A","B"],"access":"internal","url":"","description":"Field mission schedule (April–May 2026)."},{"section":3,"title":"Draft Final Report — Green PFM II Feasibility","issuer":"Mission team","year":2026,"type":"Report","axes":["A","B"],"access":"internal","url":"","description":"Draft final report (due 15 May 2026)."},{"section":4,"title":"Rwanda Article IV Consultation 2025","issuer":"IMF","year":2025,"type":"Surveillance","axes":["A","B"],"access":"public","url":"https://www.imf.org/en/Countries/RWA","description":"Latest IMF Article IV; flags climate data infrastructure as binding cross-cutting constraint."},{"section":4,"title":"Rwanda ECF Approval Press Release (April 2026)","issuer":"IMF","year":2026,"type":"Press","axes":["A"],"access":"public","url":"https://www.imf.org/en/News","description":"IMF Executive Board approval of ECF arrangement; signals upcoming FSAP."},{"section":4,"title":"IMF Support to BNR QPM","issuer":"IMF","year":2020,"type":"TA report","axes":["A"],"access":"public","url":"","description":"Reference for BNR's existing QPM forecasting framework (relevant to A1.1 and A1.2)."},{"section":4,"title":"Rwanda Stocktake and Gap Analysis (Rutehenda Frank)","issuer":"Consultant","year":2026,"type":"Diagnostic","axes":["A","B"],"access":"internal","url":"","description":"January 2026 stocktake of the climate finance ecosystem in Rwanda — context for donor mapping."},{"section":4,"title":"Rwanda Climate Finance Partnership (Team Europe €300M)","issuer":"EC / EIB / AFD / IFC / CDP / KfW","year":2023,"type":"Partnership","axes":["A","B"],"access":"public","url":"https://international-partnerships.ec.europa.eu/news-and-events/news/rwanda-team-europe-and-partners-pioneer-additional-eu300-million-financing-crowd-private-investment-2023-06-22_en","description":"Team Europe coordination platform on climate finance in Rwanda; context for EU column."},{"section":4,"title":"EIB × Bank of Kigali Climate Finance Press Release","issuer":"EIB","year":2024,"type":"Press","axes":["B"],"access":"public","url":"https://www.eib.org/en/press/all/2024-109-eib-global-partners-with-bank-of-kigali-to-unlock-climate-finance","description":"EIB Global × BoK €100M climate finance partnership announcement."},{"section":4,"title":"EIB Greening Financial Systems — BRD / Ireme Invest","issuer":"EIB","year":2024,"type":"Programme","axes":["B"],"access":"public","url":"https://www.eib.org/en/products/advisory-services/gfs/index","description":"EIB GFS TA programme; BRD / Ireme Invest is a beneficiary."},{"section":5,"title":"NGFS Guide on Climate-Related Disclosure for Central Banks (2nd ed.)","issuer":"NGFS","year":null,"type":"Guidance","axes":["A"],"access":"public","url":"https://www.ngfs.net/","description":"Reference for A2.1 (NZCB roadmap) and A2.2 (reserves portfolio disclosures)."},{"section":5,"title":"NGFS — Sustainable and Responsible Investment in CB Portfolio Mgmt","issuer":"NGFS","year":null,"type":"Guidance","axes":["A"],"access":"public","url":"https://www.ngfs.net/","description":"Reference for A2.2 — reserves management climate integration."},{"section":5,"title":"NGFS — Climate-Related Risks in Sovereign Investments of Central Banks","issuer":"NGFS","year":null,"type":"Technical","axes":["A"],"access":"public","url":"https://www.ngfs.net/","description":"Reference for A2.2 — sovereign issuer climate scoring."},{"section":5,"title":"NGFS — Decarbonisation Strategies for Corporate Portfolios of CBs","issuer":"NGFS","year":null,"type":"Technical","axes":["A"],"access":"public","url":"https://www.ngfs.net/","description":"Reference for A2.2 — corporate exposures decarbonisation."},{"section":5,"title":"Eurosystem — Greening of Monetary Policy Operations Presentation","issuer":"ECB / Eurosystem","year":null,"type":"Presentation","axes":["A"],"access":"public","url":"https://www.ecb.europa.eu/","description":"Reference for A1.3 — peer example on greening monetary policy instruments."},{"section":5,"title":"ICMA Principles (GBP / SBP / SBG / SLBP)","issuer":"ICMA","year":2024,"type":"Principles","axes":["B"],"access":"public","url":"https://www.icmagroup.org/","description":"Voluntary process guidelines for green / social / sustainability / sustainability-linked bonds (reference for B1.1 and B3.1)."},{"section":5,"title":"IFRS S1 (General Sustainability) / S2 (Climate)","issuer":"ISSB / IFRS Foundation","year":2023,"type":"Standard","axes":["A","B"],"access":"public","url":"https://www.ifrs.org/","description":"Global sustainability disclosure standards; reference for BNR supervisory work and B3.2."},{"section":5,"title":"TCFD Final Recommendations","issuer":"TCFD","year":2017,"type":"Framework","axes":["A","B"],"access":"public","url":"https://www.fsb-tcfd.org/","description":"Foundational climate disclosure framework; precursor to IFRS S2."}];
-</script>
-
-<script defer>
-// ─── PASSWORD GATE ──────────────────────────────────────────────
-// SHA-256 via Geraint Luff's well-tested pure-JS implementation.
-// Works on file://, http://, and https:// — no crypto.subtle needed.
-function sha256(ascii) {
-  function rightRotate(value, amount) { return (value>>>amount) | (value<<(32-amount)); }
-  var maxWord = Math.pow(2,32), lengthProperty = 'length', i, j, result = '', words = [];
-  var asciiBitLength = ascii[lengthProperty]*8;
-  var hash = sha256._h = sha256._h || [], k = sha256._k = sha256._k || [], primeCounter = k[lengthProperty];
-  var isComposite = {};
-  for (var candidate = 2; primeCounter < 64; candidate++) {
-    if (!isComposite[candidate]) {
-      for (i = 0; i < 313; i += candidate) isComposite[i] = candidate;
-      hash[primeCounter] = (Math.pow(candidate, .5)*maxWord)|0;
-      k[primeCounter++] = (Math.pow(candidate, 1/3)*maxWord)|0;
+/* ═══════════════════════════════════════════════════════════════
+   SHA-256 — Geraint Luff's pure-JS implementation
+   Works on file:// (no crypto.subtle needed)
+   Source: https://geraintluff.github.io/sha256/
+═══════════════════════════════════════════════════════════════ */
+function sha256(ascii){
+  function rightRotate(v,a){return(v>>>a)|(v<<(32-a));}
+  var mx=Math.pow(2,32),lp='length',i,j,result='',words=[];
+  var asciiBitLength=ascii[lp]*8;
+  var hash=sha256.h=sha256.h||[];
+  var k=sha256.k=sha256.k||[];
+  var primeCounter=k[lp];
+  (function(){var candidate=2,isPrime;while(primeCounter<64){isPrime=1;for(i=2;i<=candidate/2;i++){if(candidate%i===0){isPrime=0;break;}}if(isPrime){if(hash[lp]<8){hash[hash[lp]]=((Math.pow(candidate,.5)%1)*mx)|0;}k[primeCounter++]=((Math.pow(candidate,1/3)%1)*mx)|0;}candidate++;}})();
+  ascii+= '\x80';
+  while(ascii[lp]%64-56)ascii+='\x00';
+  for(i=0;i<ascii[lp];i++){j=ascii.charCodeAt(i);if(j>>8)return;words[i>>2]|=j<<((3-i)%4*8);}
+  words[words[lp]]=((asciiBitLength/mx)|0);
+  words[words[lp]]=asciiBitLength;
+  for(j=0;j<words[lp];){
+    var w=words.slice(j,j+=16),oldHash=hash.slice(0);
+    hash=hash.slice(0,8);
+    for(i=0;i<64;i++){
+      var i2=i+j-16;
+      var w15=w[i-15],w2=w[i-2];
+      var a=hash[0],e=hash[4];
+      var temp1=hash[7]+(rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]+(w[i]=i<16?w[i]:(w[i-16]+(rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3))+w[i-7]+(rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0);
+      var temp2=(rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[((temp1+temp2)|0),a,hash[1],hash[2],((e+temp1)|0),hash[4],hash[5],hash[6]];
     }
+    hash=hash.map(function(x,i){return(x+oldHash[i])|0;});
   }
-  ascii += '\x80';
-  while (ascii[lengthProperty] % 64 - 56) ascii += '\x00';
-  for (i = 0; i < ascii[lengthProperty]; i++) {
-    j = ascii.charCodeAt(i);
-    if (j>>8) return;
-    words[i>>2] |= j << ((3 - i%4)*8);
-  }
-  words[words[lengthProperty]] = ((asciiBitLength/maxWord)|0);
-  words[words[lengthProperty]] = asciiBitLength;
-  for (j = 0; j < words[lengthProperty];) {
-    var w = words.slice(j, j += 16), oldHash = hash.slice(0, 8);
-    hash = hash.slice(0, 8);
-    for (i = 0; i < 64; i++) {
-      var w15 = w[i-15], w2 = w[i-2], a = hash[0], e = hash[4];
-      var temp1 = hash[7] + (rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25)) + ((e&hash[5])^((~e)&hash[6])) + k[i]
-        + (w[i] = (i < 16) ? w[i] : (w[i-16] + (rightRotate(w15,7)^rightRotate(w15,18)^(w15>>>3)) + w[i-7] + (rightRotate(w2,17)^rightRotate(w2,19)^(w2>>>10)))|0);
-      var temp2 = (rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22)) + ((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
-      hash = [(temp1+temp2)|0].concat(hash);
-      hash[4] = (hash[4]+temp1)|0;
-      hash.length = 8;
-    }
-    hash = hash.map(function(a,i){ return (a+oldHash[i])|0; });
-  }
-  for (i = 0; i < 8; i++) {
-    for (j = 3; j+1; j--) {
-      var b = (hash[i]>>(j*8))&255;
-      result += ((b < 16) ? '0' : '') + b.toString(16);
-    }
-  }
-  return result;
+  return hash.map(function(n){return ('00000000'+(n>>>0).toString(16)).slice(-8);}).join('');
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════════════════════ */
 const HASH = 'a0cd2d82e967368a854ed11bc3fc38bd4addae1e8b8dcb270ee694060e134e7d';
 
-function unlockSite() {
-  document.getElementById('gate-overlay').classList.add('hidden');
-  document.getElementById('site').classList.add('visible');
+/* ═══════════════════════════════════════════════════════════════
+   DLI ICONS — inline SVG strings (24×24, stroke-based)
+═══════════════════════════════════════════════════════════════ */
+const DLI_ICONS = {
+  'A1.1': `<polyline points="3,17 7,13 11,15 15,9 19,11 21,6" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="21" x2="21" y2="21" stroke-opacity="0.35"/><polyline points="7,21 7,13 11,21 11,15 15,21 15,9" stroke-width="1.8" stroke-opacity="0.4"/>`,
+  'A1.2': `<circle cx="17" cy="6" r="3" fill="currentColor" opacity="0.5"/><path d="M5,19 Q10,11 17,6" stroke-linecap="round"/><path d="M7,16 Q12,11 15,8 M3,20 Q9,9 17,3" stroke-dasharray="2,1.5" stroke-opacity="0.5"/>`,
+  'A1.3': `<circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/><path d="M12,3v3 M12,18v3 M3,12h3 M18,12h3 M5.6,5.6l2.1,2.1 M16.3,16.3l2.1,2.1 M5.6,18.4l2.1-2.1 M16.3,7.7l2.1-2.1"/>`,
+  'A2.1': `<path d="M3,21 L8,14 L13,17 L19,10 L21,12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="21" cy="10" r="2" fill="currentColor"/><path d="M11,13 Q13.5,9 16,11 Q14,14 11,13Z" fill="currentColor" opacity="0.55"/>`,
+  'A2.2': `<line x1="12" y1="3" x2="12" y2="8" stroke-linecap="round"/><path d="M6,8 h12"/><path d="M7,8 L5,14 Q7,17 9,14 L7,8Z M17,8 L15,14 Q17,17 19,14 L17,8Z"/><line x1="9" y1="21" x2="15" y2="21" stroke-linecap="round"/>`,
+  'B1.1': `<rect x="3" y="15" width="5" height="6" rx="0.5" opacity="0.45" fill="currentColor"/><rect x="10" y="9" width="5" height="12" rx="0.5" opacity="0.45" fill="currentColor"/><rect x="17" y="3" width="5" height="18" rx="0.5" opacity="0.45" fill="currentColor"/><polyline points="5.5,15 12.5,9 19.5,3" stroke-linecap="round"/>`,
+  'B1.2': `<circle cx="12" cy="4" r="3.5" fill="currentColor" opacity="0.4"/><path d="M4.5,17 Q8,8 12,4 Q16,8 19.5,17" fill="currentColor" opacity="0.15"/><path d="M4.5,17 Q8,8 12,4 Q16,8 19.5,17" fill="none"/><line x1="4" y1="20" x2="20" y2="20" stroke-opacity="0.4" stroke-linecap="round"/>`,
+  'B1.3': `<path d="M12,2 L9,8 H6 L9,13 H5 L12,22 L19,13 H15 L18,8 H15 Z"/><line x1="11" y1="13" x2="13" y2="13" stroke-width="0.5"/>`,
+  'B2.1': `<path d="M12,2 L4,6 v6 c0,5 4,9 8,11 4-2 8-6 8-11 V6 Z"/><line x1="9" y1="12" x2="15" y2="12" stroke="white" stroke-width="1.5"/><line x1="12" y1="9" x2="12" y2="15" stroke="white" stroke-width="1.5"/>`,
+  'B2.2': `<circle cx="12" cy="12" r="9"/><path d="M7,11 L10,9 L12,11 L14,9 L17,11"/><line x1="8" y1="11" x2="8" y2="15"/><line x1="16" y1="11" x2="16" y2="15"/>`,
+  'B2.3': `<path d="M3,13 Q3,5 12,5 Q21,5 21,13 H3Z"/><path d="M12,13 v7 Q11,21 9.5,21" stroke-linecap="round"/><path d="M7,17 l0.8,2 M12,16 l0.8,2 M17,17 l0.8,2" stroke-linecap="round"/>`,
+  'B3.1': `<path d="M12,2 L14,7 H20 L15,11 L17,17 L12,13 L7,17 L9,11 L4,7 H10 Z"/><polyline points="9.5,11 11.5,13 15,9.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+  'B3.2': `<circle cx="5" cy="12" r="2.5" fill="currentColor" opacity="0.5"/><circle cx="19" cy="7" r="2.5" fill="currentColor" opacity="0.5"/><circle cx="13" cy="18" r="2.5" fill="currentColor" opacity="0.5"/><path d="M7.5,11 L16.5,8 M6.5,14 L11.5,17 M14,17 L17.5,9" stroke-opacity="0.6"/>`
+};
+
+/* DLI type icons — 16×16 inline SVG */
+const TYPE_ICONS = {
+  'Process Reform':      `<circle cx="8" cy="8" r="3"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/><path d="M8,1.5v2.5 M8,10v2.5 M1.5,8h2.5 M10,8h2.5 M3.6,3.6l1.7,1.7 M10.7,10.7l1.7,1.7 M3.6,12.4l1.7-1.7 M10.7,5.3l1.7-1.7"/>`,
+  'Strategy & Framework':`<rect x="3" y="1.5" width="10" height="13" rx="1.5"/><line x1="6" y1="5.5" x2="11" y2="5.5"/><line x1="5" y1="8.5" x2="11" y2="8.5"/><line x1="5" y1="11" x2="9" y2="11"/>`,
+  'Market Activation':   `<polyline points="2,13 5.5,9 9,11 13,5 16,7"/><polyline points="12,5 16,5 16,9"/>`,
+  'Data Infrastructure': `<ellipse cx="8" cy="4.5" rx="5" ry="2"/><path d="M3,4.5v4c0,1.1 2.2,2 5,2s5-0.9,5-2v-4"/><path d="M3,8.5v4c0,1.1 2.2,2 5,2s5-0.9,5-2v-4"/>`
+};
+
+function typeSlug(t){
+  if(t==='Process Reform') return 'process-reform';
+  if(t==='Strategy & Framework') return 'strategy-fw';
+  if(t==='Market Activation') return 'market-act';
+  return 'data-infra';
 }
 
-function checkPassword() {
-  var val = document.getElementById('gate-input').value;
-  var h = sha256(val);
-  if (h === HASH) {
-    sessionStorage.setItem('gpfm_auth', '1');
-    unlockSite();
-    initApp();
-  } else {
-    document.getElementById('gate-error').style.display = 'block';
-    document.getElementById('gate-input').value = '';
-    document.getElementById('gate-input').focus();
-  }
+function statusIcon(s){
+  if(s==='active') return '●';
+  if(s==='completed') return '○';
+  if(s==='planned') return '◐';
+  return '▷';
 }
 
-window.addEventListener('DOMContentLoaded', function() {
-  if (sessionStorage.getItem('gpfm_auth') === '1') {
+function statusColor(s){
+  if(s==='active')    return 'var(--status-active)';
+  if(s==='planned')   return 'var(--status-planned)';
+  if(s==='completed') return 'var(--status-completed)';
+  return 'var(--status-exploratory)';
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ISSUER → BUCKET mapping
+═══════════════════════════════════════════════════════════════ */
+const RWANDESE_ISSUERS = new Set([
+  'Government of Rwanda','GoR','BNR','MINECOFIN','CMA','RSE','KIFC','RDB','NISR',
+  'REMA','Rwanda Forestry Authority','Rwanda Development Bank','BDF','BRD'
+]);
+const INTERNAL_ISSUERS = new Set([
+  'AFD','Expertise France','Mission team','Risksphere','AFD / Expertise France',
+  'Consultant'
+]);
+function issuerBucket(issuer){
+  if(!issuer) return 'intl';
+  const parts = issuer.split('/').map(s=>s.trim());
+  const allRw = parts.every(p=> RWANDESE_ISSUERS.has(p));
+  const allIn = parts.every(p=> INTERNAL_ISSUERS.has(p));
+  if(allRw) return 'rwandese';
+  // mixed Rw/Internal e.g. "AFD / Expertise France"
+  const hasInternal = parts.some(p=> INTERNAL_ISSUERS.has(p));
+  const hasRw = parts.some(p=> RWANDESE_ISSUERS.has(p));
+  if(hasInternal && !parts.some(p=>!INTERNAL_ISSUERS.has(p) && !RWANDESE_ISSUERS.has(p))) return 'internal';
+  if(hasInternal) return 'internal';
+  if(hasRw) return 'rwandese';
+  return 'intl';
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION NAMES
+═══════════════════════════════════════════════════════════════ */
+const SECTION_NAMES = {
+  1: 'Rwandan Strategic Framework',
+  2: 'Rwandan Regulatory & Institutional',
+  3: 'Phase I & Phase II Mission Documents',
+  4: 'Donor & IFI Reports',
+  5: 'International Standards & Best Practice'
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   PASSWORD GATE LOGIC
+═══════════════════════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', function(){
+  const gate = document.getElementById('gate');
+  const app  = document.getElementById('app');
+
+  function unlockSite(){
+    gate.style.display = 'none';
+    app.style.display  = 'block';
+  }
+
+  if(sessionStorage.getItem('gpfm_auth')==='1'){
     unlockSite();
     initApp();
-  } else {
-    document.getElementById('gate-btn').addEventListener('click', checkPassword);
-    document.getElementById('gate-input').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') checkPassword();
-    });
+    return;
   }
+
+  function checkPassword(){
+    const val = document.getElementById('gate-input').value;
+    const errEl = document.getElementById('gate-error');
+    if(!val){ errEl.textContent = 'Please enter the access code.'; return; }
+    const h = sha256(val);
+    if(h === HASH){
+      sessionStorage.setItem('gpfm_auth','1');
+      unlockSite();
+      initApp();
+    } else {
+      errEl.textContent = 'Incorrect code. Please try again.';
+      document.getElementById('gate-input').value = '';
+    }
+  }
+
+  document.getElementById('gate-btn').addEventListener('click', checkPassword);
+  document.getElementById('gate-input').addEventListener('keydown', function(e){
+    if(e.key==='Enter') checkPassword();
+  });
 });
 
-// ─── TAB ROUTING ────────────────────────────────────────────────
-const tabs = { front: '#tab-front', matrix: '#tab-matrix', resources: '#tab-resources' };
-function activateTab(id) {
-  document.querySelectorAll('.nav-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === id));
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + id)?.classList.add('active');
-  history.replaceState(null, '', '#' + id);
-}
-document.querySelectorAll('.nav-tab').forEach(b => b.addEventListener('click', () => activateTab(b.dataset.tab)));
-const initHash = location.hash.replace('#','') || 'front';
-if (tabs[initHash]) activateTab(initHash);
+/* ═══════════════════════════════════════════════════════════════
+   TAB ROUTING
+═══════════════════════════════════════════════════════════════ */
+const TAB_IDS = ['front','agenda','donors','resources'];
 
-// ─── UTILITIES ──────────────────────────────────────────────────
-const statusIcon = s => {
-  if (s==='active')      return '<i class="si si-active" title="Active">●</i>';
-  if (s==='completed')   return '<i class="si si-completed" title="Completed">○</i>';
-  if (s==='planned')     return '<i class="si si-planned" title="Planned">◐</i>';
-  if (s==='exploratory') return '<i class="si si-exploratory" title="Exploratory">▷</i>';
-  return '';
-};
-
-const el = (tag, cls, html) => {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (html) e.innerHTML = html;
-  return e;
-};
-
-// ─── MAIN APP INIT ───────────────────────────────────────────────
-// Data is embedded inline — no fetch() needed, works on any server or file://
-let donorsData, dlisData, resourcesData, agendaData;
-
-function initApp() {
-  donorsData  = window._DONORS_DATA;
-  dlisData    = window._DLIS_DATA;
-  resourcesData = window._RESOURCES_DATA;
-  agendaData  = window._AGENDA_DATA;
-  renderObjectiveCards();
-  renderAgenda();
-  renderDonorMap();
-  renderDonorMatrix();
-  renderOtherDonors();
-  renderDLIDashboard();
-  renderDLICards();
-  renderCompactTable();
-  renderResources();
+function activateTab(id){
+  if(!TAB_IDS.includes(id)) id = 'front';
+  document.querySelectorAll('.nav-tab').forEach(b=> b.classList.toggle('active', b.dataset.tab===id));
+  document.querySelectorAll('.tab-panel').forEach(p=> p.classList.toggle('active', p.id==='tab-'+id));
+  history.replaceState(null,'','#'+id);
 }
 
-// ─── TAB 1: OBJECTIVE CARDS (3 key findings) ─────────────────────
-function renderObjectiveCards() {
-  const cards = [
-    {
-      accent: '', icon: '🌱',
-      title: 'Strong appetite among Rwandan counterparts',
-      body: `Building on Green PFM I, the mission confirmed strong appetite across all institutions visited (BNR, MINECOFIN, CMA, RSE, BRD, BoK) to deepen the greening of the financial system. Sustainability is now formally embedded in BNR's 5-year strategic plan, the FSSP, and the National Sustainable Finance Roadmap.`
-    },
-    {
-      accent: 'amber', icon: '🌐',
-      title: 'Dense donor landscape — narrow positioning required',
-      body: `Development partners active in scope include EIB, GIZ, LuxDev, GGGI, World Bank, IMF, and EU. Phase II must complement — not duplicate — active initiatives: EIB Greening Financial Systems, GIZ taxonomy, IFC capital markets partnership, GSFF DRF support, WB-RAMP, and others.`
-    },
-    {
-      accent: '', icon: '⚖️',
-      title: 'Finite resources — modular menu of options',
-      body: `The Phase II envelope (~€40M budget support, ~€1.5M TA) is finite. The proposed Policy Reform Matrix is a modular "menu of options" — not yet an integrated DLI framework — designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations.`
-    }
-  ];
-  const grid = document.getElementById('objective-cards');
-  cards.forEach(c => {
-    const div = el('div', `card card-accent ${c.accent}`);
-    div.innerHTML = `
-      <div style="font-size:1.6rem;margin-bottom:0.5rem">${c.icon}</div>
+document.querySelectorAll('.nav-tab').forEach(btn=>{
+  btn.addEventListener('click',()=> activateTab(btn.dataset.tab));
+});
+window.addEventListener('hashchange',()=>{
+  const h = location.hash.replace('#','');
+  if(TAB_IDS.includes(h)) activateTab(h);
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   MAIN APP INIT — fetch all 4 JSON files
+═══════════════════════════════════════════════════════════════ */
+function initApp(){
+  const h = location.hash.replace('#','');
+  if(TAB_IDS.includes(h)) activateTab(h);
+
+  Promise.all([
+    fetch('data/agenda.json').then(r=>r.json()),
+    fetch('data/donors.json').then(r=>r.json()),
+    fetch('data/dlis.json').then(r=>r.json()),
+    fetch('data/resources.json').then(r=>r.json())
+  ]).then(([agenda, donors, dlis, resources])=>{
+    renderStats(agenda);
+    renderObjectiveCards();
+    renderDLIMatrix(dlis);
+    renderAgenda(agenda);
+    renderDonorMap(donors);
+    renderResources(resources);
+  }).catch(err=>{
+    console.error('Data load error:',err);
+    document.body.insertAdjacentHTML('afterbegin',
+      '<div style="background:#c62828;color:#fff;padding:1rem;font-family:monospace;font-size:0.85rem;">Error loading data files: '+err.message+'. If opening from file://, serve via a local server or deploy to Vercel.</div>'
+    );
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER: STATS BOX
+═══════════════════════════════════════════════════════════════ */
+function renderStats(agenda){
+  const online   = (agenda.online||[]).length;
+  const inperson = (agenda.in_person||[]).length;
+  const post     = (agenda.post_mission||[]).length;
+  // unique institutions from in_person
+  const insts = new Set((agenda.in_person||[]).map(m=>m.counterpart));
+  document.getElementById('stat-online').textContent    = online;
+  document.getElementById('stat-inperson').textContent  = inperson;
+  document.getElementById('stat-institutions').textContent = insts.size;
+  document.getElementById('stat-post').textContent      = post;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER: OBJECTIVE CARDS (order 1, 3, 4, 2)
+═══════════════════════════════════════════════════════════════ */
+const OBJ_CARDS = [
+  { title:'Strong appetite', accent:'accent-neutral',
+    text:'Building on Green PFM I, the mission confirmed a strong appetite among Rwandan counterparts (BNR, MINECOFIN, CMA, RSE, BRD, BoK) to deepen the greening of the financial system. Sustainability is now formally embedded in BNR\'s 5-year strategic plan, the FSSP, and the National Sustainable Finance Roadmap.' },
+  { title:'Scope of work', accent:'accent-split',
+    text:'The mission scope crystallised around two axes and two principal beneficiaries: <strong>Axis A — Green Central Banking</strong>, with the National Bank of Rwanda (BNR); and <strong>Axis B — Green Financial Products & Markets</strong>, with MINECOFIN (and CMA, RSE as line institutions).' },
+  { title:'Limited resources', accent:'accent-neutral',
+    text:'Phase II budget support envelope (~€40M) and accompanying TA (~€1.5M via Expertise France) are finite. The proposed matrix is therefore a <strong>modular "menu of options"</strong>, designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework.' },
+  { title:'Active donor landscape', accent:'accent-amber',
+    text:'The development partner landscape is dense. Development partners consulted include <strong>LuxDev, GGGI, World Bank, IMF, AFD</strong>. Phase II must position narrowly to complement — not duplicate — active initiatives (EIB Greening Financial Systems, GIZ taxonomy work, IFC capital markets partnership, GSFF DRF support, WB-RAMP, etc.).' }
+];
+
+function renderObjectiveCards(){
+  const grid = document.getElementById('obj-grid');
+  grid.innerHTML = OBJ_CARDS.map(c=>`
+    <div class="obj-card ${c.accent}">
       <h3>${c.title}</h3>
-      <p>${c.body}</p>`;
-    grid.appendChild(div);
+      <p>${c.text}</p>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER: DLI MATRIX
+═══════════════════════════════════════════════════════════════ */
+function renderDLIMatrix(dlis){
+  renderAggDashboard(dlis);
+  renderDLICards(dlis);
+  renderDLITable(dlis);
+
+  document.getElementById('btn-card-view').addEventListener('click',()=>{
+    document.getElementById('dli-card-view').style.display='';
+    document.getElementById('dli-table-view').style.display='none';
+    document.getElementById('btn-card-view').classList.add('active');
+    document.getElementById('btn-table-view').classList.remove('active');
+  });
+  document.getElementById('btn-table-view').addEventListener('click',()=>{
+    document.getElementById('dli-card-view').style.display='none';
+    document.getElementById('dli-table-view').style.display='';
+    document.getElementById('btn-table-view').classList.add('active');
+    document.getElementById('btn-card-view').classList.remove('active');
   });
 }
 
-// ─── TAB 1: AGENDA ───────────────────────────────────────────────
-function renderAgenda() {
-  // Online strip
-  const strip = document.getElementById('online-strip');
-  agendaData.online.forEach(m => {
-    const cls = m.type === 'dp-coordination' ? 'dp' : 'internal';
-    const d = el('div', `online-card ${cls}`);
-    d.innerHTML = `<div class="oc-date">${m.date}</div><div class="oc-label">${m.label}</div><div class="oc-topic">${m.topic}</div>`;
-    strip.appendChild(d);
-  });
+function renderAggDashboard(dlis){
+  const total = dlis.reduce((s,d)=>s+(d.amount_eur_m||0),0);
+  const axisA = dlis.filter(d=>d.axis==='A').reduce((s,d)=>s+(d.amount_eur_m||0),0);
+  const axisB = dlis.filter(d=>d.axis==='B').reduce((s,d)=>s+(d.amount_eur_m||0),0);
+  const immCount = dlis.filter(d=>d.tier==='Immediate').length;
+  const secCount = dlis.filter(d=>d.tier==='Secondary').length;
+  const pctA = Math.round(axisA/total*100);
+  const pctB = 100-pctA;
 
-  // Timeline
-  const tl = document.getElementById('timeline');
-  agendaData.inperson.forEach(m => {
-    const axes = m.axis || [];
-    const dotCls = axes.length > 1 ? 'axis-ab' : (axes[0]==='B' ? 'axis-b' : '');
-    const row = el('div', 'tl-item');
-    row.innerHTML = `
-      <div class="tl-date">${m.date}</div>
-      <div class="tl-dot ${dotCls}"></div>
-      <div class="tl-content" role="button" tabindex="0">
-        <div class="tl-header">
-          <div>
-            <div class="tl-institution">${m.institution}</div>
-            ${m.attendees ? `<div class="tl-attendees">${m.attendees}</div>` : ''}
-            <div class="tl-topic">${m.topic}</div>
-          </div>
-          <div class="tl-axis-tags">
-            ${axes.map(a => `<span class="tag tag-${a.toLowerCase()}">${a}</span>`).join('')}
-          </div>
-        </div>
-        ${m.summary ? `<div class="tl-expand">${m.summary}</div>` : ''}
-      </div>`;
-    const content = row.querySelector('.tl-content');
-    const expand = row.querySelector('.tl-expand');
-    if (expand) {
-      content.addEventListener('click', () => expand.classList.toggle('open'));
-      content.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') expand.classList.toggle('open'); });
-    }
-    tl.appendChild(row);
-  });
+  document.getElementById('agg-dashboard').innerHTML = `
+    <div class="agg-item">
+      <div class="agg-label">Total indicative envelope</div>
+      <div class="agg-val">€${total.toFixed(1)}M</div>
+    </div>
+    <div class="agg-bar">
+      <div class="agg-bar-label">Split by axis</div>
+      <div class="stacked-bar">
+        <div class="stacked-seg-a" style="width:${pctA}%"></div>
+        <div class="stacked-seg-b" style="width:${pctB}%"></div>
+      </div>
+      <div class="stacked-legend">
+        <span><span class="stacked-dot" style="background:var(--bnr-500)"></span>Axis A — €${axisA.toFixed(1)}M</span>
+        <span><span class="stacked-dot" style="background:var(--mef-500)"></span>Axis B — €${axisB.toFixed(1)}M</span>
+      </div>
+    </div>
+    <div class="agg-item">
+      <div class="agg-label">Priority tiers</div>
+      <div class="tier-pills">
+        <span class="tier-pill immediate">🟢 Immediate — ${immCount}</span>
+        <span class="tier-pill secondary">🟡 Secondary — ${secCount}</span>
+      </div>
+    </div>`;
 }
 
-// ─── TAB 1: DONOR MAP ───────────────────────────────────────────
-function renderDonorMap() {
-  const interventions = donorsData.interventions;
+function scoreDots(score, max){
+  let h='';
+  for(let i=1;i<=max;i++) h+=`<div class="score-dot${i<=score?' filled':''}"></div>`;
+  return h;
+}
 
-  // Build panel HTML for BNR (axis A institutions)
-  const bnrIds = ['bnr-strategy','bnr-monpol','bnr-fm','bnr-supervision'];
-  const mefIds = ['minecofin-debt','minecofin-cfd','minecofin-mfad'];
+function composite(s){
+  const vals = [s.legal_mandate,s.policy_alignment,s.donor_complementarity,s.institutional_ownership];
+  return (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
+}
 
-  function buildPanelHTML(instIds) {
-    const ivs = interventions.filter(iv => instIds.includes(iv.institution));
-    if (!ivs.length) return '<p style="color:var(--text-soft);font-size:0.82rem">No interventions mapped.</p>';
-    // Group by sub-institution
-    const groups = {};
-    ivs.forEach(iv => {
-      if (!groups[iv.institution]) groups[iv.institution] = [];
-      groups[iv.institution].push(iv);
+function renderDLICards(dlis){
+  // Group by axis then subaxis
+  const axes = ['A','B'];
+  const axisLabels = {A:'Axis A — Green Central Banking (BNR)', B:'Axis B — Green Financial Products & Markets (MINECOFIN / CMA)'};
+  const axisClass  = {A:'axis-a', B:'axis-b'};
+
+  let html = '';
+  axes.forEach(axis=>{
+    const axisDlis = dlis.filter(d=>d.axis===axis);
+    if(!axisDlis.length) return;
+    // Get unique subaxes in order
+    const subaxes = [...new Set(axisDlis.map(d=>d.subaxis))];
+    html += `<div class="axis-section">
+      <div class="axis-header ${axisClass[axis]}">${axisLabels[axis]}</div>`;
+    subaxes.forEach(sa=>{
+      const saDlis = axisDlis.filter(d=>d.subaxis===sa);
+      html += `<div class="subaxis-section">
+        <div class="subaxis-label">${sa} — ${saDlis[0].subaxis_label}</div>
+        <div class="dli-cards-row">`;
+      saDlis.forEach(d=> { html += buildDLICard(d); });
+      html += `</div></div>`;
     });
-    const instLabels = {};
-    donorsData.institutions.forEach(i => instLabels[i.id] = i.label);
-    return Object.entries(groups).map(([instId, list]) => `
-      <div style="margin-bottom:0.8rem">
-        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--text-soft);letter-spacing:0.06em;margin-bottom:0.4rem">${instLabels[instId]||instId}</div>
-        ${list.map(iv => `
-          <div class="panel-intervention">
-            ${statusIcon(iv.status)}
-            <div>
-              <span class="pi-donor">${iv.donor}</span>
-              <span style="font-size:0.78rem;color:var(--text-soft);margin-left:0.3rem">${iv.type}</span>
-              <div style="margin-top:0.15rem;font-size:0.8rem">${iv.label}${iv.tbc ? ' <span class="tag tag-tbc">TBC</span>' : ''}</div>
-            </div>
-          </div>`).join('')}
-      </div>`).join('');
+    html += `</div>`;
+  });
+  document.getElementById('dli-card-view').innerHTML = html;
+}
+
+function buildDLICard(d){
+  const comp = composite(d.scoring);
+  const tierClass = d.tier==='Immediate'?'immediate':'secondary';
+  const typeClass = typeSlug(d.type||'Process Reform');
+  const icon24 = DLI_ICONS[d.id]||'';
+  const icon16 = TYPE_ICONS[d.type||'Process Reform']||'';
+  const counterpartStr = Array.isArray(d.counterpart)?d.counterpart.join(', '):d.counterpart;
+  const s = d.scoring;
+
+  return `<div class="dli-card">
+    <div class="dli-card-head">
+      <div class="dli-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${icon24}</svg>
+      </div>
+      <div class="dli-head-meta">
+        <div class="dli-id-row">
+          <span class="dli-id">${d.id}</span>
+          <span class="dli-type-pill ${typeClass}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">${icon16}</svg>
+            ${d.type||''}
+          </span>
+          <span class="dli-tier-badge ${tierClass}">${d.tier==='Immediate'?'🟢 Immediate':'🟡 Secondary'}</span>
+        </div>
+        <div class="dli-title">${d.title}</div>
+        <div class="dli-counterpart">Counterpart: ${counterpartStr}</div>
+      </div>
+    </div>
+    <div class="dli-card-body">
+      <div class="dli-field-label">Trigger</div>
+      <div class="dli-trigger">${d.trigger}</div>
+
+      <div class="dli-field-label">Rationale</div>
+      <div class="dli-rationale">${d.rationale}</div>
+
+      <div class="dli-field-label">Scalable ambition</div>
+      <div class="dli-ambition">
+        <div class="dli-ambition-item"><div class="dli-ambition-tag">Baseline</div>${d.scalable_ambition.baseline}</div>
+        <div class="dli-ambition-item"><div class="dli-ambition-tag">Advanced</div>${d.scalable_ambition.advanced}</div>
+      </div>
+
+      <div class="dli-field-label">Technical assistance</div>
+      <div class="dli-ta">${d.ta}</div>
+
+      <div class="dli-field-label">Donor complementarity</div>
+      <div class="dli-donor-compl">${d.donor_complementarity}</div>
+
+      <div class="dli-field-label">Implementation timeline</div>
+      <div class="fy-grid">
+        <div class="fy-item"><div class="fy-tag">FY 26/27</div>${d.fy_26_27||'—'}</div>
+        <div class="fy-item"><div class="fy-tag">FY 27/28</div>${d.fy_27_28||'—'}</div>
+        <div class="fy-item"><div class="fy-tag">FY 28/29</div>${d.fy_28_29||'—'}</div>
+      </div>
+
+      <div class="dli-field-label">Feasibility scoring (1–4)</div>
+      <div class="dli-scoring">
+        <div class="score-item"><div class="score-label">Legal mandate</div><div class="score-dots">${scoreDots(s.legal_mandate,4)}</div></div>
+        <div class="score-item"><div class="score-label">Policy align.</div><div class="score-dots">${scoreDots(s.policy_alignment,4)}</div></div>
+        <div class="score-item"><div class="score-label">Donor compl.</div><div class="score-dots">${scoreDots(s.donor_complementarity,4)}</div></div>
+        <div class="score-item"><div class="score-label">Inst. ownership</div><div class="score-dots">${scoreDots(s.institutional_ownership,4)}</div></div>
+      </div>
+      <div class="dli-composite">Composite: ${comp} → Tier: <span class="dli-tier-badge ${tierClass}" style="font-size:0.75rem;">${d.tier}</span></div>
+
+      <div class="dli-foot">
+        <span class="dli-chip">⏱ ${d.year_tag||''}</span>
+        <span class="dli-chip">💶 €${d.amount_eur_m}M indicative</span>
+        ${d.rsf_fsap_link?`<span class="dli-chip" title="${d.rsf_fsap_link}">🔗 IMF RSF/FSAP link</span>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderDLITable(dlis){
+  let rows = dlis.map(d=>`
+    <tr>
+      <td class="mono">${d.id}</td>
+      <td>${d.title}</td>
+      <td style="font-size:0.75rem;">${d.rationale.substring(0,100)}…</td>
+      <td style="font-size:0.75rem;">${d.fy_26_27||'—'}</td>
+      <td style="font-size:0.75rem;">${d.fy_27_28||'—'}</td>
+      <td style="font-size:0.75rem;">${d.fy_28_29||'—'}</td>
+      <td style="font-size:0.75rem;">${d.rsf_fsap_link||'—'}</td>
+      <td>${Array.isArray(d.counterpart)?d.counterpart[0]:d.counterpart}</td>
+      <td class="mono">€${d.amount_eur_m}M</td>
+    </tr>`).join('');
+
+  document.getElementById('dli-table-view').innerHTML = `
+    <div class="dli-table-wrap">
+      <table class="dli-table">
+        <thead><tr>
+          <th>DLI #</th><th>Description</th><th>Baseline/Rationale</th>
+          <th>FY 26/27</th><th>FY 27/28</th><th>FY 28/29</th>
+          <th>Link to IMF RSF/FSAP</th><th>Implementing Institution</th><th>Indicative €</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER: MISSION AGENDA
+═══════════════════════════════════════════════════════════════ */
+function renderAgenda(agenda){
+  const sections = [
+    { key:'online',       title:'Online preparatory meetings (April 2026)' },
+    { key:'in_person',    title:'In-person Kigali mission (May 4–9, 2026)' },
+    { key:'post_mission', title:'Post-mission follow-up meetings' }
+  ];
+  let html = '';
+  sections.forEach(sec=>{
+    const meetings = agenda[sec.key]||[];
+    html += `<div class="agenda-section">
+      <div class="agenda-section-hd">
+        <h3>${sec.title}</h3>
+        <span class="count-badge">${meetings.length}</span>
+      </div>`;
+    if(meetings.length===0){
+      html += `<div class="agenda-empty-note">Post-mission meetings will be logged here.</div>`;
+    } else {
+      html += `<div class="meeting-grid">`;
+      meetings.forEach((m,i)=>{
+        html += buildMeetingCard(m, sec.key+'-'+i);
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+  document.getElementById('agenda-container').innerHTML = html;
+
+  // Attach expand/collapse
+  document.querySelectorAll('.meeting-card').forEach(card=>{
+    card.addEventListener('click', function(){
+      this.classList.toggle('expanded');
+    });
+  });
+}
+
+function buildMeetingCard(m, id){
+  const axis = m.axis;
+  let axisPill = '';
+  if(axis==='A') axisPill = `<span class="meeting-axis-pill a">Axis A</span>`;
+  else if(axis==='B') axisPill = `<span class="meeting-axis-pill b">Axis B</span>`;
+  else if(!axis || axis==='') axisPill = `<span class="meeting-axis-pill cross">Cross-DP</span>`;
+
+  const dateStr = m.date ? new Date(m.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
+  const timeStr = m.time_slot ? ' · '+m.time_slot : '';
+  const statusClass = m.status==='confirmed' ? 'confirmed' : 'planned';
+
+  let expandHtml = '';
+  if(m.note_summary){
+    expandHtml += `<div class="meeting-summary">${m.note_summary}</div>`;
+  }
+  if(m.note_pdf){
+    expandHtml += `<a class="meeting-dl-btn" href="data/notes/${m.note_pdf}" download>⬇ Download meeting notes (PDF)</a>`;
+  }
+  if(!m.note_summary && !m.note_pdf){
+    expandHtml = `<div class="meeting-summary" style="font-style:italic;">Meeting summary to be added.</div>`;
   }
 
-  // Pre-build panel HTML and store on window for the inline SVG onclick handlers
-  window._BNR_HTML = buildPanelHTML(bnrIds);
-  window._MEF_HTML = buildPanelHTML(mefIds);
+  return `<div class="meeting-card" id="mc-${id}">
+    <div class="meeting-card-head">
+      <div class="meeting-date-row">
+        <span class="meeting-date">${dateStr}${timeStr}</span>
+        ${axisPill}
+      </div>
+      <div class="meeting-counterpart">${m.counterpart}</div>
+      <div class="meeting-attendees">${m.attendees||''}</div>
+      <div class="meeting-topic">${m.topic||''}</div>
+    </div>
+    <div class="meeting-expand">
+      ${expandHtml}
+      <div class="meeting-expand-hint">Click card to collapse</div>
+    </div>
+  </div>`;
+}
 
-  // Close button
-  document.getElementById('map-panel-close').addEventListener('click', () => {
-    document.getElementById('map-panel').classList.remove('open');
+/* ═══════════════════════════════════════════════════════════════
+   RENDER: DONOR MAP
+═══════════════════════════════════════════════════════════════ */
+function renderDonorMap(donors){
+  const institutions = donors.institutions||[];
+  const interventions = donors.interventions||[];
+  const dpCoord = donors.dp_coordination||[];
+
+  const SVG_W = 420, SVG_H = 370;
+  const nodesG = document.getElementById('map-nodes');
+
+  institutions.forEach(inst=>{
+    const cx = Math.round(inst.map_pin[0]*SVG_W);
+    const cy = Math.round(inst.map_pin[1]*SVG_H);
+    const fill = inst.axis==='A' ? '#1F4E79' : '#2E7D32';
+    const txtColor = '#fff';
+
+    // Node group
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('class','map-node');
+    g.style.cursor = 'pointer';
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r', '22');
+    circle.setAttribute('fill', fill);
+    circle.setAttribute('stroke', '#fff');
+    circle.setAttribute('stroke-width', '2.5');
+    circle.setAttribute('opacity','0.92');
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+    text.setAttribute('x', cx);
+    text.setAttribute('y', cy+5);
+    text.setAttribute('text-anchor','middle');
+    text.setAttribute('fill', txtColor);
+    text.setAttribute('font-size','10');
+    text.setAttribute('font-weight','700');
+    text.setAttribute('font-family','Marianne,system-ui,sans-serif');
+    text.textContent = inst.label;
+
+    g.appendChild(circle);
+    g.appendChild(text);
+    nodesG.appendChild(g);
+
+    // Click handler
+    g.addEventListener('click',()=> showNodePanel(inst, interventions, donors.donors));
   });
+
+  // DP coordination arcs (amber, between institution nodes on map)
+  // Since donors aren't shown as nodes, show arcs between the two institution nodes
+  // for cross-institution coordination pairs
+  const dpPanel = document.getElementById('dp-coord-list');
+  const dpMatrix = document.getElementById('dp-coord-list-matrix');
+  let dpHtml = '';
+  dpCoord.forEach(dp=>{
+    dpHtml += `<div class="dp-coord-item">
+      <strong>${dp.from}</strong><span class="dp-coord-glyph"> ↔ </span><strong>${dp.to}</strong> — ${dp.topic}
+    </div>`;
+  });
+  dpPanel.innerHTML = dpHtml;
+  if(dpMatrix) dpMatrix.innerHTML = dpHtml;
 
   // View toggle
-  document.getElementById('btn-map').addEventListener('click', () => {
-    document.getElementById('map-view').style.display = 'block';
-    document.getElementById('matrix-view').style.display = 'none';
-    document.getElementById('btn-map').classList.add('active');
-    document.getElementById('btn-matrix').classList.remove('active');
+  document.getElementById('btn-map-view').addEventListener('click',()=>{
+    document.getElementById('map-view').style.display='';
+    document.getElementById('matrix-view').style.display='none';
+    document.getElementById('btn-map-view').classList.add('active');
+    document.getElementById('btn-matrix-view').classList.remove('active');
   });
-  document.getElementById('btn-matrix').addEventListener('click', () => {
-    document.getElementById('map-view').style.display = 'none';
-    document.getElementById('matrix-view').style.display = 'block';
-    document.getElementById('btn-map').classList.remove('active');
-    document.getElementById('btn-matrix').classList.add('active');
+  document.getElementById('btn-matrix-view').addEventListener('click',()=>{
+    document.getElementById('map-view').style.display='none';
+    document.getElementById('matrix-view').style.display='';
+    document.getElementById('btn-matrix-view').classList.add('active');
+    document.getElementById('btn-map-view').classList.remove('active');
+    renderDonorMatrix(donors);
   });
 }
 
-// ─── TAB 1: DONOR MATRIX ────────────────────────────────────────
-function renderDonorMatrix() {
-  const { donors, institutions, interventions, dp_coordination } = donorsData;
-  const thead = document.getElementById('donor-thead');
-  const tbody = document.getElementById('donor-tbody');
-
-  // Header row
-  let hRow = '<th class="inst-col">Institution</th>';
-  donors.forEach(d => { hRow += `<th>${d}</th>`; });
-  thead.innerHTML = hRow;
-
-  // Build lookup: institution × donor → interventions[]
-  const lookup = {};
-  interventions.forEach(iv => {
-    const key = `${iv.institution}__${iv.donor}`;
-    if (!lookup[key]) lookup[key] = [];
-    lookup[key].push(iv);
+function showNodePanel(inst, interventions, donorList){
+  const myIntervs = interventions.filter(i=>i.institution===inst.id);
+  // Group by donor
+  const byDonor = {};
+  donorList.forEach(d=>{ byDonor[d]=[]; });
+  myIntervs.forEach(i=>{
+    if(!byDonor[i.donor]) byDonor[i.donor]=[];
+    byDonor[i.donor].push(i);
   });
 
-  // DP coordination lookup
-  const coordPairs = new Set(dp_coordination.map(d => `${d.from}__${d.to}`));
-  const isCoordinated = (donor, targetDonor) =>
-    coordPairs.has(`${donor}__${targetDonor}`) || coordPairs.has(`${targetDonor}__${donor}`);
+  const axisColor = inst.axis==='A' ? 'var(--bnr-500)' : 'var(--mef-500)';
+  let html = `<div class="node-panel-title" style="color:${axisColor}">${inst.label}</div>
+    <div class="node-panel-sub">Axis ${inst.axis} · ${myIntervs.length} intervention${myIntervs.length!==1?'s':''} from ${Object.values(byDonor).filter(a=>a.length>0).length} donor${Object.values(byDonor).filter(a=>a.length>0).length!==1?'s':''}</div>`;
 
-  institutions.forEach(inst => {
-    const tr = document.createElement('tr');
-    let row = `<td class="inst-cell axis-${inst.axis.toLowerCase()}">${inst.label}</td>`;
-    donors.forEach(donor => {
-      const key = `${inst.id}__${donor}`;
-      const ivs = lookup[key] || [];
-      if (ivs.length === 0) {
-        row += '<td></td>';
-      } else {
-        const coordPartners = dp_coordination
-          .filter(d => d.from === donor || d.to === donor)
-          .map(d => d.from === donor ? d.to : d.from);
-        const coordStr = coordPartners.length > 0
-          ? ` <span class="coord-glyph" title="DP coordination with: ${coordPartners.join(', ')}">↔</span>`
-          : '';
-        const entries = ivs.map(iv => `
-          <div class="cell-entry">
-            ${statusIcon(iv.status)}
-            <span>${iv.label}${iv.tbc ? ' <span class="tag tag-tbc" style="font-size:0.65rem">TBC</span>' : ''}</span>
-          </div>`).join('');
-        row += `<td>${entries}${coordStr}</td>`;
-      }
+  donorList.forEach(donor=>{
+    const items = byDonor[donor]||[];
+    if(!items.length) return;
+    html += `<div class="intervention-group">
+      <div class="intervention-donor-label">${donor}</div>`;
+    items.forEach(iv=>{
+      html += `<div class="intervention-entry">
+        <span class="i-status" style="color:${statusColor(iv.status)}">${statusIcon(iv.status)}</span>
+        <span class="i-type">${iv.type}</span>
+        ${iv.tbc?'<span class="i-tbc">⚑ TBC</span>':''}
+        <span>${iv.label}</span>
+      </div>`;
     });
-    tr.innerHTML = row;
-    tbody.appendChild(tr);
-  });
-}
-
-// ─── TAB 1: OTHER DONORS FOOTNOTE ───────────────────────────────
-function renderOtherDonors() {
-  const box = document.getElementById('other-donors-footnote');
-  const others = donorsData.footnote_other_donors;
-  let html = '<strong>Other active donors (not in matrix columns):</strong> ';
-  html += others.map(o => `<strong>${o.donor}</strong>: ${o.interventions.join('; ')}`).join(' · ');
-  box.innerHTML = html;
-}
-
-// ─── TAB 2: DLI DASHBOARD ────────────────────────────────────────
-function renderDLIDashboard() {
-  const dlis = dlisData;
-  const totalM = dlis.reduce((s,d) => s + d.amount_eur_m, 0);
-  const axisA = dlis.filter(d=>d.axis==='A').reduce((s,d)=>s+d.amount_eur_m,0);
-  const axisB = dlis.filter(d=>d.axis==='B').reduce((s,d)=>s+d.amount_eur_m,0);
-  const immediate = dlis.filter(d=>d.tier==='Immediate').length;
-  const secondary = dlis.filter(d=>d.tier==='Secondary').length;
-
-  const fy1 = dlis.filter(d=>d.fy_26_27).length;
-  const fy2 = dlis.filter(d=>d.fy_27_28).length;
-  const fy3 = dlis.filter(d=>d.fy_28_29).length;
-  const maxFy = Math.max(fy1,fy2,fy3);
-
-  const pctA = Math.round(axisA/totalM*100);
-  const pctB = 100 - pctA;
-
-  const dash = document.getElementById('dli-dashboard');
-  dash.innerHTML = `
-    <div class="dash-card">
-      <div class="dc-label">Total indicative envelope</div>
-      <div class="dc-value">€${totalM.toFixed(1)}M</div>
-      <div class="dc-sub">${dlis.length} DLIs across 5 sub-axes</div>
-      <div class="stacked-bar" style="margin-top:0.7rem">
-        <div class="sb-a" style="width:${pctA}%" title="Axis A — €${axisA}M"></div>
-        <div class="sb-b" style="width:${pctB}%" title="Axis B — €${axisB}M"></div>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-soft);margin-top:0.2rem">
-        <span>Axis A €${axisA}M</span><span>Axis B €${axisB}M</span>
-      </div>
-    </div>
-    <div class="dash-card">
-      <div class="dc-label">Priority tiers</div>
-      <div style="display:flex;gap:0.5rem;margin-top:0.4rem;flex-wrap:wrap">
-        <span class="tier-badge tier-immediate">Immediate: ${immediate}</span>
-        <span class="tier-badge tier-secondary">Secondary: ${secondary}</span>
-      </div>
-      <div class="dc-sub" style="margin-top:0.5rem">Composite score ≥ 3.0 → Immediate</div>
-    </div>
-    <div class="dash-card">
-      <div class="dc-label">Year-by-year trajectory</div>
-      <div class="mini-chart" style="margin-top:0.8rem">
-        <div class="mc-bar" style="height:${Math.round(fy1/maxFy*100)}%"><span>FY 26/27</span></div>
-        <div class="mc-bar" style="height:${Math.round(fy2/maxFy*100)}%"><span>FY 27/28</span></div>
-        <div class="mc-bar" style="height:${Math.round(fy3/maxFy*100)}%"><span>FY 28/29</span></div>
-      </div>
-      <div style="height:1.2rem"></div>
-    </div>
-    <div class="dash-card">
-      <div class="dc-label">Budget support</div>
-      <div class="dc-value" style="font-size:1.1rem;color:var(--mef-500)">~€40M</div>
-      <div class="dc-sub">DLI envelope + TA</div>
-      <div class="dc-value" style="font-size:0.9rem;color:var(--bnr-500);margin-top:0.3rem">~€1.5M</div>
-      <div class="dc-sub">TA (Expertise France)</div>
-    </div>`;
-}
-
-// ─── TAB 2: DLI CARDS ────────────────────────────────────────────
-const SUBAXIS_ORDER = ['A1','A2','B1','B2','B3'];
-const AXIS_LABELS = {
-  A: 'Axis A — Green Central Banking (BNR)',
-  B: 'Axis B — Green Financial Products &amp; Markets (MINECOFIN/CMA)'
-};
-
-function renderDots(val, axis) {
-  return Array.from({length:4}).map((_,i) =>
-    `<div class="dot${i < val ? ' filled' : ''}"></div>`
-  ).join('');
-}
-
-function renderDLICards() {
-  const container = document.getElementById('dli-cards-view');
-  const bySubaxis = {};
-  dlisData.forEach(d => {
-    if (!bySubaxis[d.subaxis]) bySubaxis[d.subaxis] = [];
-    bySubaxis[d.subaxis].push(d);
+    html += `</div>`;
   });
 
-  let currentAxis = null;
-  SUBAXIS_ORDER.forEach(sa => {
-    const dlis = bySubaxis[sa] || [];
-    if (!dlis.length) return;
-    const axis = sa[0];
+  document.getElementById('node-panel').innerHTML = html;
+}
 
-    if (axis !== currentAxis) {
-      currentAxis = axis;
-      const ah = el('div', `axis-header axis-${axis.toLowerCase()}`);
-      ah.innerHTML = `
-        <span class="tag tag-${axis.toLowerCase()}">${axis}</span>
-        <h2>${AXIS_LABELS[axis]}</h2>`;
-      container.appendChild(ah);
-    }
+function renderDonorMatrix(donors){
+  const donorList = donors.donors||[];
+  const institutions = donors.institutions||[];
+  const interventions = donors.interventions||[];
 
-    const saLabel = dlis[0].subaxis_label;
-    const sh = el('div', `subaxis-header sa-${sa}`);
-    sh.textContent = `${sa} — ${saLabel} (${dlis.length} DLI${dlis.length>1?'s':''})`;
-    container.appendChild(sh);
+  let html = `<table class="donor-matrix-table">
+    <thead><tr>
+      <th style="text-align:left;min-width:100px;">Institution</th>`;
+  donorList.forEach(d=> { html += `<th>${d}</th>`; });
+  html += `</tr></thead><tbody>`;
 
-    dlis.forEach(dli => {
-      const isA = dli.axis === 'A';
-      const card = el('div', `dli-card axis-${dli.axis.toLowerCase()}`);
-      const s = dli.scoring;
-      const composite = ((s.legal_mandate + s.policy_alignment + s.donor_complementarity + s.institutional_ownership) / 4).toFixed(1);
-      const tierCls = dli.tier === 'Immediate' ? 'tier-immediate' : 'tier-secondary';
-      const tierDot = dli.tier === 'Immediate' ? '🟢' : '🟡';
-
-      card.innerHTML = `
-        <div class="dli-header">
-          <div style="display:flex;align-items:flex-start;gap:0.7rem;flex:1;flex-wrap:wrap">
-            <span class="dli-id${isA ? '' : ' axis-b'}">${dli.id}</span>
-            <div>
-              <p class="dli-title">${dli.title}</p>
-              <p class="dli-counterpart">${dli.counterpart.join(' · ')}</p>
-            </div>
-          </div>
-          <div class="dli-header-meta">
-            <span class="tag ${tierCls}">${tierDot} ${dli.tier}</span>
-            <span class="tag tag-type">${dli.year_tag}</span>
-            <span class="tag tag-type" style="font-weight:700">€${dli.amount_eur_m}M</span>
-          </div>
-        </div>
-        <div class="trigger-box">${dli.trigger}</div>
-        <div class="dli-divider"></div>
-        <div class="dli-body">
-          <div class="dli-field">
-            <div class="dli-field-label">Rationale</div>
-            <div class="dli-field-value">${dli.rationale}</div>
-          </div>
-          <div class="dli-field">
-            <div class="dli-field-label">Scalable ambition</div>
-            <div class="dli-field-value">
-              <strong>Baseline:</strong> ${dli.scalable_ambition.baseline}<br/>
-              <strong>Advanced:</strong> ${dli.scalable_ambition.advanced}
-            </div>
-          </div>
-          <div class="dli-field">
-            <div class="dli-field-label">Technical assistance</div>
-            <div class="dli-field-value">${dli.ta}</div>
-          </div>
-          <div class="dli-field">
-            <div class="dli-field-label">Donor complementarity</div>
-            <div class="dli-field-value">${dli.donor_complementarity}</div>
-          </div>
-        </div>
-        <div class="dli-divider"></div>
-        <div style="padding:0 1.2rem 1rem">
-          <div class="dli-field-label" style="margin-bottom:0.6rem">Feasibility scoring (1–4)</div>
-          <div class="score-grid">
-            <div class="score-item">
-              <div class="score-dots">${renderDots(s.legal_mandate, dli.axis)}</div>
-              <div class="score-metric">Legal Mandate<br/>${s.legal_mandate}/4</div>
-            </div>
-            <div class="score-item">
-              <div class="score-dots">${renderDots(s.policy_alignment, dli.axis)}</div>
-              <div class="score-metric">Policy Align.<br/>${s.policy_alignment}/4</div>
-            </div>
-            <div class="score-item">
-              <div class="score-dots">${renderDots(s.donor_complementarity, dli.axis)}</div>
-              <div class="score-metric">Donor Compl.<br/>${s.donor_complementarity}/4</div>
-            </div>
-            <div class="score-item">
-              <div class="score-dots">${renderDots(s.institutional_ownership, dli.axis)}</div>
-              <div class="score-metric">Inst. Ownership<br/>${s.institutional_ownership}/4</div>
-            </div>
-          </div>
-          <div class="composite-row">
-            <span style="color:var(--text-soft);font-size:0.82rem">Composite: <strong>${composite}</strong></span>
-            <span class="tier-badge ${tierCls}">${tierDot} ${dli.tier} Actionable Priority</span>
-          </div>
-        </div>
-        <div class="dli-divider"></div>
-        <div style="padding:0 1.2rem 1rem">
-          <div class="dli-field-label" style="margin-bottom:0.5rem">Year-by-year trajectory</div>
-          <div class="fy-cols">
-            <div class="fy-col"><div class="fy-yr">FY 26/27</div><div class="fy-text">${dli.fy_26_27}</div></div>
-            <div class="fy-col"><div class="fy-yr">FY 27/28</div><div class="fy-text">${dli.fy_27_28}</div></div>
-            <div class="fy-col"><div class="fy-yr">FY 28/29</div><div class="fy-text">${dli.fy_28_29}</div></div>
-          </div>
-        </div>
-        <div class="dli-divider"></div>
-        <div style="padding:0 1.2rem 1rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start">
-          <div class="dli-field" style="flex:1;min-width:200px">
-            <div class="dli-field-label">IMF RSF / FSAP link</div>
-            <div class="dli-field-value">${dli.rsf_fsap_link}</div>
-          </div>
-          <div class="dli-field" style="flex:1;min-width:200px">
-            <div class="dli-field-label">Risks</div>
-            <ul class="risks-list">${dli.risks.map(r=>`<li>${r}</li>`).join('')}</ul>
-          </div>
+  institutions.forEach(inst=>{
+    const instClass = inst.axis==='A'?'bnr':'mef';
+    html += `<tr><td class="inst-cell ${instClass}">${inst.label}<br><span style="font-size:0.7rem;font-weight:400;color:var(--text-soft)">Axis ${inst.axis}</span></td>`;
+    donorList.forEach(donor=>{
+      const items = interventions.filter(i=>i.institution===inst.id && i.donor===donor);
+      if(!items.length){ html += `<td></td>`; return; }
+      html += `<td>`;
+      items.forEach(iv=>{
+        html += `<div class="matrix-entry">
+          <span style="color:${statusColor(iv.status)}">${statusIcon(iv.status)}</span>
+          ${iv.tbc?'<span style="color:var(--status-tbc);font-size:0.68rem;font-weight:700;"> ⚑</span>':''}
+          ${iv.label}
         </div>`;
-      container.appendChild(card);
+      });
+      html += `</td>`;
     });
+    html += `</tr>`;
   });
-
-  // View toggle
-  document.getElementById('btn-cards').addEventListener('click', () => {
-    document.getElementById('dli-cards-view').style.display = 'block';
-    document.getElementById('compact-table-view').style.display = 'none';
-    document.getElementById('btn-cards').classList.add('active');
-    document.getElementById('btn-compact').classList.remove('active');
-  });
-  document.getElementById('btn-compact').addEventListener('click', () => {
-    document.getElementById('dli-cards-view').style.display = 'none';
-    document.getElementById('compact-table-view').style.display = 'block';
-    document.getElementById('btn-cards').classList.remove('active');
-    document.getElementById('btn-compact').classList.add('active');
-  });
+  html += `</tbody></table>`;
+  document.getElementById('matrix-table-wrap').innerHTML = html;
 }
 
-// ─── TAB 2: COMPACT TABLE ────────────────────────────────────────
-function renderCompactTable() {
-  const tbody = document.getElementById('compact-tbody');
-  dlisData.forEach(d => {
-    const s = d.scoring;
-    const composite = ((s.legal_mandate + s.policy_alignment + s.donor_complementarity + s.institutional_ownership)/4).toFixed(1);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="dli-num">${d.id}</td>
-      <td><strong>${d.title}</strong><br/><span style="color:var(--text-soft);font-size:0.75rem">${d.counterpart.join(', ')}</span></td>
-      <td>${d.scalable_ambition.baseline}</td>
-      <td>${d.fy_26_27}</td>
-      <td>${d.fy_27_28}</td>
-      <td>${d.fy_28_29}</td>
-      <td>${d.rsf_fsap_link}</td>
-      <td>${d.counterpart.join(', ')}</td>
-      <td style="text-align:right;font-weight:700">€${d.amount_eur_m}M</td>`;
-    tbody.appendChild(tr);
-  });
-}
-
-// ─── TAB 3: RESOURCES ────────────────────────────────────────────
-const SECTION_TITLES = {
-  1: 'Rwandan Strategic Framework',
-  2: 'Rwandan Regulatory &amp; Institutional',
-  3: 'Phase I &amp; Phase II Mission Documents',
-  4: 'Donor &amp; IFI Reports',
-  5: 'International Standards &amp; Best Practice'
-};
-const AXIS_FILTER_OPTS = ['All','Axis A (Green CB)','Axis B (Green Products & Markets)','Cross-cutting'];
-const AXIS_FILTER_VALS = ['all','A','B','cross'];
-
-let resAxisFilter = 'all', resIssuerFilter = 'all', resSearch = '';
-
-function renderResources() {
-  // Build issuer list
-  const issuers = ['All', ...new Set(resourcesData.map(r=>r.issuer))];
-
-  // Axis filter buttons
-  const axisF = document.getElementById('axis-filters');
-  AXIS_FILTER_OPTS.forEach((label, i) => {
-    const btn = el('button', `res-filter-btn${i===0?' active':''}`, label);
-    btn.addEventListener('click', () => {
-      resAxisFilter = AXIS_FILTER_VALS[i];
-      document.querySelectorAll('#axis-filters .res-filter-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      applyResFilter();
-    });
-    axisF.appendChild(btn);
+/* ═══════════════════════════════════════════════════════════════
+   RENDER: RESOURCES
+═══════════════════════════════════════════════════════════════ */
+function renderResources(resources){
+  // Group by section
+  const sections = {};
+  resources.forEach(r=>{
+    if(!sections[r.section]) sections[r.section]=[];
+    sections[r.section].push(r);
   });
 
-  // Issuer filter buttons
-  const issuerF = document.getElementById('issuer-filters');
-  issuers.forEach(issuer => {
-    const btn = el('button', `res-filter-btn${issuer==='All'?' active':''}`, issuer);
-    btn.addEventListener('click', () => {
-      resIssuerFilter = issuer === 'All' ? 'all' : issuer;
-      document.querySelectorAll('#issuer-filters .res-filter-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      applyResFilter();
-    });
-    issuerF.appendChild(btn);
-  });
-
-  // Search
-  document.getElementById('res-search').addEventListener('input', e => {
-    resSearch = e.target.value.toLowerCase();
-    applyResFilter();
-  });
-
-  // Build sections
-  const container = document.getElementById('resources-container');
-  [1,2,3,4,5].forEach(sNum => {
-    const section = el('div', 'res-section');
-    section.dataset.section = sNum;
-    const hd = el('div', 'res-section-hd');
-    hd.innerHTML = `<h3>${sNum}. ${SECTION_TITLES[sNum]}</h3><span class="toggle-icon">▼</span>`;
-    hd.addEventListener('click', () => {
-      const body = section.querySelector('.res-section-body');
-      const collapsed = body.classList.toggle('collapsed');
-      hd.classList.toggle('collapsed', collapsed);
-    });
-    section.appendChild(hd);
-    const body = el('div', 'res-section-body');
-    const grid = el('div', 'res-grid');
-    grid.dataset.sectionGrid = sNum;
-    resourcesData.filter(r=>r.section===sNum).forEach(r => {
-      const card = buildResCard(r);
-      grid.appendChild(card);
-    });
-    body.appendChild(grid);
-    section.appendChild(body);
-    container.appendChild(section);
-  });
-}
-
-function buildResCard(r) {
-  const card = el('div', 'res-card');
-  card.dataset.axes = r.axes.join(',');
-  card.dataset.issuer = r.issuer;
-  card.dataset.title = (r.title + ' ' + (r.description||'')).toLowerCase();
-  const axesTags = r.axes.map(a=>`<span class="tag tag-${a.toLowerCase()}">${a}</span>`).join('');
-  const accessCls = r.access==='public' ? 'access-public' : r.access==='internal' ? 'access-internal' : 'access-tbc';
-  const accessLabel = r.access==='public' ? '🌐 Public' : r.access==='internal' ? '🔒 Internal' : '? Availability TBC';
-  const openBtn = (r.access==='public' && r.url)
-    ? `<a href="${r.url}" target="_blank" rel="noopener" class="res-open-btn">Open ↗</a>`
-    : '';
-  card.innerHTML = `
-    <div class="res-card-title">${r.title}</div>
-    <div class="res-card-meta">${r.issuer} · ${r.year||'n.d.'} · <span class="tag tag-type" style="font-size:0.7rem">${r.type}</span></div>
-    <div class="res-card-desc">${r.description||''}</div>
-    <div class="res-card-footer">
-      <div class="res-axes">${axesTags}</div>
-      <div style="display:flex;align-items:center;gap:0.5rem">
-        <span class="access-badge ${accessCls}">${accessLabel}</span>
-        ${openBtn}
+  let html = '';
+  Object.keys(SECTION_NAMES).forEach(sec=>{
+    const items = sections[sec]||[];
+    html += `<div class="res-section" id="res-sec-${sec}">
+      <div class="res-section-hd" onclick="toggleResSection(${sec})">
+        <h3>${SECTION_NAMES[sec]} <span style="font-size:0.75rem;font-weight:400;color:var(--text-soft);">(${items.length})</span></h3>
+        <span class="res-section-toggle">▾</span>
       </div>
-    </div>`;
-  return card;
+      <div class="res-section-body">
+        <div class="res-cards" id="res-cards-${sec}">`;
+    items.forEach((r,i)=>{
+      html += buildResCard(r, sec+'-'+i);
+    });
+    html += `</div></div></div>`;
+  });
+  document.getElementById('resources-container').innerHTML = html;
+
+  // Filter controls
+  let axisFilter = 'all', issuerFilter = 'all', searchQ = '';
+
+  function applyFilters(){
+    document.querySelectorAll('.res-card').forEach(card=>{
+      const cAxes   = card.dataset.axes.split(',');
+      const cBucket = card.dataset.bucket;
+      const cText   = (card.dataset.title+' '+card.dataset.desc).toLowerCase();
+
+      let show = true;
+      if(axisFilter==='A')     show = cAxes.includes('A');
+      else if(axisFilter==='B') show = cAxes.includes('B');
+      else if(axisFilter==='cross') show = cAxes.includes('A') && cAxes.includes('B');
+
+      if(show && issuerFilter!=='all') show = cBucket===issuerFilter;
+      if(show && searchQ) show = cText.includes(searchQ);
+
+      card.classList.toggle('res-hidden', !show);
+    });
+  }
+
+  document.querySelectorAll('#axis-filter .filter-pill').forEach(pill=>{
+    pill.addEventListener('click',()=>{
+      document.querySelectorAll('#axis-filter .filter-pill').forEach(p=>p.classList.remove('active'));
+      pill.classList.add('active');
+      axisFilter = pill.dataset.axis;
+      applyFilters();
+    });
+  });
+  document.querySelectorAll('#issuer-filter .filter-pill').forEach(pill=>{
+    pill.addEventListener('click',()=>{
+      document.querySelectorAll('#issuer-filter .filter-pill').forEach(p=>p.classList.remove('active'));
+      pill.classList.add('active');
+      issuerFilter = pill.dataset.issuer;
+      applyFilters();
+    });
+  });
+  document.getElementById('res-search').addEventListener('input', function(){
+    searchQ = this.value.toLowerCase();
+    applyFilters();
+  });
 }
 
-function applyResFilter() {
-  document.querySelectorAll('.res-card').forEach(card => {
-    const axes = card.dataset.axes || '';
-    const issuer = card.dataset.issuer || '';
-    const title = card.dataset.title || '';
+function toggleResSection(sec){
+  document.getElementById('res-sec-'+sec).classList.toggle('collapsed');
+}
 
-    const axisMatch = resAxisFilter === 'all' ||
-      (resAxisFilter === 'A' && axes.includes('A')) ||
-      (resAxisFilter === 'B' && axes.includes('B')) ||
-      (resAxisFilter === 'cross' && axes.includes('A') && axes.includes('B'));
-    const issuerMatch = resIssuerFilter === 'all' || issuer === resIssuerFilter;
-    const searchMatch = !resSearch || title.includes(resSearch);
+function buildResCard(r, id){
+  const axes = (r.axes||[]);
+  const axesTags = axes.map(a=>`<span class="res-axis-pill ${a.toLowerCase()}">Axis ${a}</span>`).join('');
+  const bucket = issuerBucket(r.issuer);
+  const accessIcon = r.access==='public'?'🌐 Public':'🔒 Internal';
+  const yearStr = r.year ? `${r.year}` : '';
+  const metaParts = [r.issuer, yearStr, r.type].filter(Boolean);
+  const linkBtn = (r.access==='public' && r.url) ?
+    `<a class="res-link" href="${r.url}" target="_blank" rel="noopener">Open ↗</a>` : '';
 
-    card.classList.toggle('hidden', !(axisMatch && issuerMatch && searchMatch));
-  });
+  return `<div class="res-card"
+    id="rc-${id}"
+    data-axes="${axes.join(',')}"
+    data-bucket="${bucket}"
+    data-title="${(r.title||'').toLowerCase()}"
+    data-desc="${(r.description||'').toLowerCase()}">
+    <div class="res-card-title">${r.title}</div>
+    <div class="res-card-meta">${metaParts.join(' · ')}</div>
+    <div class="res-card-desc">${r.description||''}</div>
+    <div class="res-card-foot">
+      <div class="res-tags">${axesTags}</div>
+      <div style="display:flex;gap:0.75rem;align-items:center;">
+        <span class="res-access">${accessIcon}</span>
+        ${linkBtn}
+      </div>
+    </div>
+  </div>`;
 }
 </script>
-
-<!-- DSFR JS (nomodule fallback + module) -->
-<script type="module" src="https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/dsfr.module.min.js"></script>
-<script nomodule src="https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/dsfr.nomodule.min.js"></script>
 </body>
 </html>
