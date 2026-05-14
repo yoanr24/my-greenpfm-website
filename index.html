@@ -640,8 +640,8 @@
       <section id="stats-box" class="stats-box">
         <div class="stat-chip">
           <div class="stat-icon">📅</div>
-          <div class="stat-num" id="stat-online">—</div>
-          <div class="stat-label">Online preparatory meetings</div>
+          <div class="stat-num" id="stat-total">—</div>
+          <div class="stat-label">Total meetings</div>
         </div>
         <div class="stat-chip">
           <div class="stat-icon">🏛</div>
@@ -984,13 +984,14 @@ function renderStats(agenda){
   const online   = (agenda.online||[]).length;
   const inperson = (agenda.in_person||[]).length;
   const post     = (agenda.post_mission||[]).length;
+  const total    = online + inperson + post;
   // unique institutions across ALL meeting types
   const allMeetings = [...(agenda.online||[]), ...(agenda.in_person||[]), ...(agenda.post_mission||[])];
   const insts = new Set(allMeetings.map(m=>m.counterpart));
-  document.getElementById('stat-online').textContent    = online;
-  document.getElementById('stat-inperson').textContent  = inperson;
-  document.getElementById('stat-institutions').textContent = insts.size;
-  document.getElementById('stat-post').textContent      = post;
+  document.getElementById('stat-total').textContent         = total;
+  document.getElementById('stat-inperson').textContent      = inperson;
+  document.getElementById('stat-institutions').textContent  = insts.size;
+  document.getElementById('stat-post').textContent          = post;
 }
 
 /* ═══════════════════════════════════════════════════════════════
