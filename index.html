@@ -459,6 +459,7 @@
     .inst-cell-axis { font-size: 0.78rem; font-weight: 400; color: var(--text-soft); margin-top: 2px; }
     .matrix-entry { margin-bottom: 6px; font-size: 0.82rem; line-height: 1.45; }
     .matrix-entry:last-child { margin-bottom: 0; }
+    .matrix-dept-tag { font-size: 0.72rem; font-weight: 700; color: var(--text-soft); display: block; margin-bottom: 1px; }
 
     /* DP coordination */
     .dp-coord-section { margin-top: 1.5rem; }
@@ -616,7 +617,7 @@
       <!-- DLI Matrix -->
       <section class="matrix-section">
         <div class="section-hd">
-          <h2>Policy Reform Matrix — Potential Disbursement-Linked Indicators</h2>
+          <h2>Policy Reform Matrix — (Potential) Disbursement-Linked Indicators</h2>
         </div>
         <div class="matrix-banner">
           <strong>"This is a 'menu of options'</strong> — a prioritized, modular Policy Reform Matrix designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework."<br>
@@ -1007,8 +1008,6 @@ function renderStats(agenda){
 const OBJ_CARDS = [
   { title:'Strong appetite', accent:'accent-neutral',
     text:'Building on Green PFM I, the mission confirmed a strong appetite among Rwandan counterparts (BNR, MINECOFIN, CMA, RSE, BRD, BoK) to deepen the greening of the financial system. Sustainability is now formally embedded in BNR\'s 5-year strategic plan, the FSSP, and the National Sustainable Finance Roadmap.' },
-  { title:'Scope of work', accent:'accent-split',
-    text:'The mission scope crystallised around two axes and two principal beneficiaries: <strong>Axis A — Green Central Banking</strong>, with the National Bank of Rwanda (BNR); and <strong>Axis B — Green Financial Products & Markets</strong>, with MINECOFIN (and CMA, RSE as line institutions).' },
   { title:'Limited resources', accent:'accent-neutral',
     text:'Phase II budget support envelope (~€40M) and accompanying TA (~€1.5M via Expertise France) are finite. The proposed matrix is therefore a <strong>modular "menu of options"</strong>, designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework.' },
   { title:'Active donor landscape', accent:'accent-amber',
@@ -1149,7 +1148,7 @@ function buildDLICard(d){
       <div class="dli-foot" style="margin-top:0; margin-bottom:0.75rem; padding-top:0; border-top:none; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
         <span class="dli-chip">⏱ ${d.year_tag||''}</span>
         <span class="dli-chip">💶 €${d.amount_eur_m}M indicative</span>
-        ${d.ta_total_days?`<span class="dli-chip dli-chip-ta">🗓 ${d.ta_total_days} days TA</span>`:''}
+        ${d.ta_total_days?`<span class="dli-chip dli-chip-ta">🗓 ${d.ta_total_days} days of TA</span>`:''}
         ${d.rsf_fsap_link?`<span class="dli-chip" title="${d.rsf_fsap_link}">🔗 IMF RSF/FSAP link</span>`:''}
       </div>
       <div class="dli-field-label">Trigger</div>
@@ -1168,8 +1167,8 @@ function buildDLICard(d){
       <div class="dli-ta">${d.ta}</div>
       ${d.ta_activities&&d.ta_activities.length?`
       <table class="ta-table" style="margin-top:0.5rem;">
-        ${d.ta_activities.map(a=>`<tr><td>${a.activity}</td><td>${a.days}d</td></tr>`).join('')}
-        <tr><td>Total indicative TA</td><td>${d.ta_total_days}d</td></tr>
+        ${d.ta_activities.map(a=>`<tr><td>${a.activity}</td><td>${a.days} days</td></tr>`).join('')}
+        <tr><td>Total indicative TA</td><td>${d.ta_total_days} days</td></tr>
       </table>`:''}
 
       <div class="dli-field-label">Donor complementarity</div>
@@ -1355,33 +1354,82 @@ function renderDonorMatrix(donors){
   const institutions = donors.institutions||[];
   const interventions = donors.interventions||[];
 
+  // Axis full-name labels
+  const AXIS_LABEL = {
+    'A': 'A — Green Central Banking',
+    'B': 'B — Green Financial Products & Markets'
+  };
+
+  // Define grouped rows (BNR directorates → one row; MINECOFIN directorates → one row)
+  const BNR_IDS     = ['bnr-strategy','bnr-monpol','bnr-fm'];
+  const MEF_IDS     = ['minecofin-debt','minecofin-cfd','minecofin-mfad'];
+  const bnrInsts    = institutions.filter(i=>BNR_IDS.includes(i.id));
+  const mefInsts    = institutions.filter(i=>MEF_IDS.includes(i.id));
+  const otherInsts  = institutions.filter(i=>!BNR_IDS.includes(i.id)&&!MEF_IDS.includes(i.id));
+
+  // Short directorate label (strip parent prefix)
+  function deptName(label){
+    return label.replace(/^BNR\s*—\s*/,'').replace(/^MINECOFIN\s*—\s*/,'');
+  }
+
+  // Build cell for a merged row (multiple sub-institutions)
+  function mergedCell(memberInsts, donor){
+    const all = memberInsts.flatMap(inst=>
+      interventions.filter(iv=>iv.institution===inst.id&&iv.donor===donor)
+                   .map(iv=>({...iv, dept: deptName(inst.label)}))
+    );
+    if(!all.length) return `<td></td>`;
+    return `<td>${all.map(iv=>`<div class="matrix-entry">
+      <span style="color:${statusColor(iv.status)}">${statusIcon(iv.status)}</span>
+      ${iv.tbc?'<span style="color:var(--status-tbc);font-size:0.68rem;font-weight:700;"> ⚑</span>':''}
+      <span class="matrix-dept-tag">${iv.dept}</span> ${iv.label}
+    </div>`).join('')}</td>`;
+  }
+
+  // Build cell for individual institution row
+  function singleCell(inst, donor){
+    const items = interventions.filter(i=>i.institution===inst.id&&i.donor===donor);
+    if(!items.length) return `<td></td>`;
+    return `<td>${items.map(iv=>`<div class="matrix-entry">
+      <span style="color:${statusColor(iv.status)}">${statusIcon(iv.status)}</span>
+      ${iv.tbc?'<span style="color:var(--status-tbc);font-size:0.68rem;font-weight:700;"> ⚑</span>':''}
+      ${iv.label}
+    </div>`).join('')}</td>`;
+  }
+
   let html = `<table class="donor-matrix-table">
     <thead><tr>
-      <th style="text-align:left;min-width:100px;">Institution</th>`;
+      <th style="text-align:left;min-width:160px;">Institution</th>`;
   donorList.forEach(d=> { html += `<th>${d}</th>`; });
   html += `</tr></thead><tbody>`;
 
-  institutions.forEach(inst=>{
+  // Merged BNR row
+  html += `<tr><td class="inst-cell axis-a">
+    <div class="inst-cell-name">BNR</div>
+    <div class="inst-cell-axis">${AXIS_LABEL['A']}</div>
+  </td>`;
+  donorList.forEach(donor=>{ html += mergedCell(bnrInsts, donor); });
+  html += `</tr>`;
+
+  // Merged MINECOFIN row
+  html += `<tr><td class="inst-cell axis-b">
+    <div class="inst-cell-name">MINECOFIN</div>
+    <div class="inst-cell-axis">${AXIS_LABEL['B']}</div>
+  </td>`;
+  donorList.forEach(donor=>{ html += mergedCell(mefInsts, donor); });
+  html += `</tr>`;
+
+  // Individual institution rows
+  otherInsts.forEach(inst=>{
     const instClass = inst.axis==='A'?'axis-a':'axis-b';
     html += `<tr><td class="inst-cell ${instClass}">
       <div class="inst-cell-name">${inst.label}</div>
-      <div class="inst-cell-axis">Axis ${inst.axis}</div>
+      <div class="inst-cell-axis">${AXIS_LABEL[inst.axis]||'Axis '+inst.axis}</div>
     </td>`;
-    donorList.forEach(donor=>{
-      const items = interventions.filter(i=>i.institution===inst.id && i.donor===donor);
-      if(!items.length){ html += `<td></td>`; return; }
-      html += `<td>`;
-      items.forEach(iv=>{
-        html += `<div class="matrix-entry">
-          <span style="color:${statusColor(iv.status)}">${statusIcon(iv.status)}</span>
-          ${iv.tbc?'<span style="color:var(--status-tbc);font-size:0.68rem;font-weight:700;"> ⚑</span>':''}
-          ${iv.label}
-        </div>`;
-      });
-      html += `</td>`;
-    });
+    donorList.forEach(donor=>{ html += singleCell(inst, donor); });
     html += `</tr>`;
   });
+
   html += `</tbody></table>`;
   document.getElementById('matrix-table-wrap').innerHTML = html;
 }
