@@ -398,8 +398,12 @@
       padding: 0.85rem 1.25rem; border-radius: 8px; border: 1px solid var(--border);
       flex: 1; min-width: 220px;
     }
+    .axis-legend-item { cursor: pointer; text-align:left; transition: box-shadow .15s, transform .1s; }
+    .axis-legend-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,.12); transform: translateY(-1px); }
+    .axis-legend-item.filter-active { box-shadow: 0 0 0 2.5px currentColor; }
     .axis-legend-a { background: var(--bnr-100); border-color: var(--bnr-300); }
     .axis-legend-b { background: var(--mef-100); border-color: var(--mef-300); }
+    .axis-legend-c { background: #F3E5F5; border-color: #CE93D8; }
     .axis-legend-badge {
       width: 48px; height: 48px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
@@ -407,10 +411,20 @@
     }
     .axis-legend-a .axis-legend-badge { background: var(--bnr-500); }
     .axis-legend-b .axis-legend-badge { background: var(--mef-500); }
+    .axis-legend-c .axis-legend-badge { background: #7B1FA2; }
     .axis-legend-name { font-size: 1.15rem; font-weight: 700; }
     .axis-legend-a .axis-legend-name { color: var(--bnr-500); }
     .axis-legend-b .axis-legend-name { color: var(--mef-500); }
+    .axis-legend-c .axis-legend-name { color: #7B1FA2; }
     .axis-legend-sub { font-size: 0.82rem; color: var(--text-soft); margin-top: 0.1rem; }
+    /* DLI card collapse */
+    .dli-card-head { cursor: pointer; user-select: none; position: relative; }
+    .dli-card-head::after { content: '▾'; position: absolute; top: 1rem; right: 1rem; font-size: 1rem; color: var(--text-soft); transition: transform .2s; }
+    .dli-card.expanded .dli-card-head::after { transform: rotate(180deg); }
+    .dli-card-body { display: none; }
+    .dli-card.expanded .dli-card-body { display: block; }
+    /* Card-head chips (always visible) */
+    .dli-head-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; }
 
     /* Rwanda map */
     #map-view { position: relative; }
@@ -676,7 +690,7 @@
     <div class="page-container">
       <div class="section-hd">
         <h2>Donor mapping — active DP support to Rwanda's financial system</h2>
-        <p>Mapping donor interventions targeting BNR and MINECOFIN in the mission scope. Department-level details are available in each intervention's description.</p>
+        <p>Mapping donor interventions targeting BNR, MINECOFIN and other institutions in the mission scope. Department-level details are available in each intervention's description. Click a button below to filter the table by institution group.</p>
       </div>
 
       <!-- Status legend -->
@@ -698,22 +712,29 @@
         </span>
       </div>
 
-      <!-- Axis legend -->
+      <!-- Axis filter buttons -->
       <div class="axis-legend">
-        <div class="axis-legend-item axis-legend-a">
+        <button class="axis-legend-item axis-legend-a" onclick="filterDonorGroup('bnr', this)">
           <div class="axis-legend-badge">A</div>
           <div>
             <div class="axis-legend-name">BNR</div>
             <div class="axis-legend-sub">Axis A — Green Central Banking</div>
           </div>
-        </div>
-        <div class="axis-legend-item axis-legend-b">
+        </button>
+        <button class="axis-legend-item axis-legend-b" onclick="filterDonorGroup('minecofin', this)">
           <div class="axis-legend-badge">B</div>
           <div>
             <div class="axis-legend-name">MINECOFIN</div>
             <div class="axis-legend-sub">Axis B — Green Financial Products & Markets</div>
           </div>
-        </div>
+        </button>
+        <button class="axis-legend-item axis-legend-c" onclick="filterDonorGroup('other', this)">
+          <div class="axis-legend-badge">C</div>
+          <div>
+            <div class="axis-legend-name">Other Recipients</div>
+            <div class="axis-legend-sub">Axis B — Green Financial Products & Markets</div>
+          </div>
+        </button>
       </div>
 
       <!-- Matrix -->
@@ -1126,7 +1147,7 @@ function buildDLICard(d){
   const counterpartStr = Array.isArray(d.counterpart)?d.counterpart.join(', '):d.counterpart;
   const s = d.scoring;
 
-  return `<div class="dli-card">
+  return `<div class="dli-card" onclick="toggleDLICard(this)">
     <div class="dli-card-head">
       <div class="dli-icon">
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${icon24}</svg>
@@ -1142,15 +1163,14 @@ function buildDLICard(d){
         </div>
         <div class="dli-title">${d.title}</div>
         <div class="dli-counterpart">Counterpart: ${counterpartStr}</div>
+        <div class="dli-head-chips">
+          <span class="dli-chip">⏱ ${d.year_tag||''}</span>
+          <span class="dli-chip">💶 €${d.amount_eur_m}M indicative</span>
+          ${d.ta_total_days?`<span class="dli-chip dli-chip-ta">📋 Potential TA: ${d.ta_total_days} days</span>`:''}
+        </div>
       </div>
     </div>
     <div class="dli-card-body">
-      <div class="dli-foot" style="margin-top:0; margin-bottom:0.75rem; padding-top:0; border-top:none; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
-        <span class="dli-chip">⏱ ${d.year_tag||''}</span>
-        <span class="dli-chip">💶 €${d.amount_eur_m}M indicative</span>
-        ${d.ta_total_days?`<span class="dli-chip dli-chip-ta">🗓 ${d.ta_total_days} days of TA</span>`:''}
-        ${d.rsf_fsap_link?`<span class="dli-chip" title="${d.rsf_fsap_link}">🔗 IMF RSF/FSAP link</span>`:''}
-      </div>
       <div class="dli-field-label">Trigger</div>
       <div class="dli-trigger">${d.trigger}</div>
 
@@ -1197,13 +1217,12 @@ function renderDLITable(dlis){
   let rows = dlis.map(d=>`
     <tr>
       <td class="mono">${d.id}</td>
+      <td style="font-size:0.82rem;">${Array.isArray(d.counterpart)?d.counterpart.join(', '):d.counterpart}</td>
       <td>${d.title}</td>
-      <td style="font-size:0.75rem;">${d.rationale.substring(0,100)}…</td>
       <td style="font-size:0.75rem;">${d.fy_26_27||'—'}</td>
       <td style="font-size:0.75rem;">${d.fy_27_28||'—'}</td>
       <td style="font-size:0.75rem;">${d.fy_28_29||'—'}</td>
-      <td style="font-size:0.75rem;">${d.rsf_fsap_link||'—'}</td>
-      <td>${Array.isArray(d.counterpart)?d.counterpart[0]:d.counterpart}</td>
+      <td class="mono" style="text-align:center;">${d.ta_total_days||'—'} days</td>
       <td class="mono">€${d.amount_eur_m}M</td>
     </tr>`).join('');
 
@@ -1211,9 +1230,9 @@ function renderDLITable(dlis){
     <div class="dli-table-wrap">
       <table class="dli-table">
         <thead><tr>
-          <th>DLI #</th><th>Description</th><th>Baseline/Rationale</th>
+          <th>DLI #</th><th>Implementing Institution</th><th>Description</th>
           <th>FY 26/27</th><th>FY 27/28</th><th>FY 28/29</th>
-          <th>Link to IMF RSF/FSAP</th><th>Implementing Institution</th><th>Indicative €</th>
+          <th>Potential TA (days)</th><th>Indicative €</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -1399,22 +1418,22 @@ function renderDonorMatrix(donors){
 
   let html = `<table class="donor-matrix-table">
     <thead><tr>
-      <th style="text-align:left;min-width:160px;">Institution</th>`;
+      <th style="text-align:left;min-width:100px;width:110px;">Institution</th>`;
   donorList.forEach(d=> { html += `<th>${d}</th>`; });
   html += `</tr></thead><tbody>`;
 
   // Merged BNR row
-  html += `<tr><td class="inst-cell axis-a">
+  html += `<tr data-group="bnr"><td class="inst-cell axis-a">
     <div class="inst-cell-name">BNR</div>
-    <div class="inst-cell-axis">${AXIS_LABEL['A']}</div>
+    <div class="inst-cell-axis">Axis A</div>
   </td>`;
   donorList.forEach(donor=>{ html += mergedCell(bnrInsts, donor); });
   html += `</tr>`;
 
   // Merged MINECOFIN row
-  html += `<tr><td class="inst-cell axis-b">
+  html += `<tr data-group="minecofin"><td class="inst-cell axis-b">
     <div class="inst-cell-name">MINECOFIN</div>
-    <div class="inst-cell-axis">${AXIS_LABEL['B']}</div>
+    <div class="inst-cell-axis">Axis B</div>
   </td>`;
   donorList.forEach(donor=>{ html += mergedCell(mefInsts, donor); });
   html += `</tr>`;
@@ -1422,9 +1441,9 @@ function renderDonorMatrix(donors){
   // Individual institution rows
   otherInsts.forEach(inst=>{
     const instClass = inst.axis==='A'?'axis-a':'axis-b';
-    html += `<tr><td class="inst-cell ${instClass}">
+    html += `<tr data-group="other"><td class="inst-cell ${instClass}">
       <div class="inst-cell-name">${inst.label}</div>
-      <div class="inst-cell-axis">${AXIS_LABEL[inst.axis]||'Axis '+inst.axis}</div>
+      <div class="inst-cell-axis">Axis ${inst.axis}</div>
     </td>`;
     donorList.forEach(donor=>{ html += singleCell(inst, donor); });
     html += `</tr>`;
@@ -1507,6 +1526,32 @@ function renderResources(resources){
 
 function toggleResSection(sec){
   document.getElementById('res-sec-'+sec).classList.toggle('collapsed');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DLI CARD COLLAPSE / EXPAND
+═══════════════════════════════════════════════════════════════ */
+function toggleDLICard(card){
+  card.classList.toggle('expanded');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DONOR TABLE FILTER
+═══════════════════════════════════════════════════════════════ */
+let _activeDonorGroup = null;
+function filterDonorGroup(group, btn){
+  const rows = document.querySelectorAll('#matrix-table-wrap tr[data-group]');
+  if(_activeDonorGroup === group){
+    // Toggle off — show all
+    _activeDonorGroup = null;
+    rows.forEach(r => r.style.display = '');
+    document.querySelectorAll('.axis-legend-item').forEach(b => b.classList.remove('filter-active'));
+  } else {
+    _activeDonorGroup = group;
+    rows.forEach(r => { r.style.display = r.dataset.group === group ? '' : 'none'; });
+    document.querySelectorAll('.axis-legend-item').forEach(b => b.classList.remove('filter-active'));
+    btn.classList.add('filter-active');
+  }
 }
 
 function buildResCard(r, id){
