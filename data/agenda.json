@@ -17,11 +17,11 @@
       "date": "2026-04-22",
       "time_slot": "",
       "counterpart": "AFD",
-      "attendees": "Hannah Thombansen, Céline Boulay",
+      "attendees": "AFD Kigali and HQ",
       "topic": "AFD internal kick-off — mission scope, donor mapping, DLI ambition",
       "axis": "",
       "status": "confirmed",
-      "note_summary": "AFD-side kick-off with Hannah Thombansen and Céline Boulay (IDRIMA). The conversation aligned on the programme envelope (€40M budget support + €1.5M TA), the modular 'menu of options' approach for the DLI matrix, and key counterparts to prioritise during the Kigali mission.",
+      "note_summary": "AFD-side kick-off to present the ambition of the programme, its potential size (€40M budget support + €1.5M TA), and the expectation for the DLI matrix.",
       "note_pdf": ""
     },
     {
@@ -147,5 +147,30 @@
       "note_pdf": "Meeting Notes - BNR - Monetary Policy Department.pdf"
     }
   ],
-  "post_mission": []
+  "post_mission": [
+    {
+      "type": "online",
+      "date": "2026-05-12",
+      "time_slot": "10:00–11:00",
+      "counterpart": "BNR — Financial Sector Development and Inclusion",
+      "attendees": "Ingrid Cyuzozo, Vanessa Gatana, François De Paul Mugisha",
+      "topic": "Role of the department, sandbox process and financial inclusion",
+      "axis": "A",
+      "status": "confirmed",
+      "note_summary": "Post-mission online meeting with BNR's Financial Sector Development and Inclusion department to discuss the department's mandate, the regulatory sandbox process, and the intersection between financial inclusion and sustainable finance.",
+      "note_pdf": ""
+    },
+    {
+      "type": "online",
+      "date": "2026-05-14",
+      "time_slot": "09:00–10:00",
+      "counterpart": "MINECOFIN — Chief Economist",
+      "attendees": "",
+      "topic": "Macro-fiscal framework and climate finance integration",
+      "axis": "B",
+      "status": "confirmed",
+      "note_summary": "Post-mission online meeting with MINECOFIN's Chief Economist to discuss the macro-fiscal framework and the integration of climate finance considerations into Rwanda's economic planning.",
+      "note_pdf": ""
+    }
+  ]
 }
