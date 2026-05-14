@@ -778,9 +778,15 @@ function sha256(ascii){
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   CONSTANTS
+   PASSWORD CHECK
+   Password: greenpfm2026 — stored as char codes (friction gate only).
+   For real security, enable Vercel / Netlify platform-level protection.
 ═══════════════════════════════════════════════════════════════ */
-const HASH = 'a0cd2d82e967368a854ed11bc3fc38bd4addae1e8b8dcb270ee694060e134e7d';
+function checkPass(input){
+  const t=[103,114,101,101,110,112,102,109,50,48,50,54]; // greenpfm2026
+  if(input.length!==t.length) return false;
+  return input.split('').every(function(c,i){return c.charCodeAt(0)===t[i];});
+}
 
 /* ═══════════════════════════════════════════════════════════════
    DLI ICONS — inline SVG strings (24×24, stroke-based)
@@ -889,8 +895,7 @@ window.addEventListener('DOMContentLoaded', function(){
     const val = document.getElementById('gate-input').value;
     const errEl = document.getElementById('gate-error');
     if(!val){ errEl.textContent = 'Please enter the access code.'; return; }
-    const h = sha256(val);
-    if(h === HASH){
+    if(checkPass(val)){
       sessionStorage.setItem('gpfm_auth','1');
       unlockSite();
       initApp();
