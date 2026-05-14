@@ -271,6 +271,13 @@
     }
     .dli-field-label:first-child { margin-top: 0; }
     .dli-trigger, .dli-rationale, .dli-ta, .dli-donor-compl { color: var(--text); line-height: 1.55; }
+    /* TA activities table */
+    .ta-table { width: 100%; border-collapse: collapse; margin-top: 0.25rem; font-size: 0.82rem; }
+    .ta-table td { padding: 4px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .ta-table tr:last-child td { border-bottom: none; font-weight: 700; background: #F0F4FF; }
+    .ta-table td:last-child { text-align: right; white-space: nowrap; color: var(--republic-blue); font-weight: 600; }
+    /* Total TA days chip */
+    .dli-chip-ta { background: #E8F0FF; color: var(--republic-blue); font-weight: 700; }
     .dli-ambition { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
     .dli-ambition-item { background: var(--bg); border-radius: 6px; padding: 0.5rem 0.75rem; }
     .dli-ambition-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; color: var(--text-soft); margin-bottom: 0.2rem; }
@@ -446,8 +453,8 @@
     }
     .donor-matrix-table th { background: var(--republic-blue); color: #fff; font-weight: 700; font-size: 0.95rem; text-align: center; white-space: nowrap; }
     .donor-matrix-table .inst-cell { background: var(--bg); font-weight: 700; white-space: nowrap; padding: 12px 16px; }
-    .donor-matrix-table .inst-cell.bnr { color: var(--bnr-500); border-left: 4px solid var(--bnr-500); }
-    .donor-matrix-table .inst-cell.mef { color: var(--mef-500); border-left: 4px solid var(--mef-500); }
+    .donor-matrix-table .inst-cell.axis-a { color: var(--bnr-500); border-left: 4px solid var(--bnr-500); }
+    .donor-matrix-table .inst-cell.axis-b { color: var(--mef-500); border-left: 4px solid var(--mef-500); }
     .inst-cell-name { font-size: 1.1rem; font-weight: 700; }
     .inst-cell-axis { font-size: 0.78rem; font-weight: 400; color: var(--text-soft); margin-top: 2px; }
     .matrix-entry { margin-bottom: 6px; font-size: 0.82rem; line-height: 1.45; }
@@ -1142,6 +1149,7 @@ function buildDLICard(d){
       <div class="dli-foot" style="margin-top:0; margin-bottom:0.75rem; padding-top:0; border-top:none; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
         <span class="dli-chip">⏱ ${d.year_tag||''}</span>
         <span class="dli-chip">💶 €${d.amount_eur_m}M indicative</span>
+        ${d.ta_total_days?`<span class="dli-chip dli-chip-ta">🗓 ${d.ta_total_days} days TA</span>`:''}
         ${d.rsf_fsap_link?`<span class="dli-chip" title="${d.rsf_fsap_link}">🔗 IMF RSF/FSAP link</span>`:''}
       </div>
       <div class="dli-field-label">Trigger</div>
@@ -1158,6 +1166,11 @@ function buildDLICard(d){
 
       <div class="dli-field-label">Technical assistance</div>
       <div class="dli-ta">${d.ta}</div>
+      ${d.ta_activities&&d.ta_activities.length?`
+      <table class="ta-table" style="margin-top:0.5rem;">
+        ${d.ta_activities.map(a=>`<tr><td>${a.activity}</td><td>${a.days}d</td></tr>`).join('')}
+        <tr><td>Total indicative TA</td><td>${d.ta_total_days}d</td></tr>
+      </table>`:''}
 
       <div class="dli-field-label">Donor complementarity</div>
       <div class="dli-donor-compl">${d.donor_complementarity}</div>
@@ -1169,14 +1182,14 @@ function buildDLICard(d){
         <div class="fy-item"><div class="fy-tag">FY 28/29</div>${d.fy_28_29||'—'}</div>
       </div>
 
-      <div class="dli-field-label">Feasibility scoring (1–4)</div>
+      <div class="dli-field-label">Feasibility scoring (1–5)</div>
       <div class="dli-scoring">
-        <div class="score-item"><div class="score-label">Legal mandate</div><div class="score-dots">${scoreDots(s.legal_mandate,4)}</div></div>
-        <div class="score-item"><div class="score-label">Policy align.</div><div class="score-dots">${scoreDots(s.policy_alignment,4)}</div></div>
-        <div class="score-item"><div class="score-label">Donor compl.</div><div class="score-dots">${scoreDots(s.donor_complementarity,4)}</div></div>
-        <div class="score-item"><div class="score-label">Inst. ownership</div><div class="score-dots">${scoreDots(s.institutional_ownership,4)}</div></div>
+        <div class="score-item"><div class="score-label">Legal mandate</div><div class="score-dots">${scoreDots(s.legal_mandate,5)}</div></div>
+        <div class="score-item"><div class="score-label">Policy align.</div><div class="score-dots">${scoreDots(s.policy_alignment,5)}</div></div>
+        <div class="score-item"><div class="score-label">Donor compl.</div><div class="score-dots">${scoreDots(s.donor_complementarity,5)}</div></div>
+        <div class="score-item"><div class="score-label">Inst. ownership</div><div class="score-dots">${scoreDots(s.institutional_ownership,5)}</div></div>
       </div>
-      <div class="dli-composite">Composite: ${comp} → Tier: <span class="dli-tier-badge ${tierClass}" style="font-size:0.82rem;">${d.tier}</span></div>
+      <div class="dli-composite">Composite: ${comp} / 5 → Tier: <span class="dli-tier-badge ${tierClass}" style="font-size:0.82rem;">${d.tier}</span></div>
     </div>
   </div>`;
 }
@@ -1349,7 +1362,7 @@ function renderDonorMatrix(donors){
   html += `</tr></thead><tbody>`;
 
   institutions.forEach(inst=>{
-    const instClass = inst.axis==='A'?'bnr':'mef';
+    const instClass = inst.axis==='A'?'axis-a':'axis-b';
     html += `<tr><td class="inst-cell ${instClass}">
       <div class="inst-cell-name">${inst.label}</div>
       <div class="inst-cell-axis">Axis ${inst.axis}</div>

@@ -8,14 +8,21 @@
     "title": "Integration of climate risks in the macroeconomic framework",
     "counterpart": ["BNR — Monetary Policy Department"],
     "trigger": "BNR publishes a research paper and concept note on climate channels in the Rwandan macro framework, formally integrated into the MPC briefing cycle.",
-    "rationale": "The Monetary Policy Department confirmed that climate (weather patterns in particular) already enters MPC discussions informally; the November 2025 MPC explicitly flagged a climate-negative scenario that materialised. No formal published research yet except a paper on climate risk for the financial system. BNR Review identified as outlet.",
+    "rationale": "Climate variables (rainfall patterns in particular) already enter MPC discussions informally, and the November 2025 MPC explicitly flagged a climate-negative scenario that materialised. However, no formal published research exists on climate transmission channels in Rwanda's macro framework. Formalising this through a published paper and concept note creates the analytical foundation for A1.2 and A1.3, and positions BNR to meet its NGFS co-chairmanship expectations.",
     "scalable_ambition": {
       "baseline": "Concept note + one published paper.",
       "advanced": "Climate scenarios formally embedded in the Quarterly Projection Model (QPM) documentation."
     },
     "ta": "Short-term specialised (NGFS methodology, peer central bank exchange) and medium-term support (macroeconomic modelling, co-authoring of the paper).",
+    "ta_activities": [
+      { "activity": "Workshop on climate macro transmission channels for MPC research team", "days": 5 },
+      { "activity": "Peer exchange with climate-active central bank (BdF / RBNZ) and research institutions", "days": 10 },
+      { "activity": "Co-authoring support for BNR Review paper", "days": 20 },
+      { "activity": "QPM climate scenario integration methodology", "days": 20 }
+    ],
+    "ta_total_days": 55,
     "donor_complementarity": "No active TA on this exact angle; IMF QPM work covers core forecasting but not climate channels.",
-    "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 3 },
+    "scoring": { "legal_mandate": 4, "policy_alignment": 3, "donor_complementarity": 3, "institutional_ownership": 2 },
     "tier": "Immediate",
     "year_tag": "Year 1",
     "amount_eur_m": 1.0,
@@ -23,7 +30,7 @@
     "fy_27_28": "Paper co-authored and submitted to BNR Review; preliminary climate scenarios in MPC briefing.",
     "fy_28_29": "Paper published; climate scenarios formally integrated into QPM documentation.",
     "rsf_fsap_link": "Complements IMF RSF reform agenda on climate macro framework.",
-    "risks": ["Limited internal modelling capacity", "Dependence on meteorological agency data quality", "Sequencing with A1.2 / A1.3"]
+    "risks": ["Limited internal modelling capacity at BNR", "Dependence on meteorological agency data quality", "Sequencing with A1.2 and A1.3"]
   },
   {
     "id": "A1.2",
@@ -33,23 +40,30 @@
     "type": "Process Reform",
     "title": "Climate-augmented macroeconomic forecasting",
     "counterpart": ["BNR — Monetary Policy Department", "BNR — Data Science Team"],
-    "trigger": "BNR extends its forecasting horizon beyond 1 month for weather-sensitive variables by integrating satellite imagery and ESTEEM model outputs into the QPM.",
-    "rationale": "BNR model currently capped at 1M (meteorology agency limit); data science team already uses satellite imagery for agri estimates. AFD ESTEEM mission (June) on floods/landslides is the natural anchor. Bridges a tangible data gap.",
+    "trigger": "BNR extends its forecasting horizon for weather-sensitive variables by integrating satellite imagery and ESTEEM model outputs into the QPM, with climate scenarios used in MPC forward guidance.",
+    "rationale": "BNR's current model is capped at a one-month horizon due to meteorological agency limitations; the data science team already uses satellite imagery for agricultural estimates. Adding a medium-term climate horizon would improve MPC forward guidance. AFD's ESTEEM mission (June 2026, floods/landslides) can provide a good starting point to refine this DLI which bridges a tangible data gap and builds directly on A1.1.",
     "scalable_ambition": {
       "baseline": "Pilot integration of satellite data into one model module.",
       "advanced": "Full climate-augmented QPM with extended horizon, gazetted as MPC reference."
     },
     "ta": "Mixed — short-term modelling expertise + long-term capacity building for the analysis and research divisions.",
-    "donor_complementarity": "Builds directly on AFD ESTEEM; Green PFM II adds the 'absorption' layer (data infrastructure, training).",
+    "ta_activities": [
+      { "activity": "Satellite data pipeline scoping and architecture design", "days": 10 },
+      { "activity": "QPM extension modelling (ESTEEM integration)", "days": 20 },
+      { "activity": "Capacity building for BNR research and data science teams", "days": 15 },
+      { "activity": "Pilot module integration and documentation", "days": 10 }
+    ],
+    "ta_total_days": 55,
+    "donor_complementarity": "Builds directly on AFD ESTEEM; Green PFM II adds the absorption layer (data infrastructure, training).",
     "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 3, "institutional_ownership": 3 },
     "tier": "Immediate",
     "year_tag": "Year 2–3",
     "amount_eur_m": 2.0,
-    "fy_26_27": "Data architecture design; satellite data pipeline scoping.",
-    "fy_27_28": "Pilot integration in one model module; capacity building for research division.",
-    "fy_28_29": "Full climate-augmented QPM with extended horizon operational.",
+    "fy_26_27": "Data architecture designed; satellite data pipeline scoped.",
+    "fy_27_28": "Pilot integration in one QPM module; capacity building for research division.",
+    "fy_28_29": "Full climate-augmented QPM with extended horizon operational; used in MPC briefing.",
     "rsf_fsap_link": "Reinforces IMF RSF climate data infrastructure pillar.",
-    "risks": ["Data availability and standardisation", "Capacity bottlenecks", "Coordination with NISR / meteorological agency"]
+    "risks": ["Data availability and standardisation across agencies", "Capacity bottlenecks in BNR research teams", "Coordination with NEMA, NISR and Rwanda Meteorological Agency"]
   },
   {
     "id": "A1.3",
@@ -59,23 +73,30 @@
     "type": "Strategy & Framework",
     "title": "Greening of monetary policy instruments — feasibility study",
     "counterpart": ["BNR — Monetary Policy Department", "BNR — Financial Stability"],
-    "trigger": "BNR conducts a feasibility assessment of climate-sensitive monetary policy tools (reserve requirements differentiation, collateral framework adjustments) in the context of the ongoing ECF-driven monetary instrument reform.",
-    "rationale": "BNR managing live ECF reform (data-driven monetary policy framework, price-based auctions, exchange rate flexibility). NGFS adaptation co-chairmanship creates expectation of deliverables. 'Greening MP instruments' remains untouched but is the highest-profile axis internationally.",
+    "trigger": "BNR conducts a feasibility study of climate-sensitive monetary policy tools (differentiated reserve requirements, green collateral adjustments), producing an internal concept note approved at Deputy Governor level.",
+    "rationale": "BNR is managing a live IMF-ECF reform (data-driven monetary policy framework, price-based auctions, exchange rate flexibility). Greening monetary instruments is the highest-profile axis internationally (NGFS co-chairmanship creates expectations) but remains untouched, for legitimate reasons. It is explicitly dependent on A1.1 and A1.2 as analytical prerequisites and is politically sensitive; a feasibility study is the appropriate first step.",
     "scalable_ambition": {
       "baseline": "Feasibility study + internal concept note.",
       "advanced": "Adoption of one differentiated reserve requirement parameter or green collateral pilot."
     },
-    "ta": "Long-term institutional — high political sensitivity, must be sequenced behind A1.1.",
+    "ta": "Long-term institutional — high political sensitivity, must be sequenced behind A1.1 and A1.2.",
+    "ta_activities": [
+      { "activity": "Comparative international study on green monetary instruments", "days": 10 },
+      { "activity": "Political feasibility consultations with BNR departments", "days": 5 },
+      { "activity": "Feasibility study co-drafting and peer review", "days": 10 },
+      { "activity": "Internal concept note preparation for Deputy Governor", "days": 5 }
+    ],
+    "ta_total_days": 30,
     "donor_complementarity": "No active TA; positions AFD against NGFS / Banque de France-aligned expertise.",
-    "scoring": { "legal_mandate": 2, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 2 },
+    "scoring": { "legal_mandate": 2, "policy_alignment": 2, "donor_complementarity": 4, "institutional_ownership": 2 },
     "tier": "Secondary",
     "year_tag": "Year 2–3",
     "amount_eur_m": 2.0,
-    "fy_26_27": "Scoping note; political feasibility consultations.",
-    "fy_27_28": "Feasibility study completed; internal concept note approved.",
-    "fy_28_29": "Pilot adoption (subject to political approval).",
+    "fy_26_27": "Scoping note completed; political feasibility consultations underway.",
+    "fy_27_28": "Feasibility study drafted; internal concept note circulated.",
+    "fy_28_29": "Concept note approved at Deputy Governor level; pilot adoption scoped.",
     "rsf_fsap_link": "Forward-looking — supports future RSF discussions on monetary policy greening.",
-    "risks": ["High political sensitivity", "Interaction with live ECF reform", "Statutory amendments potentially required"]
+    "risks": ["High political sensitivity and interaction with live ECF reform", "Statutory amendments potentially required", "Sequencing dependency on A1.1 and A1.2"]
   },
   {
     "id": "A2.1",
@@ -85,23 +106,30 @@
     "type": "Strategy & Framework",
     "title": "Corporate sustainability diagnostic and NZCB roadmap",
     "counterpart": ["BNR — Strategy Directorate", "BNR — Sustainability Steering Committee"],
-    "trigger": "BNR completes a corporate-level sustainability diagnostic (inventory of fragmented initiatives across directorates) and publishes a coherent NZCB roadmap, validated by the Sustainability Steering Committee.",
-    "rationale": "Direct, explicit request from Department of Strategy. July mid-term strategy review is the natural timing hook. Sustainability Report on hold pending exactly this.",
+    "trigger": "BNR completes a corporate sustainability diagnostic and publishes a Net-Zero Central Banking roadmap, validated by the Sustainability Steering Committee and timed to the July 2026 mid-term strategy review.",
+    "rationale": "The Strategy Directorate explicitly requested this diagnostic: sustainability initiatives are fragmented across BNR directorates with no coherent roadmap. The July mid-term strategy review is the natural timing hook. The Sustainability Report is on hold pending exactly this exercise. This DLI is the prerequisite for BNR's credibility as an NGFS co-chair and as a green financial regulator.",
     "scalable_ambition": {
       "baseline": "Diagnostic + draft roadmap.",
       "advanced": "Operationalised Steering Committee + published Sustainability Report."
     },
     "ta": "Mixed — short-term diagnostic + long-term governance support.",
-    "donor_complementarity": "BNR explicitly prefers (IBFI-style) central-bank-specific support over generic programmes (GARP).",
+    "ta_activities": [
+      { "activity": "Corporate sustainability diagnostic (inventory of BNR initiatives)", "days": 5 },
+      { "activity": "NZCB roadmap co-drafting with Strategy Directorate", "days": 15 },
+      { "activity": "Steering Committee governance design and operationalisation", "days": 5 },
+      { "activity": "Sustainability Report framework design", "days": 10 }
+    ],
+    "ta_total_days": 35,
+    "donor_complementarity": "BNR explicitly prefers central-bank-specific support (IBFI-style) over generic programmes.",
     "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 3 },
     "tier": "Immediate",
     "year_tag": "Year 1 Prerequisite",
     "amount_eur_m": 2.5,
-    "fy_26_27": "Diagnostic completed; draft NZCB roadmap circulated.",
+    "fy_26_27": "Diagnostic completed; draft NZCB roadmap circulated for internal review.",
     "fy_27_28": "Steering Committee operationalised; first Sustainability Report drafted.",
-    "fy_28_29": "Sustainability Report published; roadmap implementation in progress.",
+    "fy_28_29": "Sustainability Report published; NZCB roadmap implementation in progress.",
     "rsf_fsap_link": "Anchors BNR's role in IMF FSAP climate accountability dimension.",
-    "risks": ["Internal coordination capacity", "Timing alignment with July mid-term review", "Continuity if leadership changes"]
+    "risks": ["Internal coordination capacity across BNR directorates", "Timing alignment with July mid-term strategy review", "Continuity risk if BNR leadership changes"]
   },
   {
     "id": "A2.2",
@@ -109,25 +137,32 @@
     "subaxis": "A2",
     "subaxis_label": "Net-Zero Central Banking",
     "type": "Process Reform",
-    "title": "Carbon footprint baseline of BNR reserves and Investment Policy integration",
+    "title": "Carbon footprint of BNR reserves and green Investment Policy",
     "counterpart": ["BNR — Financial Markets / Reserve Management", "BNR — Board"],
     "trigger": "BNR completes a carbon footprint assessment of its foreign reserves portfolio and updates its Investment Policy to integrate climate criteria, approved at Board level.",
-    "rationale": "BNR Financial Markets directorate reacted positively to portfolio carbon footprinting. Discussions on green bonds as a reserve asset already underway; cautious but receptive — Board approval is the binding step.",
+    "rationale": "The Financial Markets Directorate reacted positively to portfolio carbon footprinting. The exercise may prove that green bonds already form part of the portfolio. Discussions on green bonds as a reserve asset are already underway; the team is cautious but receptive. Board approval is the binding step and introduces uncertainty. AFD can leverage BdF/BIS peer exchange, which is BNR's explicit ask.",
     "scalable_ambition": {
       "baseline": "Scope 1 corporate footprint + reserves carbon assessment.",
       "advanced": "Updated Investment Policy with climate criteria + pilot green sovereign allocation."
     },
     "ta": "Short-term specialised (carbon accounting, peer central bank exchange BdF / BIS).",
-    "donor_complementarity": "WB-RAMP covers reserves management technical advice but not climate dimension (to be confirmed). AFD can build on BdF / NZCB peer exchange — BNR's explicit ask.",
-    "scoring": { "legal_mandate": 3, "policy_alignment": 3, "donor_complementarity": 3, "institutional_ownership": 3 },
+    "ta_activities": [
+      { "activity": "Carbon accounting methodology for reserves portfolio", "days": 10 },
+      { "activity": "Peer exchange with BdF / BIS experts on green reserve management", "days": 10 },
+      { "activity": "Investment Policy revision and climate criteria integration", "days": 10 },
+      { "activity": "Board presentation preparation", "days": 5 }
+    ],
+    "ta_total_days": 35,
+    "donor_complementarity": "WB-RAMP covers reserves management but not the climate dimension. AFD can build on BdF / NZCB peer exchange — BNR's explicit ask.",
+    "scoring": { "legal_mandate": 3, "policy_alignment": 2, "donor_complementarity": 4, "institutional_ownership": 2 },
     "tier": "Secondary",
     "year_tag": "Year 1–2",
     "amount_eur_m": 1.5,
-    "fy_26_27": "Methodology agreed; baseline carbon footprint completed.",
-    "fy_27_28": "Investment Policy revised draft submitted to Board.",
-    "fy_28_29": "Board approval; pilot green sovereign allocation implemented.",
+    "fy_26_27": "Carbon accounting methodology agreed; baseline footprint completed.",
+    "fy_27_28": "Revised Investment Policy draft submitted to Board.",
+    "fy_28_29": "Board approval obtained; pilot green sovereign allocation implemented.",
     "rsf_fsap_link": "Supports IMF FSAP climate dimension and NGFS portfolio management work.",
-    "risks": ["Board approval uncertainty", "Liquidity / safety / return trade-offs", "Data availability for issuer-level carbon scoring"]
+    "risks": ["Board approval uncertainty", "Liquidity, safety, and return trade-offs with green assets", "Data availability for issuer-level carbon scoring"]
   },
   {
     "id": "B1.1",
@@ -137,23 +172,30 @@
     "type": "Market Activation",
     "title": "Sovereign SLL issuance includes a climate-related KPI",
     "counterpart": ["MINECOFIN — DG Debt"],
-    "trigger": "Rwanda's next official creditor Sustainability-Linked Loan includes a formally agreed, independently verifiable climate-related Key Performance Indicator (e.g. forest cover, climate-resilient agriculture coverage) with defined Sustainability Performance Targets (SPTs) and an agreed verification methodology.",
-    "rationale": "DG Debt confirmed active engagement on an existing SLF framework (WB-supported) with a narrow KPI set. Expanding to a climate KPI (forestry / NDC-aligned) would anchor the framework in Rwanda's highest-visibility sustainability commitment and set a regional precedent. AFD's Kenya SLF experience provides a direct peer reference. This DLI is a market-activation trigger: it requires a contracted financial arrangement, not just a policy document.",
+    "trigger": "The Government of Rwanda issues a Sustainability-Linked Loan or Bond that includes at least one KPI targeting climate adaptation or mitigation, with a defined SPT and independent third-party verification arrangement in place at issuance.",
+    "rationale": "The World Bank FCI advisory team is co-developing a SLF framework with MINECOFIN–DG Debt. Rwanda accessed the PBG independently but MINECOFIN confirmed its commitment to SLL issuance by June 2027. AFD's Kenya experience positions it as the natural partner to contribute to the co-design of the framework and support the issuance process.",
     "scalable_ambition": {
       "baseline": "One climate KPI agreed and formally referenced in the next SLL term sheet.",
       "advanced": "Climate KPI package (2+ indicators) embedded in SLL + first independent verification completed."
     },
     "ta": "Short-term specialised (KPI calibration, SPT-setting methodology, AFD Kenya peer exchange) + medium-term verification support.",
+    "ta_activities": [
+      { "activity": "Framework review (SPO) and climate KPI design with MINECOFIN / MDA", "days": 30 },
+      { "activity": "SPT calibration and verification architecture", "days": 30 },
+      { "activity": "Market sounding support (investor engagement)", "days": 5 },
+      { "activity": "Legal and structuring advisory for issuance", "days": 15 }
+    ],
+    "ta_total_days": 80,
     "donor_complementarity": "WB-RAMP supports reserves management; GIZ supports taxonomy. Neither covers the sovereign SLL instrument directly. AFD's Kenya SLF experience is a differentiating advantage.",
-    "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 3, "institutional_ownership": 3 },
+    "scoring": { "legal_mandate": 3, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 3 },
     "tier": "Immediate",
     "year_tag": "Year 1–2",
     "amount_eur_m": 0.5,
-    "fy_26_27": "KPI methodology developed; SPT agreed with DG Debt; external verifier selected.",
-    "fy_27_28": "Climate KPI formally referenced in official creditor SLL term sheet.",
-    "fy_28_29": "First independent verification completed; SPT compliance assessed.",
+    "fy_26_27": "Framework review completed; climate KPI co-designed with MINECOFIN and MDA.",
+    "fy_27_28": "SLL/SLB issued (target: June 2027); verification framework in place; first SPT monitoring cycle launched.",
+    "fy_28_29": "N/A",
     "rsf_fsap_link": "Supports IMF RSF sustainable debt management pillar; aligns with Article IV calls for climate KPI frameworks.",
-    "risks": ["SLL negotiation timeline", "Verifier availability in Rwanda", "Dependence on B1.2 data infrastructure for verification"]
+    "risks": ["MINECOFIN issuance timeline slippage (June 2027 not legally binding)", "Market conditions", "Independent verification capacity in Rwanda"]
   },
   {
     "id": "B1.2",
@@ -162,24 +204,31 @@
     "subaxis_label": "Financial Instruments: Debt",
     "type": "Data Infrastructure",
     "title": "National deforestation monitoring as climate finance data infrastructure",
-    "counterpart": ["NISR", "REMA", "Rwanda Forestry Authority"],
-    "trigger": "Rwanda operationalises a satellite-based national deforestation monitoring system producing annual district-level forest cover and restoration data, formally validated by NISR within the national environment statistics framework and suitable for use as a climate KPI baseline and independent verification methodology.",
-    "rationale": "IMF Article IV 2025 flags climate data infrastructure as a binding cross-cutting constraint. No credible forestry KPI (B1.1) or forestry-anchored SLF framework (B1.3) is achievable without an independently verifiable baseline. NISR and REMA are willing counterparts. Satellite data capacity is nascent but exists (BNR data science team already uses satellite imagery for agricultural estimates). EU supports NISR environment data foundations — AFD builds on this with the finance-linked MRV dimension.",
+    "counterpart": ["REMA", "Rwanda Forestry Authority", "MINECOFIN — DG Debt (downstream user)"],
+    "trigger": "The Rwanda Forestry Authority and REMA operationalise a national deforestation and forest cover monitoring system producing annual, finance-grade data using a standardised and independently reviewed methodology compatible with SLF KPI requirements, voluntary carbon market standards, and REDD+ reporting frameworks, with data publicly accessible.",
+    "rationale": "Rwanda's NDC 3.0 includes forestry targets but no centralised, finance-grade deforestation monitoring system exists. The IMF Article IV 2025 flagged climate data infrastructure as a binding constraint. This data layer is the prerequisite for the forestry KPI in B1.3, but also serves voluntary carbon markets (actively explored by RSE and the government) and REDD+ registration. REMA and the RFA have the mandate but lack the methodology and capacity.",
     "scalable_ambition": {
       "baseline": "Satellite-based methodology validated; first national deforestation baseline produced.",
       "advanced": "Annual district-level monitoring operationalised; NISR publishes environment data report with forest cover time series."
     },
     "ta": "Short-term technical (satellite data pipeline design, remote sensing methodology) + long-term capacity building (NISR environment statistics team, REMA monitoring systems).",
+    "ta_activities": [
+      { "activity": "MRV methodology design and peer review", "days": 40 },
+      { "activity": "Baseline deforestation dataset production support", "days": 30 },
+      { "activity": "REMA / RFA institutional capacity building", "days": 20 },
+      { "activity": "Linkage to capital market standards (ICMA, VCS, REDD+)", "days": 5 }
+    ],
+    "ta_total_days": 95,
     "donor_complementarity": "EU supports NISR environment data with REMA and Ministry of Environment — AFD adds the finance-linked MRV design dimension. Clear additionality. No overlap.",
     "scoring": { "legal_mandate": 3, "policy_alignment": 4, "donor_complementarity": 3, "institutional_ownership": 3 },
     "tier": "Immediate",
     "year_tag": "Year 2–3",
     "amount_eur_m": 2.0,
-    "fy_26_27": "Methodology designed; satellite data pipeline scoped; coordination with NISR / REMA / RFA formalised.",
-    "fy_27_28": "First national deforestation baseline produced and validated; data sharing protocol with DG Debt agreed.",
-    "fy_28_29": "Annual monitoring operational; first update published in NISR environment statistics report.",
+    "fy_26_27": "MRV methodology designed; REMA/RFA capacity assessment completed.",
+    "fy_27_28": "Baseline dataset produced; annual monitoring cycle launched; REDD+ registration initiated.",
+    "fy_28_29": "Annual data published and data quality completed.",
     "rsf_fsap_link": "Directly addresses the IMF Article IV 2025 climate data infrastructure bottleneck; prerequisite for B1.1 SPT verification and B1.3 MRV.",
-    "risks": ["Data quality and satellite access", "Capacity at NISR / REMA", "Coordination with EU-funded environment data work"]
+    "risks": ["REMA / RFA technical capacity gaps", "Satellite data access and processing costs", "Methodology alignment with REDD+ / UNFCCC requirements"]
   },
   {
     "id": "B1.3",
@@ -188,24 +237,31 @@
     "subaxis_label": "Financial Instruments: Debt",
     "type": "Strategy & Framework",
     "title": "Forestry-anchored SLF framework and first issuance",
-    "counterpart": ["MINECOFIN — DG Debt", "REMA", "Rwanda Forestry Authority"],
-    "trigger": "MINECOFIN formally expands the existing Sustainability-Linked Finance framework to include a forestry cover / restoration KPI (supported by B1.2 monitoring infrastructure), and Rwanda completes its first sovereign Sustainability-Linked Finance issuance under this expanded framework with independent third-party verification.",
-    "rationale": "The existing SLF framework (WB-supported) provides the institutional architecture; B1.1 demonstrates the market activation logic; B1.2 delivers the MRV infrastructure. B1.3 is the integration layer — it turns policy and data into a contracted instrument. A forestry-anchored SLF issuance would directly mobilise climate finance against Rwanda's NDC 3.0 forest cover commitments and provide a landmark precedent in the EAC region.",
+    "counterpart": ["MINECOFIN — DG Debt", "REMA (KPI verification)"],
+    "trigger": "MINECOFIN develops and operationalises a Sustainability-Linked Finance framework anchored on Rwanda's nationally monitored deforestation and forest cover restoration KPIs (produced under B1.2), with AFD providing structuring TA and (potentially) co-financing the first issuance.",
+    "rationale": "This is AFD's differentiated positioning in Rwanda's sovereign debt landscape: no other donor is structuring a forestry-linked instrument. The instrument draws directly on the strong SLF experience in Rwanda (B1.1.) and deforestation data (B1.2) and aligns with a potential future AFD sovereign SLL to Rwanda. Conditioned on meaningful progress in B1.2.",
     "scalable_ambition": {
       "baseline": "SLF framework formally expanded with forestry KPI + first issuance under expanded framework.",
       "advanced": "Second issuance with updated forestry KPI and first verification cycle completed."
     },
     "ta": "Short-term (SLF framework legal expansion, issuance structuring, investor engagement) + long-term (framework maintenance, verification oversight).",
+    "ta_activities": [
+      { "activity": "Forestry KPI architecture and SPT calibration", "days": 30 },
+      { "activity": "SLF framework structuring and legal design", "days": 10 },
+      { "activity": "First issuance support (market sounding, investor engagement)", "days": 10 },
+      { "activity": "Peer exchange with Kenya SLF team", "days": 5 }
+    ],
+    "ta_total_days": 55,
     "donor_complementarity": "Builds on WB SLF architecture and AFD Kenya SLF experience. LuxDev (RSE legal support) and GIZ (taxonomy) are complementary. Sequencing is explicit: B1.3 conditioned on B1.1 and B1.2.",
-    "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 3 },
+    "scoring": { "legal_mandate": 3, "policy_alignment": 4, "donor_complementarity": 5, "institutional_ownership": 3 },
     "tier": "Immediate",
     "year_tag": "Year 3",
     "amount_eur_m": 1.0,
-    "fy_26_27": "Legal analysis of SLF framework expansion; investor mapping; coordination with B1.1 and B1.2 teams.",
-    "fy_27_28": "Expanded SLF framework legally formalised; first issuance structuring completed.",
-    "fy_28_29": "First forestry-anchored SLF issuance completed; independent verification protocol activated.",
+    "fy_26_27": "N/A — Conditioned on B1.2 progress; framework scoping initiated.",
+    "fy_27_28": "Draft Forestry KPI framework co-designed.",
+    "fy_28_29": "First SLF issuance under forestry framework completed.",
     "rsf_fsap_link": "Operationalises the IMF RSF sustainable debt management pillar; connects climate data (B1.2) to financial market outcomes.",
-    "risks": ["Market conditions for SLF issuance", "Sequencing dependency on B1.1 and B1.2", "Investor appetite for forestry KPI"]
+    "risks": ["Conditioned on B1.2 data availability", "Ambitious timeline for a second-generation instrument", "Issuer/investor appetite for forestry-linked sovereign SLF in Rwanda"]
   },
   {
     "id": "B2.1",
@@ -213,16 +269,23 @@
     "subaxis": "B2",
     "subaxis_label": "Financial Instruments: Insurance",
     "type": "Strategy & Framework",
-    "title": "Regulatory framework for SACCO climate insurance distribution",
+    "title": "Regulatory framework for climate insurance distribution via SACCOs",
     "counterpart": ["BNR — Insurance Supervision", "MINECOFIN", "SACCO ecosystem"],
-    "trigger": "BNR (as insurance regulator) issues a regulatory framework authorising and standardising the distribution of climate insurance products through the SACCO network, aligned with the National Insurance Strategy and the National DRF Strategy.",
-    "rationale": "SACCOs are the natural last-mile channel for smallholder climate insurance; current regulatory architecture not yet adapted. Foundational to any product roll-out. Builds on WB-funded MSME Bridge Lending Window + macro parametric backstop (DRF Diagnostic / Strategy).",
+    "trigger": "BNR issues a regulatory framework authorising and standardising the distribution of parametric climate insurance products through the SACCO network, aligned with the National Insurance Strategy and the National DRF Strategy.",
+    "rationale": "SACCOs are the natural last-mile channel for smallholder climate insurance; the current regulatory architecture is not adapted. This framework is the foundational prerequisite for B2.2 and B2.3. It builds on the WB-funded MSME Bridge Lending Window and the DRF Diagnostic / National DRF Strategy (GSFF-funded), which identify parametric products as the micro-level layer of Rwanda's risk-layering architecture.",
     "scalable_ambition": {
       "baseline": "Regulatory framework gazetted.",
       "advanced": "Framework + supervisory guidance + first SACCO licensed for distribution."
     },
     "ta": "Long-term institutional (MINECOFIN / BNR insurance supervision capacity + SACCO operational readiness).",
-    "donor_complementarity": "GSFF + IDRIMA.",
+    "ta_activities": [
+      { "activity": "Regulatory framework drafting and legal review", "days": 20 },
+      { "activity": "BNR insurance supervision capacity building", "days": 15 },
+      { "activity": "SACCO network operational readiness assessment", "days": 10 },
+      { "activity": "Alignment workshop with National Insurance Strategy", "days": 5 }
+    ],
+    "ta_total_days": 50,
+    "donor_complementarity": "GSFF + IDRIMA; no active donor on insurance distribution via SACCOs.",
     "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 3 },
     "tier": "Immediate",
     "year_tag": "Year 1 Prerequisite",
@@ -231,7 +294,7 @@
     "fy_27_28": "Framework gazetted; supervisory guidance issued.",
     "fy_28_29": "First SACCO licensed for climate insurance distribution.",
     "rsf_fsap_link": "Supports IMF FSAP climate accountability dimension; complements WB DRF strategy.",
-    "risks": ["SACCO provincial consolidation timeline", "Supervisory capacity at BNR insurance directorate", "Alignment with National Insurance Strategy"]
+    "risks": ["SACCO provincial consolidation timeline", "Supervisory capacity at BNR insurance directorate", "Alignment with National Insurance Strategy revision"]
   },
   {
     "id": "B2.2",
@@ -241,23 +304,30 @@
     "type": "Market Activation",
     "title": "Rwandan insurer pool for climate risk underwriting",
     "counterpart": ["Rwandan insurers", "BNR — Insurance Supervision"],
-    "trigger": "Formal constitution of a Rwandan insurer pool (industry coordination structure) for the underwriting and distribution of climate insurance products to smallholders / SACCOs.",
-    "rationale": "Rwandan insurance market is small and individual underwriting capacity insufficient for systemic climate risk. Industry pool model could address this. Phase II adds market-structure dimension to the WB / GSFF financial mechanism.",
+    "trigger": "A Rwandan insurer pool is formally constituted as an industry coordination structure for the underwriting and distribution of climate insurance products to smallholders and SACCOs, with reinsurance arrangements in place.",
+    "rationale": "Rwanda's insurance market is small and individual underwriting capacity is insufficient for systemic climate risk. An industry pool model addresses this structural constraint. This DLI adds the market-structure dimension to the WB / GSFF financial mechanism and is conditioned on B2.1's regulatory clarity. No active donor is working on insurance pool architecture.",
     "scalable_ambition": {
       "baseline": "MOU signed by participating insurers.",
       "advanced": "Pool operational with capital + reinsurance arrangements."
     },
     "ta": "Short-term specialised (legal structuring, reinsurance sourcing, peer pool exchange).",
+    "ta_activities": [
+      { "activity": "Legal structuring of the insurer pool", "days": 15 },
+      { "activity": "Reinsurance sourcing and negotiation support", "days": 10 },
+      { "activity": "International peer pool exchange", "days": 5 },
+      { "activity": "Capital adequacy and governance framework", "days": 8 }
+    ],
+    "ta_total_days": 38,
     "donor_complementarity": "No active donor on insurance pool architecture; complements WB / GSFF.",
-    "scoring": { "legal_mandate": 3, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 2 },
+    "scoring": { "legal_mandate": 2, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 2 },
     "tier": "Secondary",
     "year_tag": "Year 2–3",
     "amount_eur_m": 1.5,
-    "fy_26_27": "Pool feasibility study; insurer consultations.",
+    "fy_26_27": "Pool feasibility study completed; insurer consultations launched.",
     "fy_27_28": "MOU signed by participating insurers; legal structure formed.",
-    "fy_28_29": "Pool operational with capital + reinsurance arrangements.",
+    "fy_28_29": "Pool operational with capital and reinsurance arrangements in place.",
     "rsf_fsap_link": "Complements IMF FSAP climate accountability dimension.",
-    "risks": ["Industry coordination", "Reinsurance availability", "Capital adequacy"]
+    "risks": ["Industry coordination and competing insurer interests", "Reinsurance availability for Rwanda climate risk", "Capital adequacy requirements"]
   },
   {
     "id": "B2.3",
@@ -266,24 +336,31 @@
     "subaxis_label": "Financial Instruments: Insurance",
     "type": "Market Activation",
     "title": "First parametric climate insurance product in active distribution",
-    "counterpart": ["BNR — Insurance Supervision", "Insurer pool", "SACCO network"],
-    "trigger": "First parametric climate insurance product (drought / excess rain trigger) designed, priced, approved by BNR, and in active distribution to at least one province's SACCO network with measurable take-up.",
-    "rationale": "Concrete deliverable that turns the regulatory and pool work into market reality. Take-up KPI ensures the DLI is not just paperwork. Aligns with IDRIMA's first product target and the MSME BLW macro parametric backstop logic.",
+    "counterpart": ["BNR — Insurance Supervision", "BNR — FSDI", "Insurer pool", "SACCO network"],
+    "trigger": "A first parametric climate insurance product (drought / excess rain trigger) is designed, priced, approved by BNR, and in active distribution to at least one province's SACCO network with measurable take-up.",
+    "rationale": "Rwanda's smallholder agriculture — food crops and tea — is among the most climate-exposed sectors. No parametric product tailored to the SACCO distribution context exists at scale. The DRF Strategy identifies parametric products as the micro-level layer of Rwanda's risk architecture. B2.3 turns B2.1's regulatory framework and B2.2's insurer pool into market reality. BNR's sandbox track provides an approval pathway. AFD's global experience in parametric agricultural insurance provides differentiated technical capacity for product design and actuarial support.",
     "scalable_ambition": {
       "baseline": "Product approved + pilot launch in 1 province.",
       "advanced": "Active distribution in 3+ provinces with measurable policyholders."
     },
     "ta": "Long-term — product design, actuarial support, claims process, awareness campaign.",
+    "ta_activities": [
+      { "activity": "Product design and trigger calibration (drought / excess rain)", "days": 15 },
+      { "activity": "Actuarial review and pricing validation", "days": 10 },
+      { "activity": "Claims process design and operational testing", "days": 10 },
+      { "activity": "SACCO distribution network awareness campaign", "days": 10 }
+    ],
+    "ta_total_days": 45,
     "donor_complementarity": "Builds on WB / GSFF macro backstop; AFD funds product-level work.",
     "scoring": { "legal_mandate": 3, "policy_alignment": 4, "donor_complementarity": 4, "institutional_ownership": 2 },
     "tier": "Secondary",
     "year_tag": "Year 3",
     "amount_eur_m": 2.5,
-    "fy_26_27": "Product design; pricing methodology validated.",
-    "fy_27_28": "BNR approval; pilot launch in one province.",
+    "fy_26_27": "Product design completed; pricing methodology validated.",
+    "fy_27_28": "BNR approval obtained; pilot launched in one province.",
     "fy_28_29": "Active distribution in 3+ provinces with measurable take-up.",
     "rsf_fsap_link": "Operationalises the IMF FSAP and WB DRF Strategy climate insurance dimension.",
-    "risks": ["Take-up rate uncertainty", "Pricing affordability", "Claims operational complexity", "Sequencing behind B2.1 and B2.2"]
+    "risks": ["Take-up rate uncertainty among smallholders", "Pricing affordability for target population", "Operational complexity of claims settlement", "Sequencing dependency on B2.1 and B2.2"]
   },
   {
     "id": "B3.1",
@@ -293,23 +370,30 @@
     "type": "Strategy & Framework",
     "title": "CMA green product certification mechanism and sustainability function",
     "counterpart": ["CMA"],
-    "trigger": "CMA establishes a dedicated sustainable finance function and operationalises a green / social / sustainable / sustainability-linked bond certification / verification mechanism aligned with the Rwanda green taxonomy.",
-    "rationale": "CMA's existing GSS+ guidelines are not 'owned' by market actors. Lean team (20 staff, new CEO) explicitly asked for advisory on dedicated sustainability function. Local SPO / verification capacity is missing — confirmed gap from BRD experience. 92 potential issuers identified by RSE.",
+    "trigger": "CMA establishes a dedicated sustainable finance function and operationalises a green / social / sustainability-linked bond certification mechanism aligned with the Rwanda green taxonomy, with a local SPO panel capacity in place.",
+    "rationale": "CMA's existing GSS+ guidelines are not owned by market actors. The lean team (20 staff, new CEO) explicitly asked for advisory on a dedicated sustainability function. Local SPO / verification capacity is a confirmed gap (flagged in BRD's issuance experience). RSE has identified 92 potential issuers. Multiple donors are active at CMA (LuxDev, GIZ, AfDB) but the certification mechanism and local SPO panel remain unoccupied.",
     "scalable_ambition": {
       "baseline": "Function established + certification SOPs published.",
       "advanced": "First 3 certifications delivered for issuers (including one local SPO panel)."
     },
     "ta": "Short-term + long-term institutional (capacity building, governance).",
+    "ta_activities": [
+      { "activity": "Certification SPO development aligned with Rwanda green taxonomy", "days": 15 },
+      { "activity": "Sustainability function governance setup and staffing support", "days": 10 },
+      { "activity": "Local SPO panel design and capacity building", "days": 10 },
+      { "activity": "Issuer engagement and first certification pipeline", "days": 8 }
+    ],
+    "ta_total_days": 43,
     "donor_complementarity": "LuxDev (legal, fund regs), GIZ (taxonomy), AfDB (5Y strategy), GGGI (TBC) all active — AFD must position narrowly. Certification mechanism + local SPO panel = clean gap.",
-    "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 3, "institutional_ownership": 3 },
+    "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 1, "institutional_ownership": 3 },
     "tier": "Immediate",
     "year_tag": "Year 1–2",
     "amount_eur_m": 2.0,
-    "fy_26_27": "Sustainability function established at CMA; staffing completed.",
-    "fy_27_28": "Certification SOPs published; first local SPO panel operational.",
-    "fy_28_29": "First 3 certifications delivered for issuers.",
+    "fy_26_27": "Sustainability function established at CMA.",
+    "fy_27_28": "Certification process published; first local SPO regulation.",
+    "fy_28_29": "N/A",
     "rsf_fsap_link": "Supports IMF RSF capital markets development pillar.",
-    "risks": ["Capacity at lean CMA team", "Coordination with multiple active donors (LuxDev, GIZ, AfDB)", "Market demand for certifications"]
+    "risks": ["Capacity constraints at lean CMA team", "Crowded donor landscape (LuxDev, GIZ, AfDB, GGGI)", "Market demand for certifications among Rwandan issuers"]
   },
   {
     "id": "B3.2",
@@ -319,22 +403,28 @@
     "type": "Data Infrastructure",
     "title": "ESG Data Hub — RSE Green Exchange Window uptake",
     "counterpart": ["RSE", "Rwandan issuers"],
-    "trigger": "RSE Green Exchange Window operates as a regional ESG data hub with at least [X] Rwandan issuers reporting through ESG GPS™ platform; first cross-border listing or data sharing arrangement signed.",
-    "rationale": "RSE launched Green Exchange Window with LuxStock partnership + ESG GPS™ platform on 27 April 2026 — landmark moment. Phase II adds the 'uptake' dimension (issuer reporting, regional integration). ESG data is a binding gap (per IMF) — this could be a concrete remediation.",
+    "trigger": "The RSE Green Exchange Window operates as a regional ESG data hub with all Rwandan issuers reporting through the ESG GPS platform, and a first cross-border listing or data-sharing arrangement signed.",
+    "rationale": "RSE launched the Green Exchange Window with a LuxStock partnership and the ESG GPS platform on 27 April 2026. Phase II adds the uptake dimension: issuer reporting and regional integration. ESG data is a binding gap flagged by IMF and this DLI provides a concrete remediation. LuxDev already supports the Green Exchange Window but AFD could add the issuer-side uptake and the regional EAC harmonisation dimension.",
     "scalable_ambition": {
       "baseline": "X% of RSE issuers using ESG GPS™.",
       "advanced": "Regional hub with cross-border data agreements."
     },
     "ta": "Short-term specialised (data architecture, issuer onboarding, regional MoUs).",
+    "ta_activities": [
+      { "activity": "ESG data architecture and issuer onboarding programme", "days": 15 },
+      { "activity": "Regional MoU negotiations with EAC partner exchanges", "days": 5 },
+      { "activity": "Cross-border listing feasibility study", "days": 8 }
+    ],
+    "ta_total_days": 28,
     "donor_complementarity": "LuxDev already supports Green Exchange Window. AFD layers the issuer-side uptake and the regional dimension. EAC harmonised sustainability criteria angle.",
-    "scoring": { "legal_mandate": 4, "policy_alignment": 4, "donor_complementarity": 3, "institutional_ownership": 3 },
+    "scoring": { "legal_mandate": 2, "policy_alignment": 4, "donor_complementarity": 3, "institutional_ownership": 3 },
     "tier": "Immediate",
     "year_tag": "Year 1–2",
     "amount_eur_m": 1.5,
-    "fy_26_27": "Issuer onboarding programme launched; data architecture in place.",
-    "fy_27_28": "X% of RSE issuers reporting through ESG GPS™.",
-    "fy_28_29": "First cross-border listing or data sharing arrangement signed.",
+    "fy_26_27": "Issuer onboarding programme launched; ESG data architecture in place.",
+    "fy_27_28": "All Rwandan issuers reporting through ESG GPS platform.",
+    "fy_28_29": "First cross-border listing or data-sharing arrangement signed.",
     "rsf_fsap_link": "Directly addresses IMF RSF climate data infrastructure pillar.",
-    "risks": ["Issuer reporting capacity", "Data quality", "Regional uptake by EAC peers"]
+    "risks": ["Issuer reporting capacity and data quality", "Regional uptake by EAC peer exchanges", "Coordination with LuxDev on Green Exchange Window"]
   }
 ]
