@@ -195,16 +195,30 @@
     .axis-filter-label { font-size: 0.72rem; font-weight: 700; text-align: center; line-height: 1.35; }
     .axis-filter-sub { font-size: 0.63rem; font-weight: 400; opacity: 0.85; }
 
-    /* Type filter chips */
+    /* Type filter chips — colour-coded per DLI type to match card pills */
     .type-filter-btn {
       display: flex; align-items: center; gap: 0.3rem;
-      padding: 5px 10px; border-radius: 99px; border: 1.5px solid var(--border);
-      background: var(--surface); cursor: pointer; font-family: inherit;
-      font-size: 0.78rem; font-weight: 600; color: var(--text);
-      transition: background .15s, color .15s, border-color .15s;
+      padding: 5px 10px; border-radius: 99px; border: 1.5px solid transparent;
+      cursor: pointer; font-family: inherit;
+      font-size: 0.78rem; font-weight: 600;
+      transition: background .15s, color .15s, border-color .15s, filter .15s;
     }
-    .type-filter-btn:hover { border-color: var(--republic-blue); color: var(--republic-blue); }
-    .type-filter-btn.filter-active { background: var(--republic-blue); color: #fff; border-color: var(--republic-blue); }
+    .type-filter-btn.process-reform { background: #E3F2FD; color: #1565C0; border-color: #BBDEFB; }
+    .type-filter-btn.strategy-fw    { background: #F3E5F5; color: #6A1B9A; border-color: #E1BEE7; }
+    .type-filter-btn.market-act     { background: #E8F5E9; color: #2E7D32; border-color: #C8E6C9; }
+    .type-filter-btn.data-infra     { background: #FFF3E0; color: #E65100; border-color: #FFE0B2; }
+    .type-filter-btn:hover { filter: brightness(0.94); }
+    .type-filter-btn.process-reform.filter-active { background: #1565C0; color: #fff; border-color: #1565C0; }
+    .type-filter-btn.strategy-fw.filter-active    { background: #6A1B9A; color: #fff; border-color: #6A1B9A; }
+    .type-filter-btn.market-act.filter-active     { background: #2E7D32; color: #fff; border-color: #2E7D32; }
+    .type-filter-btn.data-infra.filter-active     { background: #E65100; color: #fff; border-color: #E65100; }
+
+    /* Filter group label (above type chips) */
+    .filter-group-label {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-soft);
+      margin-bottom: 0.35rem;
+    }
 
     /* Tier filter chips */
     .tier-filter-btn {
@@ -459,39 +473,6 @@
     /* Card-head chips (always visible) */
     .dli-head-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; }
 
-    /* Rwanda map */
-    #map-view { position: relative; }
-    .rwanda-map-container {
-      display: flex; gap: 1.5rem; align-items: flex-start;
-    }
-    .rwanda-svg-wrap { flex: 0 0 auto; }
-    .rwanda-svg-wrap svg { display: block; }
-    .map-legend { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.75rem; display: flex; gap: 1rem; }
-    .map-legend-item { display: flex; align-items: center; gap: 5px; }
-    .map-legend-dot { width: 12px; height: 12px; border-radius: 50%; }
-
-    /* Node panel */
-    #node-panel {
-      flex: 1; background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 1.25rem; min-height: 300px;
-    }
-    .node-panel-empty { color: var(--text-soft); font-size: 0.88rem; font-style: italic; }
-    .node-panel-title { font-size: 1.1rem; margin-bottom: 0.25rem; }
-    .node-panel-sub { font-size: 0.82rem; color: var(--text-soft); margin-bottom: 1rem; }
-    .intervention-group { margin-bottom: 0.75rem; }
-    .intervention-donor-label {
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
-      color: var(--text-soft); margin-bottom: 0.25rem; border-bottom: 1px solid var(--border);
-      padding-bottom: 0.2rem;
-    }
-    .intervention-entry {
-      display: flex; gap: 0.5rem; align-items: flex-start;
-      font-size: 0.82rem; padding: 0.25rem 0; color: var(--text);
-    }
-    .i-status { flex-shrink: 0; font-size: 0.9rem; margin-top: 1px; }
-    .i-type { font-size: 0.65rem; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; white-space: nowrap; flex-shrink: 0; }
-    .i-tbc { font-size: 0.65rem; background: #FFF3E0; color: var(--status-tbc); border-radius: 3px; padding: 1px 5px; font-weight: 700; flex-shrink: 0; }
-
     /* Donor matrix */
     #matrix-table-wrap { overflow-x: auto; }
     .donor-matrix-table { border-collapse: collapse; font-size: 0.88rem; min-width: 800px; width: 100%; }
@@ -589,7 +570,6 @@
       .meeting-grid { grid-template-columns: repeat(2,1fr); }
       .dli-ambition { grid-template-columns: 1fr; }
       .dli-scoring { grid-template-columns: repeat(2,1fr); }
-      .rwanda-map-container { flex-direction: column; }
     }
     @media (max-width: 600px) {
       .nav-inner { padding: 0 0.75rem; gap: 0.75rem; }
@@ -1131,12 +1111,15 @@ function renderAggDashboard(dlis){
 
       <div class="dli-dash-divider"></div>
 
-      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;">
-        ${typeOrder.filter(t=>typeCounts[t]).map(t=>`
-          <button class="type-filter-btn" data-filter-group="type" onclick="filterDLI('type','${t}',this)">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">${TYPE_ICONS[t]||''}</svg>
-            ${typeShort[t]||t}&thinsp;<span style="font-weight:400;opacity:0.65;">${typeCounts[t]}</span>
-          </button>`).join('')}
+      <div style="display:flex;flex-direction:column;">
+        <div class="filter-group-label">Split by type of DLI</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;">
+          ${typeOrder.filter(t=>typeCounts[t]).map(t=>`
+            <button class="type-filter-btn ${typeSlug(t)}" data-filter-group="type" onclick="filterDLI('type','${t}',this)">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">${TYPE_ICONS[t]||''}</svg>
+              ${typeShort[t]||t}&thinsp;<span style="font-weight:400;opacity:0.65;">${typeCounts[t]}</span>
+            </button>`).join('')}
+        </div>
       </div>
 
       <div class="dli-dash-divider"></div>
@@ -1388,39 +1371,6 @@ function renderDonorMap(donors){
         <strong>${dp.from}</strong><span class="dp-coord-glyph"> ↔ </span><strong>${dp.to}</strong> — ${dp.topic}
       </div>`).join('');
   }
-}
-
-function showNodePanel(inst, interventions, donorList){
-  const myIntervs = interventions.filter(i=>i.institution===inst.id);
-  // Group by donor
-  const byDonor = {};
-  donorList.forEach(d=>{ byDonor[d]=[]; });
-  myIntervs.forEach(i=>{
-    if(!byDonor[i.donor]) byDonor[i.donor]=[];
-    byDonor[i.donor].push(i);
-  });
-
-  const axisColor = inst.axis==='A' ? 'var(--bnr-500)' : 'var(--mef-500)';
-  let html = `<div class="node-panel-title" style="color:${axisColor}">${inst.label}</div>
-    <div class="node-panel-sub">Axis ${inst.axis} · ${myIntervs.length} intervention${myIntervs.length!==1?'s':''} from ${Object.values(byDonor).filter(a=>a.length>0).length} donor${Object.values(byDonor).filter(a=>a.length>0).length!==1?'s':''}</div>`;
-
-  donorList.forEach(donor=>{
-    const items = byDonor[donor]||[];
-    if(!items.length) return;
-    html += `<div class="intervention-group">
-      <div class="intervention-donor-label">${donor}</div>`;
-    items.forEach(iv=>{
-      html += `<div class="intervention-entry">
-        <span class="i-status" style="color:${statusColor(iv.status)}">${statusIcon(iv.status)}</span>
-        <span class="i-type">${iv.type}</span>
-        ${iv.tbc?'<span class="i-tbc">⚑ TBC</span>':''}
-        <span>${iv.label}</span>
-      </div>`;
-    });
-    html += `</div>`;
-  });
-
-  document.getElementById('node-panel').innerHTML = html;
 }
 
 function renderDonorMatrix(donors){
