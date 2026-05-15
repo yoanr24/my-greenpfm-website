@@ -165,11 +165,47 @@
       "date": "2026-05-14",
       "time_slot": "09:00–10:00",
       "counterpart": "MINECOFIN — Chief Economist",
-      "attendees": "",
+      "attendees": "Chief Economist",
       "topic": "Macro-fiscal framework and climate finance integration",
       "axis": "B",
       "status": "confirmed",
       "note_summary": "Post-mission online meeting with MINECOFIN's Chief Economist to discuss the macro-fiscal framework and the integration of climate finance considerations into Rwanda's economic planning.",
+      "note_pdf": ""
+    },
+    {
+      "type": "online",
+      "date": "2026-05-15",
+      "time_slot": "09:30–10:30",
+      "counterpart": "MoE / Rwanda Green Fund",
+      "attendees": "Alice Rullier-Maugue (AFD), Hannah Thombansen (MINECOFIN/MoE)",
+      "topic": "Green PFM Phase 2 feasibility study — debrief AFD/MoE/RGF",
+      "axis": "",
+      "status": "confirmed",
+      "note_summary": "Post-mission debrief call with the Ministry of Environment and Rwanda Green Fund teams to present the main findings of the Green PFM Phase II feasibility mission and discuss potential linkages with MoE and RGF mandates.",
+      "note_pdf": ""
+    },
+    {
+      "type": "online",
+      "date": "2026-05-15",
+      "time_slot": "11:00–12:00",
+      "counterpart": "IMF",
+      "attendees": "TBC",
+      "topic": "Donor coordination",
+      "axis": "",
+      "status": "confirmed",
+      "note_summary": "Post-mission donor coordination call with the IMF team to align on findings and avoid duplication across active TA programmes in Rwanda's financial sector.",
+      "note_pdf": ""
+    },
+    {
+      "type": "online",
+      "date": "2026-05-15",
+      "time_slot": "15:00–16:00",
+      "counterpart": "AGACIRO",
+      "attendees": "TBC",
+      "topic": "TBC",
+      "axis": "",
+      "status": "confirmed",
+      "note_summary": "Post-mission online meeting with AGACIRO Development Fund.",
       "note_pdf": ""
     }
   ]
