@@ -172,28 +172,60 @@
     }
     .matrix-banner strong { font-style: normal; color: var(--text); }
 
-    /* Aggregate dashboard */
+    /* Aggregate dashboard — filter buttons */
     .agg-dashboard {
       background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
       padding: 1rem 1.25rem; margin-bottom: 1.25rem;
-      display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
     }
-    .agg-item { text-align: center; }
-    .agg-label { font-size: 0.72rem; color: var(--text-soft); text-transform: uppercase; letter-spacing: .06em; }
-    .agg-val { font-size: 1.5rem; font-weight: 700; color: var(--republic-blue); }
-    .agg-bar { flex: 1; min-width: 200px; }
-    .agg-bar-label { font-size: 0.72rem; color: var(--text-soft); margin-bottom: 0.3rem; }
-    .stacked-bar { height: 10px; border-radius: 5px; display: flex; overflow: hidden; }
-    .stacked-seg-a { background: var(--bnr-500); }
-    .stacked-seg-b { background: var(--mef-500); }
-    .stacked-legend { display: flex; gap: 1rem; margin-top: 0.3rem; font-size: 0.72rem; }
-    .stacked-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 3px; vertical-align: middle; }
-    .tier-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .tier-pill {
-      padding: 3px 12px; border-radius: 99px; font-size: 0.78rem; font-weight: 600;
+    .dli-dash-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .dli-dash-divider { width: 1px; height: 56px; background: var(--border); flex-shrink: 0; }
+
+    /* Axis filter buttons */
+    .axis-filter-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.2rem; padding: 0.55rem 1rem; border-radius: 10px;
+      border: 2px solid transparent; cursor: pointer; background: none; font-family: inherit;
+      transition: background .15s, color .15s, border-color .15s; min-width: 118px;
     }
-    .tier-pill.immediate { background: #E8F5E9; color: var(--mef-500); }
-    .tier-pill.secondary { background: #FFF8E1; color: #E65100; }
+    .axis-filter-btn.axis-a { background: var(--bnr-100); border-color: var(--bnr-300); color: var(--bnr-700); }
+    .axis-filter-btn.axis-b { background: var(--mef-100); border-color: var(--mef-300); color: var(--mef-700); }
+    .axis-filter-btn.axis-a:hover, .axis-filter-btn.axis-a.filter-active { background: var(--bnr-500); color: #fff; border-color: var(--bnr-500); }
+    .axis-filter-btn.axis-b:hover, .axis-filter-btn.axis-b.filter-active { background: var(--mef-500); color: #fff; border-color: var(--mef-500); }
+    .axis-filter-count { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+    .axis-filter-label { font-size: 0.72rem; font-weight: 700; text-align: center; line-height: 1.35; }
+    .axis-filter-sub { font-size: 0.63rem; font-weight: 400; opacity: 0.85; }
+
+    /* Type filter chips */
+    .type-filter-btn {
+      display: flex; align-items: center; gap: 0.3rem;
+      padding: 5px 10px; border-radius: 99px; border: 1.5px solid var(--border);
+      background: var(--surface); cursor: pointer; font-family: inherit;
+      font-size: 0.78rem; font-weight: 600; color: var(--text);
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .type-filter-btn:hover { border-color: var(--republic-blue); color: var(--republic-blue); }
+    .type-filter-btn.filter-active { background: var(--republic-blue); color: #fff; border-color: var(--republic-blue); }
+
+    /* Tier filter chips */
+    .tier-filter-btn {
+      padding: 5px 12px; border-radius: 99px; font-size: 0.78rem; font-weight: 600;
+      border: 1.5px solid; cursor: pointer; background: none; font-family: inherit;
+      transition: background .15s, color .15s;
+    }
+    .tier-filter-btn.immediate { background: #E8F5E9; color: var(--mef-500); border-color: var(--mef-300); }
+    .tier-filter-btn.immediate.filter-active { background: var(--mef-500); color: #fff; border-color: var(--mef-500); }
+    .tier-filter-btn.secondary { background: #FFF8E1; color: #E65100; border-color: #FFCC80; }
+    .tier-filter-btn.secondary.filter-active { background: #E65100; color: #fff; border-color: #E65100; }
+
+    /* Preferred filter button */
+    .preferred-filter-btn {
+      display: flex; align-items: center; gap: 0.45rem;
+      padding: 5px 12px; border-radius: 99px;
+      border: 2px dashed #c62828; background: transparent; font-family: inherit;
+      color: #c62828; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .preferred-filter-btn.filter-active { background: #c62828; color: #fff; border-style: solid; }
 
     /* View toggle */
     .view-toggle-row {
@@ -569,7 +601,8 @@
       .meeting-grid { grid-template-columns: 1fr; }
       .dli-scoring { grid-template-columns: repeat(2,1fr); }
       .fy-grid { grid-template-columns: 1fr; }
-      .agg-dashboard { flex-direction: column; }
+      .dli-dash-row { flex-direction: column; align-items: flex-start; }
+      .dli-dash-divider { display: none; }
     }
   </style>
 </head>
@@ -636,7 +669,8 @@
         </div>
         <div class="matrix-banner">
           <strong>"This is a 'menu of options'</strong> — a prioritized, modular Policy Reform Matrix designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework."<br>
-          <span style="font-size:0.8rem;">— aligned with the inception report methodology (Section 5.3).</span>
+          <span style="font-size:0.8rem;">— aligned with the inception report methodology (Section 5.3).</span><br>
+          <span style="font-size:0.8rem; font-style:normal;">DLIs outlined in <span style="display:inline-block;width:10px;height:10px;border:2px dashed #c62828;vertical-align:middle;margin:0 3px;border-radius:2px;"></span> <strong style="color:#c62828;">red dotted border</strong> are the <strong>mission-preferred options</strong> recommended for inclusion in the Phase II programme.</span>
         </div>
         <div class="agg-dashboard" id="agg-dashboard">
           <!-- filled by JS -->
@@ -1073,42 +1107,51 @@ function renderAggDashboard(dlis){
   const immCount   = dlis.filter(d=>d.tier==='Immediate').length;
   const secCount   = dlis.filter(d=>d.tier==='Secondary').length;
   const prefCount  = dlis.filter(d=>d.preferred).length;
+  const typeOrder  = ['Process Reform','Strategy & Framework','Market Activation','Data Infrastructure'];
+  const typeShort  = {'Process Reform':'Process Reform','Strategy & Framework':'Strategy & Fw.','Market Activation':'Market Act.','Data Infrastructure':'Data Infra.'};
   const typeCounts = {};
   dlis.forEach(d=>{ const t=d.type||'Other'; typeCounts[t]=(typeCounts[t]||0)+1; });
-  const typeOrder = ['Process Reform','Strategy & Framework','Market Activation','Data Infrastructure'];
-  const typeLabels = { 'Process Reform':'Process Reform', 'Strategy & Framework':'Strategy & Framework', 'Market Activation':'Market Activation', 'Data Infrastructure':'Data Infrastructure' };
 
-  const pctA = Math.round(axisACount/(axisACount+axisBCount)*100);
-  const pctB = 100 - pctA;
+  // Axis icons (24×24 SVG paths)
+  const ICON_A = `<path d="M3 21h18M4 10h16M6 6l6-3 6 3" stroke-linecap="round" stroke-linejoin="round"/><line x1="5" y1="10" x2="5" y2="21"/><line x1="9" y1="10" x2="9" y2="21"/><line x1="12" y1="10" x2="12" y2="21"/><line x1="15" y1="10" x2="15" y2="21"/><line x1="19" y1="10" x2="19" y2="21"/>`;
+  const ICON_B = `<polyline points="3,18 7,13 11,15 16,8 21,5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16,5 21,5 21,10" stroke-linecap="round" stroke-linejoin="round"/>`;
 
   document.getElementById('agg-dashboard').innerHTML = `
-    <div class="agg-item">
-      <div class="agg-label">DLIs by axis</div>
-      <div class="stacked-bar" style="margin-top:0.4rem;">
-        <div class="stacked-seg-a" style="width:${pctA}%"></div>
-        <div class="stacked-seg-b" style="width:${pctB}%"></div>
+    <div class="dli-dash-row">
+      <button class="axis-filter-btn axis-a" data-filter-group="axis" onclick="filterDLI('axis','A',this)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON_A}</svg>
+        <div class="axis-filter-count">${axisACount}</div>
+        <div class="axis-filter-label">Axis A<br><span class="axis-filter-sub">Green Central Banking</span></div>
+      </button>
+      <button class="axis-filter-btn axis-b" data-filter-group="axis" onclick="filterDLI('axis','B',this)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON_B}</svg>
+        <div class="axis-filter-count">${axisBCount}</div>
+        <div class="axis-filter-label">Axis B<br><span class="axis-filter-sub">Green Finance</span></div>
+      </button>
+
+      <div class="dli-dash-divider"></div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;">
+        ${typeOrder.filter(t=>typeCounts[t]).map(t=>`
+          <button class="type-filter-btn" data-filter-group="type" onclick="filterDLI('type','${t}',this)">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">${TYPE_ICONS[t]||''}</svg>
+            ${typeShort[t]||t}&thinsp;<span style="font-weight:400;opacity:0.65;">${typeCounts[t]}</span>
+          </button>`).join('')}
       </div>
-      <div class="stacked-legend" style="margin-top:0.3rem;">
-        <span><span class="stacked-dot" style="background:var(--bnr-500)"></span>Axis A — ${axisACount} DLIs</span>
-        <span><span class="stacked-dot" style="background:var(--mef-500)"></span>Axis B — ${axisBCount} DLIs</span>
+
+      <div class="dli-dash-divider"></div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;">
+        <button class="tier-filter-btn immediate" data-filter-group="tier" onclick="filterDLI('tier','Immediate',this)">🟢 Immediate — ${immCount}</button>
+        <button class="tier-filter-btn secondary" data-filter-group="tier" onclick="filterDLI('tier','Secondary',this)">🟡 Secondary — ${secCount}</button>
       </div>
-    </div>
-    <div class="agg-item">
-      <div class="agg-label">DLIs by type</div>
-      <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.4rem;">
-        ${typeOrder.filter(t=>typeCounts[t]).map(t=>`<span class="dli-chip" style="font-size:0.75rem;">${typeLabels[t]||t}: ${typeCounts[t]}</span>`).join('')}
-      </div>
-    </div>
-    <div class="agg-item">
-      <div class="agg-label">Priority tiers</div>
-      <div class="tier-pills">
-        <span class="tier-pill immediate">🟢 Immediate — ${immCount}</span>
-        <span class="tier-pill secondary">🟡 Secondary — ${secCount}</span>
-      </div>
-    </div>
-    <div class="agg-item">
-      <div class="agg-label">Preferred options</div>
-      <div class="agg-val" style="color:#c62828;">${prefCount} <span style="font-size:0.85rem;font-weight:400;">/ ${dlis.length} DLIs</span></div>
+
+      <div class="dli-dash-divider"></div>
+
+      <button class="preferred-filter-btn" data-filter-group="preferred" onclick="filterDLI('preferred','true',this)">
+        <span style="display:inline-block;width:12px;height:12px;border:2px dashed currentColor;border-radius:2px;flex-shrink:0;"></span>
+        Preferred — ${prefCount}
+      </button>
     </div>`;
 }
 
@@ -1159,7 +1202,9 @@ function buildDLICard(d){
   const counterpartStr = Array.isArray(d.counterpart)?d.counterpart.join(', '):d.counterpart;
   const s = d.scoring;
 
-  return `<div class="dli-card${d.preferred?' preferred':''}" onclick="toggleDLICard(this)">
+  return `<div class="dli-card${d.preferred?' preferred':''}"
+    data-axis="${d.axis}" data-type="${d.type||''}" data-tier="${d.tier||''}" data-preferred="${d.preferred?'true':'false'}"
+    onclick="toggleDLICard(this)">
     <div class="dli-card-head">
       <div class="dli-icon">
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${icon24}</svg>
@@ -1536,6 +1581,45 @@ function renderResources(resources){
 
 function toggleResSection(sec){
   document.getElementById('res-sec-'+sec).classList.toggle('collapsed');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DLI CARD FILTER (dashboard buttons)
+═══════════════════════════════════════════════════════════════ */
+let _dliFilters = {};
+
+function filterDLI(key, val, btn){
+  if(_dliFilters[key] === val){
+    // Toggle off — show all
+    delete _dliFilters[key];
+    btn.classList.remove('filter-active');
+  } else {
+    // Deactivate siblings in same group, activate this one
+    document.querySelectorAll(`[data-filter-group="${key}"]`).forEach(b=>b.classList.remove('filter-active'));
+    _dliFilters[key] = val;
+    btn.classList.add('filter-active');
+  }
+  _applyDLIFilters();
+}
+
+function _applyDLIFilters(){
+  const entries = Object.entries(_dliFilters);
+  document.querySelectorAll('#dli-card-view .dli-card').forEach(card=>{
+    const show = entries.length === 0 || entries.every(([k,v])=>{
+      if(k==='preferred') return card.dataset.preferred === 'true';
+      return card.dataset[k] === v;
+    });
+    card.style.display = show ? '' : 'none';
+  });
+  // Hide empty subaxis / axis sections
+  document.querySelectorAll('#dli-card-view .subaxis-section').forEach(sec=>{
+    const hasVisible = [...sec.querySelectorAll('.dli-card')].some(c=>c.style.display!=='none');
+    sec.style.display = hasVisible ? '' : 'none';
+  });
+  document.querySelectorAll('#dli-card-view .axis-section').forEach(sec=>{
+    const hasVisible = [...sec.querySelectorAll('.dli-card')].some(c=>c.style.display!=='none');
+    sec.style.display = hasVisible ? '' : 'none';
+  });
 }
 
 /* ═══════════════════════════════════════════════════════════════
