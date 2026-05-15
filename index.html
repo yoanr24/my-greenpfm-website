@@ -236,6 +236,7 @@
       overflow: hidden; transition: box-shadow .2s;
     }
     .dli-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .dli-card.preferred { border: 2px dashed #c62828; box-shadow: 0 0 0 2px rgba(198,40,40,0.08); }
     .dli-card-head {
       padding: 0.9rem 1.1rem 0.7rem;
       border-bottom: 1px solid var(--border);
@@ -1067,28 +1068,35 @@ function renderDLIMatrix(dlis){
 }
 
 function renderAggDashboard(dlis){
-  const total = dlis.reduce((s,d)=>s+(d.amount_eur_m||0),0);
-  const axisA = dlis.filter(d=>d.axis==='A').reduce((s,d)=>s+(d.amount_eur_m||0),0);
-  const axisB = dlis.filter(d=>d.axis==='B').reduce((s,d)=>s+(d.amount_eur_m||0),0);
-  const immCount = dlis.filter(d=>d.tier==='Immediate').length;
-  const secCount = dlis.filter(d=>d.tier==='Secondary').length;
-  const pctA = Math.round(axisA/total*100);
-  const pctB = 100-pctA;
+  const axisACount = dlis.filter(d=>d.axis==='A').length;
+  const axisBCount = dlis.filter(d=>d.axis==='B').length;
+  const immCount   = dlis.filter(d=>d.tier==='Immediate').length;
+  const secCount   = dlis.filter(d=>d.tier==='Secondary').length;
+  const prefCount  = dlis.filter(d=>d.preferred).length;
+  const typeCounts = {};
+  dlis.forEach(d=>{ const t=d.type||'Other'; typeCounts[t]=(typeCounts[t]||0)+1; });
+  const typeOrder = ['Process Reform','Strategy & Framework','Market Activation','Data Infrastructure'];
+  const typeLabels = { 'Process Reform':'Process Reform', 'Strategy & Framework':'Strategy & Framework', 'Market Activation':'Market Activation', 'Data Infrastructure':'Data Infrastructure' };
+
+  const pctA = Math.round(axisACount/(axisACount+axisBCount)*100);
+  const pctB = 100 - pctA;
 
   document.getElementById('agg-dashboard').innerHTML = `
     <div class="agg-item">
-      <div class="agg-label">Total indicative envelope</div>
-      <div class="agg-val">€${total.toFixed(1)}M</div>
-    </div>
-    <div class="agg-bar">
-      <div class="agg-bar-label">Split by axis</div>
-      <div class="stacked-bar">
+      <div class="agg-label">DLIs by axis</div>
+      <div class="stacked-bar" style="margin-top:0.4rem;">
         <div class="stacked-seg-a" style="width:${pctA}%"></div>
         <div class="stacked-seg-b" style="width:${pctB}%"></div>
       </div>
-      <div class="stacked-legend">
-        <span><span class="stacked-dot" style="background:var(--bnr-500)"></span>Axis A — €${axisA.toFixed(1)}M</span>
-        <span><span class="stacked-dot" style="background:var(--mef-500)"></span>Axis B — €${axisB.toFixed(1)}M</span>
+      <div class="stacked-legend" style="margin-top:0.3rem;">
+        <span><span class="stacked-dot" style="background:var(--bnr-500)"></span>Axis A — ${axisACount} DLIs</span>
+        <span><span class="stacked-dot" style="background:var(--mef-500)"></span>Axis B — ${axisBCount} DLIs</span>
+      </div>
+    </div>
+    <div class="agg-item">
+      <div class="agg-label">DLIs by type</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.4rem;">
+        ${typeOrder.filter(t=>typeCounts[t]).map(t=>`<span class="dli-chip" style="font-size:0.75rem;">${typeLabels[t]||t}: ${typeCounts[t]}</span>`).join('')}
       </div>
     </div>
     <div class="agg-item">
@@ -1097,6 +1105,10 @@ function renderAggDashboard(dlis){
         <span class="tier-pill immediate">🟢 Immediate — ${immCount}</span>
         <span class="tier-pill secondary">🟡 Secondary — ${secCount}</span>
       </div>
+    </div>
+    <div class="agg-item">
+      <div class="agg-label">Preferred options</div>
+      <div class="agg-val" style="color:#c62828;">${prefCount} <span style="font-size:0.85rem;font-weight:400;">/ ${dlis.length} DLIs</span></div>
     </div>`;
 }
 
@@ -1147,7 +1159,7 @@ function buildDLICard(d){
   const counterpartStr = Array.isArray(d.counterpart)?d.counterpart.join(', '):d.counterpart;
   const s = d.scoring;
 
-  return `<div class="dli-card" onclick="toggleDLICard(this)">
+  return `<div class="dli-card${d.preferred?' preferred':''}" onclick="toggleDLICard(this)">
     <div class="dli-card-head">
       <div class="dli-icon">
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${icon24}</svg>
@@ -1165,7 +1177,6 @@ function buildDLICard(d){
         <div class="dli-counterpart">Counterpart: ${counterpartStr}</div>
         <div class="dli-head-chips">
           <span class="dli-chip">⏱ ${d.year_tag||''}</span>
-          <span class="dli-chip">💶 €${d.amount_eur_m}M indicative</span>
           ${d.ta_total_days?`<span class="dli-chip dli-chip-ta">📋 Potential TA: ${d.ta_total_days} days</span>`:''}
         </div>
       </div>
@@ -1201,14 +1212,14 @@ function buildDLICard(d){
         <div class="fy-item"><div class="fy-tag">FY 28/29</div>${d.fy_28_29||'—'}</div>
       </div>
 
-      <div class="dli-field-label">Feasibility scoring (1–5)</div>
+      <div class="dli-field-label">Feasibility scoring (1–4)</div>
       <div class="dli-scoring">
-        <div class="score-item"><div class="score-label">Legal mandate</div><div class="score-dots">${scoreDots(s.legal_mandate,5)}</div></div>
-        <div class="score-item"><div class="score-label">Policy align.</div><div class="score-dots">${scoreDots(s.policy_alignment,5)}</div></div>
-        <div class="score-item"><div class="score-label">Donor compl.</div><div class="score-dots">${scoreDots(s.donor_complementarity,5)}</div></div>
-        <div class="score-item"><div class="score-label">Inst. ownership</div><div class="score-dots">${scoreDots(s.institutional_ownership,5)}</div></div>
+        <div class="score-item"><div class="score-label">Legal mandate</div><div class="score-dots">${scoreDots(s.legal_mandate,4)}</div></div>
+        <div class="score-item"><div class="score-label">Policy align.</div><div class="score-dots">${scoreDots(s.policy_alignment,4)}</div></div>
+        <div class="score-item"><div class="score-label">Donor compl.</div><div class="score-dots">${scoreDots(s.donor_complementarity,4)}</div></div>
+        <div class="score-item"><div class="score-label">Inst. ownership</div><div class="score-dots">${scoreDots(s.institutional_ownership,4)}</div></div>
       </div>
-      <div class="dli-composite">Composite: ${comp} / 5 → Tier: <span class="dli-tier-badge ${tierClass}" style="font-size:0.82rem;">${d.tier}</span></div>
+      <div class="dli-composite">Composite: ${comp} / 4 → Tier: <span class="dli-tier-badge ${tierClass}" style="font-size:0.82rem;">${d.tier}</span></div>
     </div>
   </div>`;
 }
@@ -1223,7 +1234,6 @@ function renderDLITable(dlis){
       <td style="font-size:0.75rem;">${d.fy_27_28||'—'}</td>
       <td style="font-size:0.75rem;">${d.fy_28_29||'—'}</td>
       <td class="mono" style="text-align:center;">${d.ta_total_days||'—'} days</td>
-      <td class="mono">€${d.amount_eur_m}M</td>
     </tr>`).join('');
 
   document.getElementById('dli-table-view').innerHTML = `
@@ -1232,7 +1242,7 @@ function renderDLITable(dlis){
         <thead><tr>
           <th>DLI #</th><th>Implementing Institution</th><th>Description</th>
           <th>FY 26/27</th><th>FY 27/28</th><th>FY 28/29</th>
-          <th>Potential TA (days)</th><th>Indicative €</th>
+          <th>Potential TA (days)</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
