@@ -10,27 +10,10 @@
     or Netlify's site-level password feature. The JS hash can be read by anyone with DevTools.
     Password: greenpfm2026  |  SHA-256: a0cd2d82e967368a854ed11bc3fc38bd4addae1e8b8dcb270ee694060e134e7d
   -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ── Marianne font (French Republic typeface, from DSFR CDN) ── */
-    @font-face {
-      font-family: 'Marianne';
-      src: url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Regular.woff2') format('woff2'),
-           url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Regular.woff') format('woff');
-      font-weight: 400; font-style: normal; font-display: swap;
-    }
-    @font-face {
-      font-family: 'Marianne';
-      src: url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Medium.woff2') format('woff2'),
-           url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Medium.woff') format('woff');
-      font-weight: 500; font-style: normal; font-display: swap;
-    }
-    @font-face {
-      font-family: 'Marianne';
-      src: url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Bold.woff2') format('woff2'),
-           url('https://unpkg.com/@gouvfr/dsfr@1.14.4/dist/fonts/Marianne-Bold.woff') format('woff');
-      font-weight: 700; font-style: normal; font-display: swap;
-    }
-
     /* ── CSS Custom Properties ── */
     :root {
       --republic-blue: #000091;
@@ -42,7 +25,7 @@
       --status-completed: #546E7A; --status-exploratory: #9E9E9E; --status-tbc: #E65100;
       --dp-coord: #FF9800;
       --bg: #FAFAFA; --surface: #FFFFFF; --text: #1A1A1A; --text-soft: #555555; --border: #E0E0E0;
-      --font: "Marianne", system-ui, -apple-system, sans-serif;
+      --font: "Barlow", system-ui, -apple-system, sans-serif;
       --mono: ui-monospace, "SF Mono", "Cascadia Mono", monospace;
       --nav-h: 56px;
     }
@@ -404,12 +387,14 @@
     .meeting-card.expanded .meeting-expand { display: block; }
     .meeting-summary { font-size: 0.83rem; color: var(--text-soft); line-height: 1.55; margin-bottom: 0.5rem; }
     .meeting-expand-hint { font-size: 0.7rem; color: var(--text-soft); text-align: right; margin-top: 0.5rem; }
-    .meeting-dl-btn {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: var(--republic-blue); color: #fff; text-decoration: none;
-      font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 6px;
+    .meeting-notes-avail {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #F0F4FF; color: var(--republic-blue);
+      border: 1px solid #C7D2FE;
+      font-size: 0.78rem; font-weight: 600;
+      padding: 4px 10px; border-radius: 99px;
     }
-    .meeting-dl-btn:hover { opacity: 0.88; }
+    .meeting-notes-avail-sub { color: var(--text-soft); font-weight: 400; }
     .agenda-empty-note {
       text-align: center; color: var(--text-soft); font-size: 0.88rem;
       padding: 2rem; background: var(--surface); border: 1px dashed var(--border);
@@ -1331,7 +1316,7 @@ function buildMeetingCard(m, id){
     expandHtml += `<div class="meeting-summary">${m.note_summary}</div>`;
   }
   if(m.note_pdf){
-    expandHtml += `<a class="meeting-dl-btn" href="data/notes/${m.note_pdf}" download>⬇ Download meeting notes (PDF)</a>`;
+    expandHtml += `<div class="meeting-notes-avail">📄 Meeting notes available <span class="meeting-notes-avail-sub">— available upon request</span></div>`;
   }
   if(!m.note_summary && !m.note_pdf){
     expandHtml = `<div class="meeting-summary" style="font-style:italic;">Meeting summary to be added.</div>`;
