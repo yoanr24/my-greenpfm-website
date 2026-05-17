@@ -555,18 +555,28 @@
 
     /* ── DONOR MAPPING — view-toggle sub-bar ── */
     .donor-sub-bar {
-      display: flex; gap: 0.5rem; align-items: center;
-      padding: 0.55rem 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0.65rem 1.5rem;
       background: var(--surface); border-bottom: 1px solid var(--border);
     }
+    .donor-view-seg {
+      display: flex; background: var(--bg);
+      border: 2px solid var(--border); border-radius: 10px; padding: 3px; gap: 3px;
+    }
     .donor-sub-bar .donor-view-btn {
-      padding: 5px 18px; border: 1.5px solid var(--border); border-radius: 6px;
-      background: var(--surface); font-size: 0.85rem; font-weight: 500;
-      color: var(--text-soft); cursor: pointer; font-family: var(--font);
-      transition: all .15s;
+      display: flex; align-items: center; gap: 0.45rem;
+      padding: 9px 28px; border: none; border-radius: 7px;
+      font-size: 0.95rem; font-weight: 600; font-family: var(--font);
+      color: var(--text-soft); background: none; cursor: pointer;
+      transition: background .15s, color .15s, box-shadow .15s;
+      white-space: nowrap;
+    }
+    .donor-sub-bar .donor-view-btn:hover:not(.active) {
+      background: rgba(0,0,0,0.04); color: var(--text);
     }
     .donor-sub-bar .donor-view-btn.active {
-      background: var(--republic-blue); color: #fff; border-color: var(--republic-blue);
+      background: var(--republic-blue); color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,145,0.25);
     }
 
     /* ── DONOR MAP PANEL ── */
@@ -829,12 +839,20 @@
 
     <!-- View-toggle sub-bar -->
     <div class="donor-sub-bar">
-      <button class="donor-view-btn active" id="donor-btn-table" onclick="switchDonorView('table',this)">Table</button>
-      <button class="donor-view-btn"        id="donor-btn-map"   onclick="switchDonorView('map',this)">Map</button>
+      <div class="donor-view-seg">
+        <button class="donor-view-btn active" id="donor-btn-map" onclick="switchDonorView('map',this)">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10.5 2 L14.5 3.5 V13.5 L10.5 12 L5.5 14 L1.5 12.5 V2.5 L5.5 4 Z"/><line x1="5.5" y1="4" x2="5.5" y2="14"/><line x1="10.5" y1="2" x2="10.5" y2="12"/></svg>
+          Map
+        </button>
+        <button class="donor-view-btn" id="donor-btn-table" onclick="switchDonorView('table',this)">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="1.5" y="1.5" width="13" height="13" rx="1.5"/><line x1="1.5" y1="5.5" x2="14.5" y2="5.5"/><line x1="1.5" y1="9.5" x2="14.5" y2="9.5"/><line x1="6" y1="5.5" x2="6" y2="14.5"/></svg>
+          Table
+        </button>
+      </div>
     </div>
 
-    <!-- ── TABLE VIEW ── -->
-    <div id="donor-table-view">
+    <!-- ── TABLE VIEW (hidden by default — map is the default view) ── -->
+    <div id="donor-table-view" style="display:none">
       <div class="page-container">
         <div class="section-hd">
           <h2>Donor mapping — active DP support to Rwanda's financial system</h2>
@@ -877,8 +895,8 @@
       </div>
     </div>
 
-    <!-- ── MAP VIEW (lazy-inited on first activation) ── -->
-    <div id="donor-map-view" style="display:none">
+    <!-- ── MAP VIEW (default view — inited in initApp once data loads) ── -->
+    <div id="donor-map-view">
       <div id="donor-map-panel">
         <div class="dmp-root">
           <!-- SVG injected by donor-map.js into .dmp-stage-wrap -->
@@ -1168,13 +1186,18 @@ function initApp(){
     fetch('data/dlis.json').then(r=>r.json()),
     fetch('data/resources.json').then(r=>r.json())
   ]).then(([agenda, donors, dlis, resources])=>{
-    _donorsData = donors; // stored for lazy map init via switchDonorView
+    _donorsData = donors;
     renderStats(agenda);
     renderObjectiveCards();
     renderDLIMatrix(dlis);
     renderAgenda(agenda);
     renderDonorMap(donors);
     renderResources(resources);
+    // Map is the default view — init it immediately so it's ready when the tab opens
+    if(!_donorMapInited && typeof window.__initDonorMap === 'function'){
+      _donorMapInited = true;
+      window.__initDonorMap(_donorsData);
+    }
   }).catch(err=>{
     console.error('Data load error:',err);
     document.body.insertAdjacentHTML('afterbegin',
