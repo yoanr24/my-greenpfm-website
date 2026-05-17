@@ -553,9 +553,26 @@
     .res-link:hover { background: var(--republic-blue); color: #fff; }
     .res-hidden { display: none !important; }
 
-    /* ── DONOR MAP TAB ── */
+    /* ── DONOR MAPPING — view-toggle sub-bar ── */
+    .donor-sub-bar {
+      display: flex; gap: 0.5rem; align-items: center;
+      padding: 0.55rem 1.5rem;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+    }
+    .donor-sub-bar .donor-view-btn {
+      padding: 5px 18px; border: 1.5px solid var(--border); border-radius: 6px;
+      background: var(--surface); font-size: 0.85rem; font-weight: 500;
+      color: var(--text-soft); cursor: pointer; font-family: var(--font);
+      transition: all .15s;
+    }
+    .donor-sub-bar .donor-view-btn.active {
+      background: var(--republic-blue); color: #fff; border-color: var(--republic-blue);
+    }
+
+    /* ── DONOR MAP PANEL ── */
+    /* --donor-bar-h = sub-bar height (approx 44px) */
     #donor-map-panel {
-      height: calc(100vh - var(--nav-h));
+      height: calc(100vh - var(--nav-h) - 44px);
       display: flex; flex-direction: column; overflow: hidden;
     }
     #donor-map-panel .dmp-root {
@@ -718,7 +735,6 @@
         <button class="nav-tab active" data-tab="front">Front Page</button>
         <button class="nav-tab" data-tab="agenda">Mission Agenda</button>
         <button class="nav-tab" data-tab="donors">Donor Mapping</button>
-        <button class="nav-tab" data-tab="donor-map">Donor Map</button>
         <button class="nav-tab" data-tab="resources">Resources</button>
       </div>
     </div>
@@ -810,97 +826,79 @@
 
   <!-- ════ TAB: DONOR MAPPING ════ -->
   <div id="tab-donors" class="tab-panel">
-    <div class="page-container">
-      <div class="section-hd">
-        <h2>Donor mapping — active DP support to Rwanda's financial system</h2>
-        <p>Mapping donor interventions targeting BNR, MINECOFIN and other institutions in the mission scope. Department-level details are available in each intervention's description. Click a button below to filter the table by institution group.</p>
-      </div>
 
-      <!-- Status legend -->
-      <div class="status-legend" id="status-legend">
-        <span class="legend-item">
-          <span class="legend-icon" style="color:var(--status-active)">●</span> Active
-        </span>
-        <span class="legend-item">
-          <span class="legend-icon" style="color:var(--status-completed)">○</span> Completed
-        </span>
-        <span class="legend-item">
-          <span class="legend-icon" style="color:var(--status-planned)">◐</span> Planned
-        </span>
-        <span class="legend-item">
-          <span class="legend-icon" style="color:var(--status-exploratory)">▷</span> Exploratory
-        </span>
-        <span class="legend-item">
-          <span class="legend-icon" style="color:var(--status-tbc)">⚑</span> TBC
-        </span>
-      </div>
-
-      <!-- Axis filter buttons -->
-      <div class="axis-legend">
-        <button class="axis-legend-item axis-legend-a" onclick="filterDonorGroup('bnr', this)">
-          <div class="axis-legend-badge">A</div>
-          <div>
-            <div class="axis-legend-name">BNR</div>
-            <div class="axis-legend-sub">Axis A — Green Central Banking</div>
-          </div>
-        </button>
-        <button class="axis-legend-item axis-legend-b" onclick="filterDonorGroup('minecofin', this)">
-          <div class="axis-legend-badge">B</div>
-          <div>
-            <div class="axis-legend-name">MINECOFIN</div>
-            <div class="axis-legend-sub">Axis B — Green Financial Products & Markets</div>
-          </div>
-        </button>
-        <button class="axis-legend-item axis-legend-c" onclick="filterDonorGroup('other', this)">
-          <div class="axis-legend-badge">C</div>
-          <div>
-            <div class="axis-legend-name">Other Recipients</div>
-            <div class="axis-legend-sub">Axis B — Green Financial Products & Markets</div>
-          </div>
-        </button>
-      </div>
-
-      <!-- Matrix -->
-      <div id="matrix-table-wrap"></div>
-
-      <!-- DP coordination -->
-      <div class="dp-coord-section">
-        <div class="dp-coord-title">⬡ DP–DP Coordination flows</div>
-        <div class="dp-coord-list" id="dp-coord-list-matrix"></div>
-      </div>
-
+    <!-- View-toggle sub-bar -->
+    <div class="donor-sub-bar">
+      <button class="donor-view-btn active" id="donor-btn-table" onclick="switchDonorView('table',this)">Table</button>
+      <button class="donor-view-btn"        id="donor-btn-map"   onclick="switchDonorView('map',this)">Map</button>
     </div>
-  </div>
 
-  <!-- ════ TAB: DONOR MAP ════ -->
-  <div id="tab-donor-map" class="tab-panel">
-    <div id="donor-map-panel">
-      <div class="dmp-root">
-        <!-- SVG map is injected here by donor-map.js -->
-        <div class="dmp-stage-wrap">
-          <div class="dmp-bottom">
-            <span class="dmp-hint">Click a donor or institution chip to explore connections</span>
-            <button id="dmp-clear-btn" onclick="window._dmpDeselect()">Clear selection ×</button>
-            <div class="dmp-legend">
-              <span class="dmp-leg-item">
-                <span class="dmp-leg-dot" style="background:var(--status-active)"></span>Active
-              </span>
-              <span class="dmp-leg-item">
-                <span class="dmp-leg-dot" style="background:var(--status-planned)"></span>Planned
-              </span>
-              <span class="dmp-leg-item">
-                <span class="dmp-leg-dot" style="background:var(--status-completed)"></span>Completed
-              </span>
-              <span class="dmp-leg-item">
-                <span class="dmp-leg-dot" style="background:var(--status-exploratory)"></span>Exploratory
-              </span>
+    <!-- ── TABLE VIEW ── -->
+    <div id="donor-table-view">
+      <div class="page-container">
+        <div class="section-hd">
+          <h2>Donor mapping — active DP support to Rwanda's financial system</h2>
+          <p>Mapping donor interventions targeting BNR, MINECOFIN and other institutions in the mission scope. Department-level details are available in each intervention's description. Click a button below to filter the table by institution group.</p>
+        </div>
+
+        <!-- Status legend -->
+        <div class="status-legend" id="status-legend">
+          <span class="legend-item"><span class="legend-icon" style="color:var(--status-active)">●</span> Active</span>
+          <span class="legend-item"><span class="legend-icon" style="color:var(--status-completed)">○</span> Completed</span>
+          <span class="legend-item"><span class="legend-icon" style="color:var(--status-planned)">◐</span> Planned</span>
+          <span class="legend-item"><span class="legend-icon" style="color:var(--status-exploratory)">▷</span> Exploratory</span>
+          <span class="legend-item"><span class="legend-icon" style="color:var(--status-tbc)">⚑</span> TBC</span>
+        </div>
+
+        <!-- Axis filter buttons -->
+        <div class="axis-legend">
+          <button class="axis-legend-item axis-legend-a" onclick="filterDonorGroup('bnr', this)">
+            <div class="axis-legend-badge">A</div>
+            <div><div class="axis-legend-name">BNR</div><div class="axis-legend-sub">Axis A — Green Central Banking</div></div>
+          </button>
+          <button class="axis-legend-item axis-legend-b" onclick="filterDonorGroup('minecofin', this)">
+            <div class="axis-legend-badge">B</div>
+            <div><div class="axis-legend-name">MINECOFIN</div><div class="axis-legend-sub">Axis B — Green Financial Products & Markets</div></div>
+          </button>
+          <button class="axis-legend-item axis-legend-c" onclick="filterDonorGroup('other', this)">
+            <div class="axis-legend-badge">C</div>
+            <div><div class="axis-legend-name">Other Recipients</div><div class="axis-legend-sub">Axis B — Green Financial Products & Markets</div></div>
+          </button>
+        </div>
+
+        <!-- Matrix -->
+        <div id="matrix-table-wrap"></div>
+
+        <!-- DP coordination -->
+        <div class="dp-coord-section">
+          <div class="dp-coord-title">⬡ DP–DP Coordination flows</div>
+          <div class="dp-coord-list" id="dp-coord-list-matrix"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MAP VIEW (lazy-inited on first activation) ── -->
+    <div id="donor-map-view" style="display:none">
+      <div id="donor-map-panel">
+        <div class="dmp-root">
+          <!-- SVG injected by donor-map.js into .dmp-stage-wrap -->
+          <div class="dmp-stage-wrap">
+            <div class="dmp-bottom">
+              <span class="dmp-hint">Click a donor or institution chip to explore connections</span>
+              <button id="dmp-clear-btn" onclick="window._dmpDeselect()">Clear selection ×</button>
+              <div class="dmp-legend">
+                <span class="dmp-leg-item"><span class="dmp-leg-dot" style="background:var(--status-active)"></span>Active</span>
+                <span class="dmp-leg-item"><span class="dmp-leg-dot" style="background:var(--status-planned)"></span>Planned</span>
+                <span class="dmp-leg-item"><span class="dmp-leg-dot" style="background:var(--status-completed)"></span>Completed</span>
+                <span class="dmp-leg-item"><span class="dmp-leg-dot" style="background:var(--status-exploratory)"></span>Exploratory</span>
+              </div>
             </div>
           </div>
+          <aside class="dmp-aside" aria-live="polite"></aside>
         </div>
-        <!-- Detail side panel (populated by JS on chip click) -->
-        <aside class="dmp-aside" aria-live="polite"></aside>
       </div>
     </div>
+
   </div>
 
   <!-- ════ TAB: RESOURCES ════ -->
@@ -1118,7 +1116,7 @@ window.addEventListener('DOMContentLoaded', function(){
 /* ═══════════════════════════════════════════════════════════════
    TAB ROUTING
 ═══════════════════════════════════════════════════════════════ */
-const TAB_IDS = ['front','agenda','donors','donor-map','resources'];
+const TAB_IDS = ['front','agenda','donors','resources'];
 let _donorsData = null;       // stored once donors.json is fetched
 let _donorMapInited = false;  // guard against duplicate init
 
@@ -1127,11 +1125,25 @@ function activateTab(id){
   document.querySelectorAll('.nav-tab').forEach(b=> b.classList.toggle('active', b.dataset.tab===id));
   document.querySelectorAll('.tab-panel').forEach(p=> p.classList.toggle('active', p.id==='tab-'+id));
   history.replaceState(null,'','#'+id);
+}
 
-  // Lazy-init the donor map the first time its tab becomes visible
-  if(id === 'donor-map' && !_donorMapInited && _donorsData && typeof window.__initDonorMap === 'function'){
-    _donorMapInited = true;
-    window.__initDonorMap(_donorsData);
+/* Switch between Table and Map sub-views inside the Donor Mapping tab */
+function switchDonorView(view, btn){
+  document.querySelectorAll('.donor-sub-bar .donor-view-btn').forEach(b=> b.classList.remove('active'));
+  btn.classList.add('active');
+  const tableDiv = document.getElementById('donor-table-view');
+  const mapDiv   = document.getElementById('donor-map-view');
+  if(view === 'map'){
+    tableDiv.style.display = 'none';
+    mapDiv.style.display   = '';
+    // Lazy-init the SVG map on first activation
+    if(!_donorMapInited && _donorsData && typeof window.__initDonorMap === 'function'){
+      _donorMapInited = true;
+      window.__initDonorMap(_donorsData);
+    }
+  } else {
+    tableDiv.style.display = '';
+    mapDiv.style.display   = 'none';
   }
 }
 
@@ -1156,18 +1168,13 @@ function initApp(){
     fetch('data/dlis.json').then(r=>r.json()),
     fetch('data/resources.json').then(r=>r.json())
   ]).then(([agenda, donors, dlis, resources])=>{
-    _donorsData = donors; // make available for lazy donor-map init
+    _donorsData = donors; // stored for lazy map init via switchDonorView
     renderStats(agenda);
     renderObjectiveCards();
     renderDLIMatrix(dlis);
     renderAgenda(agenda);
     renderDonorMap(donors);
     renderResources(resources);
-    // If the donor-map tab was already active when data arrived, init it now
-    if(location.hash.replace('#','') === 'donor-map' && !_donorMapInited && typeof window.__initDonorMap === 'function'){
-      _donorMapInited = true;
-      window.__initDonorMap(_donorsData);
-    }
   }).catch(err=>{
     console.error('Data load error:',err);
     document.body.insertAdjacentHTML('afterbegin',

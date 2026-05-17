@@ -22,16 +22,18 @@
   // nisr is intentionally omitted → dropped with a console.warn
 
   /* ─── Fixed visual layout  (SVG viewBox 0 0 900 540) ──────────── */
+  // Positions surround Rwanda's silhouette (SVG viewBox 0 0 900 540).
+  // Rwanda spans approx x 220–619, y 90–440; chips sit 50-80 px outside the outline.
   const DONORS = [
-    { id: 'AFD',        x:  65, y: 115, color: '#2563EB' },
-    { id: 'AfDB',       x: 215, y:  38, color: '#9333EA' },
-    { id: 'EIB',        x: 368, y:  28, color: '#0284C7' },
-    { id: 'GIZ',        x: 522, y:  33, color: '#16A34A' },
-    { id: 'LuxDev',     x: 720, y:  88, color: '#DC2626' },
-    { id: 'GGGI',       x: 748, y: 215, color: '#0891B2' },
-    { id: 'World Bank', x: 718, y: 363, color: '#1D4ED8' },
-    { id: 'IMF',        x: 495, y: 488, color: '#0D9488' },
-    { id: 'EU',         x: 185, y: 478, color: '#7C3AED' },
+    { id: 'AFD',        x: 155, y: 250, color: '#2563EB' },  // left
+    { id: 'AfDB',       x: 285, y:  42, color: '#9333EA' },  // top-left
+    { id: 'EIB',        x: 405, y:  33, color: '#0284C7' },  // top-center
+    { id: 'GIZ',        x: 530, y:  42, color: '#16A34A' },  // top-right
+    { id: 'LuxDev',     x: 685, y: 140, color: '#DC2626' },  // right-upper
+    { id: 'GGGI',       x: 702, y: 270, color: '#0891B2' },  // right-middle
+    { id: 'World Bank', x: 685, y: 395, color: '#1D4ED8' },  // right-lower
+    { id: 'IMF',        x: 435, y: 500, color: '#0D9488' },  // bottom-center
+    { id: 'EU',         x: 268, y: 492, color: '#7C3AED' },  // bottom-left
   ];
 
   // Beneficiary chips — hard-coded visual positions inside Rwanda silhouette
@@ -43,8 +45,6 @@
     { id: 'BRD',       x: 342, y: 308, axis: 'B' },
     { id: 'BoK',       x: 452, y: 328, axis: 'B' },
   ];
-
-  const KIGALI = { x: 457, y: 264 };
 
   /* ─── Status helpers ───────────────────────────────────────────── */
   const STATUS_COLOR = {
@@ -171,39 +171,6 @@
       'stroke-linejoin': 'round',
     });
     svg.appendChild(rPath);
-
-    /* Kigali halo */
-    var haloOuter = _el('circle', {
-      cx:'457', cy:'264', r:'26',
-      fill:'rgba(255,255,255,0.45)',
-      stroke:'#66BB6A', 'stroke-width':'1',
-    });
-    svg.appendChild(haloOuter);
-
-    var haloInner = _el('circle', {
-      cx:'457', cy:'264', r:'16',
-      fill:'rgba(255,255,255,0.7)',
-      stroke:'#2E7D32', 'stroke-width':'1.5',
-    });
-    svg.appendChild(haloInner);
-
-    var kDot = _el('circle', {
-      cx:'457', cy:'264', r:'5',
-      fill:'#1B5E20',
-    });
-    svg.appendChild(kDot);
-
-    var kLabel = _el('text', {
-      x:'457', y:'245',
-      'text-anchor':'middle',
-      'font-size':'10',
-      'font-weight':'700',
-      'font-family':'Barlow,system-ui,sans-serif',
-      'letter-spacing':'0.08em',
-      fill:'#1B5E20',
-    });
-    kLabel.textContent = 'KIGALI';
-    svg.appendChild(kLabel);
 
     /* Arc layer (below chips) */
     svg.appendChild(_el('g', { id:'dmp-arcs' }));
