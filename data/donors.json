@@ -12,59 +12,81 @@
   ],
   "institutions": [
     {
-      "id": "bnr-strategy",
-      "label": "BNR — Strategy Directorate",
-      "axis": "A"
-    },
-    {
-      "id": "bnr-monpol",
-      "label": "BNR — Monetary Policy Directorate",
-      "axis": "A"
-    },
-    {
-      "id": "bnr-fm",
-      "label": "BNR — Financial Markets Directorate",
-      "axis": "A"
-    },
-    {
       "id": "minecofin-debt",
       "label": "MINECOFIN — Debt Directorate",
-      "axis": "B"
+      "axis": "B",
+      "pin_x": 0.45,
+      "pin_y": 0.42
     },
     {
       "id": "minecofin-cfd",
       "label": "MINECOFIN — Climate Finance Directorate",
-      "axis": "B"
+      "axis": "B",
+      "pin_x": 0.48,
+      "pin_y": 0.4
     },
     {
       "id": "minecofin-mfad",
       "label": "MINECOFIN — Macroeconomic Policy",
-      "axis": "B"
+      "axis": "B",
+      "pin_x": 0.51,
+      "pin_y": 0.42
+    },
+    {
+      "id": "bnr-strategy",
+      "label": "BNR — Strategy Directorate",
+      "axis": "A",
+      "pin_x": 0.4,
+      "pin_y": 0.5
+    },
+    {
+      "id": "bnr-monpol",
+      "label": "BNR — Monetary Policy Directorate",
+      "axis": "A",
+      "pin_x": 0.43,
+      "pin_y": 0.52
+    },
+    {
+      "id": "bnr-fm",
+      "label": "BNR — Financial Markets Directorate",
+      "axis": "A",
+      "pin_x": 0.46,
+      "pin_y": 0.5
     },
     {
       "id": "cma",
       "label": "Capital Market Authority",
-      "axis": "B"
+      "axis": "B",
+      "pin_x": 0.55,
+      "pin_y": 0.5
     },
     {
       "id": "rse",
       "label": "Rwanda Stock Exchange",
-      "axis": "B"
+      "axis": "B",
+      "pin_x": 0.58,
+      "pin_y": 0.48
     },
     {
       "id": "brd",
       "label": "Rwanda Development Bank",
-      "axis": "B"
+      "axis": "B",
+      "pin_x": 0.52,
+      "pin_y": 0.55
     },
     {
       "id": "bok",
       "label": "Bank of Kigali",
-      "axis": "B"
+      "axis": "B",
+      "pin_x": 0.5,
+      "pin_y": 0.58
     },
     {
       "id": "nisr",
       "label": "National Institute for Statistics of Rwanda",
-      "axis": "B"
+      "axis": "B",
+      "pin_x": 0.4,
+      "pin_y": 0.45
     }
   ],
   "interventions": [
@@ -100,12 +122,19 @@
       "institution": "bok",
       "donor": "EIB",
       "status": "active",
-      "type": "Loan+TA",
+      "type": "Loan",
       "label": "€100M climate finance credit line (2024)"
     },
     {
       "institution": "minecofin-cfd",
       "donor": "GIZ",
+      "status": "active",
+      "type": "TA",
+      "label": "Green taxonomy support"
+    },
+    {
+      "institution": "cma",
+      "donor": "LuxDev",
       "status": "active",
       "type": "TA",
       "label": "Legal support; fund regulations; impact fund regulation"
@@ -122,23 +151,8 @@
       "donor": "GGGI",
       "status": "planned",
       "type": "TA",
-      "label": "Support to be confirmed",
+      "label": "SOP, project pipeline development + 2 embedded advisors to strengthen Climate Finance Unit (under recruitment)",
       "tbc": true
-    },
-    {
-      "institution": "rse",
-      "donor": "GGGI",
-      "status": "exploratory",
-      "type": "TA",
-      "label": "Support to be confirmed",
-      "tbc": true
-    },
-    {
-      "institution": "rse",
-      "donor": "GGGI",
-      "status": "active",
-      "type": "TA",
-      "label": "Financial Services High Council support"
     },
     {
       "institution": "bnr-fm",
@@ -151,15 +165,15 @@
       "institution": "brd",
       "donor": "World Bank",
       "status": "active",
-      "type": "TA",
-      "label": "Carbon credit standardised crediting framework / clean cooking pilot (~$19M)"
+      "type": "Project",
+      "label": "Carbon credit standardised crediting framework — clean cooking pilot (~$19M)"
     },
     {
       "institution": "nisr",
       "donor": "World Bank",
       "status": "active",
       "type": "TA",
-      "label": "Natural Capital Accounting exercise (with WRI)"
+      "label": "Natural Capital Accounting exercise (with WRI?)"
     },
     {
       "institution": "minecofin-cfd",
@@ -169,25 +183,11 @@
       "label": "DRF Diagnostic Report + National DRF Strategy *(GSFF-funded, 2025)*"
     },
     {
-      "institution": "minecofin-debt",
-      "donor": "World Bank",
-      "status": "active",
-      "type": "TA",
-      "label": "Integration of climate and nature in macroeconomic forecasting (with WRI)"
-    },
-    {
-      "institution": "minecofin-mfad",
-      "donor": "World Bank",
-      "status": "planned",
-      "type": "TA",
-      "label": "Integration of climate and nature in macroeconomic forecasting (with WRI)"
-    },
-    {
       "institution": "bnr-monpol",
       "donor": "IMF",
       "status": "active",
       "type": "TA",
-      "label": "Support to the design of an SLF"
+      "label": "QPM forecasting model"
     },
     {
       "institution": "brd",
@@ -213,38 +213,31 @@
     {
       "institution": "cma",
       "donor": "AfDB",
-      "status": "exploratory",
+      "status": "completed",
       "type": "TA",
       "label": "CMA 5-year strategy support"
     },
     {
-      "institution": "minecofin-cfd",
-      "donor": "GIZ",
+      "institution": "minecofin-debt",
+      "donor": "World Bank",
       "status": "active",
       "type": "TA",
-      "label": "MINECOFIN CFD — green taxonomy support; IFRS S1/S2 bi-monthly coordination"
+      "label": "Support to the design of an SLF"
+    },
+    {
+      "institution": "minecofin-mfad",
+      "donor": "World Bank",
+      "status": "planned",
+      "type": "TA",
+      "label": "Integration of climate and nature in macroeconomic forecasting (with WRI)"
+    },
+    {
+      "institution": "minecofin",
+      "donor": "AFD",
+      "status": "active",
+      "type": "Loan+TA",
+      "label": "Green PFM I"
     }
   ],
-  "dp_coordination": [
-    {
-      "from": "AFD",
-      "to": "GIZ",
-      "topic": "IFRS S1/S2 bi-monthly coordination"
-    },
-    {
-      "from": "EIB",
-      "to": "EU",
-      "topic": "EFSD+ guarantee structure (BRD and BoK lines)"
-    },
-    {
-      "from": "AFD",
-      "to": "LuxDev",
-      "topic": "April 28 cross-DP coordination call"
-    },
-    {
-      "from": "World Bank",
-      "to": "AFD",
-      "topic": "ESTEEM / climate macro modelling alignment"
-    }
-  ]
+  "dp_coordination": []
 }

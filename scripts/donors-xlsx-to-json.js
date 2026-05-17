@@ -1,8 +1,15 @@
 // scripts/donors-xlsx-to-json.js
-// Reads data/donors.xlsx and writes data/donors.json.
+// Reads Updates/donors.xlsx and writes data/donors.json.
 // Usage:
 //   node scripts/donors-xlsx-to-json.js            # one-shot build
 //   node scripts/donors-xlsx-to-json.js --watch    # rebuild on file change
+//
+// Schema (Updates/donors.xlsx):
+//   Each sheet has row 0 = description text, row 1 = column headers, rows 2+ = data.
+//   Donors:       "Donor name", "Family color"
+//   Institutions: "id", "Label", "Axis (A/B)", "Pin X (0–1)", "Pin Y (0–1)"
+//   Interventions:"institution_id", "Donor", "Status", "Type",
+//                 "Label (shown in cell / panel)", "TBC"
 
 'use strict';
 
@@ -10,50 +17,33 @@ const fs      = require('fs');
 const path    = require('path');
 const XLSX    = require('xlsx');
 
-const XLSX_PATH = path.join(__dirname, '..', 'data', 'donors.xlsx');
+const XLSX_PATH = path.join(__dirname, '..', 'Updates', 'donors.xlsx');
 const JSON_PATH = path.join(__dirname, '..', 'data', 'donors.json');
 
-/* ── Required columns per sheet ─────────────────────────────────── */
-const REQUIRED = {
-  donors        : ['id'],
-  institutions  : ['id', 'label', 'axis'],
-  interventions : ['institution', 'donor', 'status', 'type', 'label'],
-  dp_coordination: ['from', 'to', 'topic'],
-};
-
 /* ── Helpers ─────────────────────────────────────────────────────── */
-function sheetToRows(ws) {
-  const rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
-  // Normalise header keys to lowercase-trimmed
-  return rows.map(function (row) {
-    const out = {};
-    Object.keys(row).forEach(function (k) {
-      out[k.trim().toLowerCase()] = row[k];
-    });
-    return out;
-  });
-}
 
-function findSheet(wb, name) {
+// Each sheet: row 0 = description, row 1 = actual headers, rows 2+ = data.
+function readSheet(wb, name) {
   const lower = name.toLowerCase();
-  const found = wb.SheetNames.find(function (n) {
+  const sheetName = wb.SheetNames.find(function (n) {
     return n.trim().toLowerCase() === lower;
   });
-  if (!found) throw new Error('Missing sheet: "' + name + '" (case-insensitive). Found: ' + wb.SheetNames.join(', '));
-  return wb.Sheets[found];
-}
+  if (!sheetName) throw new Error('Missing sheet "' + name + '". Found: ' + wb.SheetNames.join(', '));
 
-function validateCols(rows, sheet, required) {
-  if (!rows.length) return; // empty sheet — columns can't be checked
-  const keys = Object.keys(rows[0]);
-  required.forEach(function (col) {
-    if (!keys.includes(col)) {
-      throw new Error(
-        'Sheet "' + sheet + '" is missing required column "' + col +
-        '". Found columns: ' + keys.join(', ')
-      );
-    }
-  });
+  const raw = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, defval: '' });
+  if (raw.length < 2) return [];
+
+  const headers = raw[1].map(function (h) { return String(h || '').trim(); });
+  const out = [];
+  for (let i = 2; i < raw.length; i++) {
+    const row = raw[i];
+    // Skip fully-empty rows
+    if (!row || row.every(function (v) { return v === '' || v === undefined || v === null; })) continue;
+    const obj = {};
+    headers.forEach(function (h, j) { obj[h] = row[j] !== undefined ? row[j] : ''; });
+    out.push(obj);
+  }
+  return out;
 }
 
 function parseBool(val) {
@@ -64,67 +54,57 @@ function parseBool(val) {
   return false;
 }
 
+function str(v) { return String(v || '').trim(); }
+function num(v) { return typeof v === 'number' ? v : parseFloat(v) || 0; }
+
 /* ── Main conversion ─────────────────────────────────────────────── */
 function convert() {
   if (!fs.existsSync(XLSX_PATH)) {
-    throw new Error('File not found: ' + XLSX_PATH + '. Run `npm run build:donors` only after creating the file.');
+    throw new Error('File not found: ' + XLSX_PATH);
   }
 
   const wb = XLSX.readFile(XLSX_PATH);
 
-  /* donors sheet → simple array of strings */
-  const donorsWs = findSheet(wb, 'donors');
-  const donorsRows = sheetToRows(donorsWs);
-  validateCols(donorsRows, 'donors', REQUIRED.donors);
-  const donors = donorsRows
-    .map(function (r) { return String(r.id || '').trim(); })
+  /* donors sheet → array of id strings */
+  const donorRows = readSheet(wb, 'donors');
+  const donors = donorRows
+    .map(function (r) { return str(r['Donor name']); })
     .filter(Boolean);
 
   /* institutions sheet */
-  const instWs = findSheet(wb, 'institutions');
-  const instRows = sheetToRows(instWs);
-  validateCols(instRows, 'institutions', REQUIRED.institutions);
+  const instRows = readSheet(wb, 'institutions');
   const institutions = instRows
-    .filter(function (r) { return r.id; })
+    .filter(function (r) { return str(r['id']); })
     .map(function (r) {
-      return { id: String(r.id).trim(), label: String(r.label).trim(), axis: String(r.axis).trim() };
+      return {
+        id    : str(r['id']),
+        label : str(r['Label']),
+        axis  : str(r['Axis (A/B)']),
+        pin_x : num(r['Pin X (0–1)']),
+        pin_y : num(r['Pin Y (0–1)']),
+      };
     });
 
   /* interventions sheet */
-  const ivWs = findSheet(wb, 'interventions');
-  const ivRows = sheetToRows(ivWs);
-  validateCols(ivRows, 'interventions', REQUIRED.interventions);
+  const ivRows = readSheet(wb, 'interventions');
   const interventions = ivRows
-    .filter(function (r) { return r.institution && r.donor; })
+    .filter(function (r) { return str(r['institution_id']) && str(r['Donor']); })
     .map(function (r) {
-      var obj = {
-        institution : String(r.institution).trim(),
-        donor       : String(r.donor).trim(),
-        status      : String(r.status || 'active').trim(),
-        type        : String(r.type  || 'TA').trim(),
-        label       : String(r.label || '').trim(),
+      const obj = {
+        institution : str(r['institution_id']),
+        donor       : str(r['Donor']),
+        status      : str(r['Status']) || 'active',
+        type        : str(r['Type'])   || 'TA',
+        label       : str(r['Label (shown in cell / panel)']),
       };
-      // Only include tbc key when truthy (keeps JSON clean)
-      var tbc = parseBool(r.tbc);
-      if (tbc) obj.tbc = true;
+      if (parseBool(r['TBC'])) obj.tbc = true;
       return obj;
     });
 
-  /* dp_coordination sheet */
-  const dpWs = findSheet(wb, 'dp_coordination');
-  const dpRows = sheetToRows(dpWs);
-  validateCols(dpRows, 'dp_coordination', REQUIRED.dp_coordination);
-  const dp_coordination = dpRows
-    .filter(function (r) { return r.from && r.to; })
-    .map(function (r) {
-      return {
-        from  : String(r.from).trim(),
-        to    : String(r.to).trim(),
-        topic : String(r.topic || '').trim(),
-      };
-    });
+  /* dp_coordination — not present in Updates schema; keep empty array */
+  const dp_coordination = [];
 
-  /* Write JSON (preserving key order) */
+  /* Write JSON */
   const out = { donors, institutions, interventions, dp_coordination };
   fs.writeFileSync(JSON_PATH, JSON.stringify(out, null, 2) + '\n', 'utf8');
 
@@ -132,7 +112,6 @@ function convert() {
     donors.length + ' donors',
     institutions.length + ' institutions',
     interventions.length + ' interventions',
-    dp_coordination.length + ' DP coordination flows',
   ].join(', ');
 
   console.log('[donors-xlsx-to-json] ' + new Date().toLocaleTimeString() + ' → donors.json (' + stats + ')');

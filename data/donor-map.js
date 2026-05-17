@@ -11,6 +11,7 @@
     'bnr-strategy'    : 'BNR',
     'bnr-monpol'      : 'BNR',
     'bnr-fm'          : 'BNR',
+    'minecofin'       : 'MINECOFIN',
     'minecofin-debt'  : 'MINECOFIN',
     'minecofin-cfd'   : 'MINECOFIN',
     'minecofin-mfad'  : 'MINECOFIN',
@@ -18,32 +19,34 @@
     'rse'             : 'RSE',
     'brd'             : 'BRD',
     'bok'             : 'BoK',
+    'nisr'            : 'NISR',
   };
-  // nisr is intentionally omitted → dropped with a console.warn
 
   /* ─── Fixed visual layout  (SVG viewBox 0 0 900 540) ──────────── */
-  // Positions surround Rwanda's silhouette (SVG viewBox 0 0 900 540).
-  // Rwanda spans approx x 220–619, y 90–440; chips sit 50-80 px outside the outline.
+  // Donor chips: centers sit on Rwanda's border (radius 28 px, offset 30 px beyond border).
+  // Border intersection computed by scripts/compute-donor-positions.js.
   const DONORS = [
-    { id: 'AFD',        x: 155, y: 250, color: '#2563EB' },  // left
-    { id: 'AfDB',       x: 285, y:  42, color: '#9333EA' },  // top-left
-    { id: 'EIB',        x: 405, y:  33, color: '#0284C7' },  // top-center
-    { id: 'GIZ',        x: 530, y:  42, color: '#16A34A' },  // top-right
-    { id: 'LuxDev',     x: 685, y: 140, color: '#DC2626' },  // right-upper
-    { id: 'GGGI',       x: 702, y: 270, color: '#0891B2' },  // right-middle
-    { id: 'World Bank', x: 685, y: 395, color: '#1D4ED8' },  // right-lower
-    { id: 'IMF',        x: 435, y: 500, color: '#0D9488' },  // bottom-center
-    { id: 'EU',         x: 268, y: 492, color: '#7C3AED' },  // bottom-left
+    { id: 'AFD',        x: 243, y: 255, color: '#2563EB' },  // left
+    { id: 'AfDB',       x: 339, y: 132, color: '#9333EA' },  // top-left
+    { id: 'EIB',        x: 410, y: 113, color: '#0284C7' },  // top-center
+    { id: 'GIZ',        x: 500, y: 103, color: '#16A34A' },  // top-right
+    { id: 'LuxDev',     x: 623, y: 169, color: '#DC2626' },  // right-upper
+    { id: 'GGGI',       x: 638, y: 269, color: '#0891B2' },  // right-middle
+    { id: 'World Bank', x: 620, y: 363, color: '#1D4ED8' },  // right-lower
+    { id: 'IMF',        x: 429, y: 412, color: '#0D9488' },  // bottom-center
+    { id: 'EU',         x: 294, y: 452, color: '#7C3AED' },  // bottom-left
   ];
 
-  // Beneficiary chips — hard-coded visual positions inside Rwanda silhouette
+  // Beneficiary chips — positions from institutions Pin X/Y (normalised 0–1 × viewBox 900×540).
+  // Consolidated sub-institutions are averaged to a single chip.
   const BENS = [
-    { id: 'BNR',       x: 385, y: 205, axis: 'A' },
-    { id: 'MINECOFIN', x: 415, y: 270, axis: 'B' },
-    { id: 'CMA',       x: 487, y: 228, axis: 'B' },
-    { id: 'RSE',       x: 493, y: 288, axis: 'B' },
-    { id: 'BRD',       x: 342, y: 308, axis: 'B' },
-    { id: 'BoK',       x: 452, y: 328, axis: 'B' },
+    { id: 'BNR',       x: 387, y: 274, axis: 'A' },  // avg bnr-strategy/monpol/fm
+    { id: 'MINECOFIN', x: 432, y: 223, axis: 'B' },  // avg minecofin-debt/cfd/mfad
+    { id: 'CMA',       x: 495, y: 270, axis: 'B' },
+    { id: 'RSE',       x: 522, y: 259, axis: 'B' },
+    { id: 'BRD',       x: 468, y: 297, axis: 'B' },
+    { id: 'BoK',       x: 450, y: 313, axis: 'B' },
+    { id: 'NISR',      x: 360, y: 243, axis: 'B' },
   ];
 
   /* ─── Status helpers ───────────────────────────────────────────── */
