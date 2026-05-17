@@ -109,8 +109,8 @@
       color: rgba(255,255,255,.65); margin-bottom: 1rem;
     }
     .hero h1 { font-size: clamp(1.5rem,3vw,2.2rem); color: #fff; margin-bottom: 0.4rem; line-height: 1.2; }
-    .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,.8); margin-bottom: 1.25rem; }
-    .hero-author { font-size: 0.85rem; color: rgba(255,255,255,.65); font-style: italic; }
+    .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,.8); margin-bottom: 0.6rem; }
+    .hero-author { font-size: 1.05rem; color: rgba(255,255,255,.85); font-style: italic; }
 
     /* ── STATS BOX ── */
     .stats-box {
@@ -165,18 +165,18 @@
 
     /* Axis filter buttons */
     .axis-filter-btn {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.2rem; padding: 0.55rem 1rem; border-radius: 10px;
+      display: flex; flex-direction: row; align-items: center; justify-content: flex-start;
+      gap: 0.5rem; padding: 0.35rem 0.75rem; border-radius: 8px;
       border: 2px solid transparent; cursor: pointer; background: none; font-family: inherit;
-      transition: background .15s, color .15s, border-color .15s; min-width: 118px;
+      transition: background .15s, color .15s, border-color .15s; min-width: 0;
     }
     .axis-filter-btn.axis-a { background: var(--bnr-100); border-color: var(--bnr-300); color: var(--bnr-700); }
     .axis-filter-btn.axis-b { background: var(--mef-100); border-color: var(--mef-300); color: var(--mef-700); }
     .axis-filter-btn.axis-a:hover, .axis-filter-btn.axis-a.filter-active { background: var(--bnr-500); color: #fff; border-color: var(--bnr-500); }
     .axis-filter-btn.axis-b:hover, .axis-filter-btn.axis-b.filter-active { background: var(--mef-500); color: #fff; border-color: var(--mef-500); }
-    .axis-filter-count { font-size: 1.8rem; font-weight: 800; line-height: 1; }
-    .axis-filter-label { font-size: 0.72rem; font-weight: 700; text-align: center; line-height: 1.35; }
-    .axis-filter-sub { font-size: 0.63rem; font-weight: 400; opacity: 0.85; }
+    .axis-filter-count { font-size: 1.25rem; font-weight: 800; line-height: 1; }
+    .axis-filter-label { font-size: 0.72rem; font-weight: 700; text-align: left; line-height: 1.25; }
+    .axis-filter-sub { font-size: 0.62rem; font-weight: 400; opacity: 0.85; }
 
     /* Type filter chips — colour-coded per DLI type to match card pills */
     .type-filter-btn {
@@ -196,12 +196,14 @@
     .type-filter-btn.market-act.filter-active     { background: #2E7D32; color: #fff; border-color: #2E7D32; }
     .type-filter-btn.data-infra.filter-active     { background: #E65100; color: #fff; border-color: #E65100; }
 
-    /* Filter group label (above type chips) */
+    /* Filter group column wrapper + label (above each filter group) */
+    .filter-group-col { display: flex; flex-direction: column; align-items: flex-start; }
     .filter-group-label {
       font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em;
       text-transform: uppercase; color: var(--text-soft);
       margin-bottom: 0.35rem;
     }
+    .filter-group-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
 
     /* Tier filter chips */
     .tier-filter-btn {
@@ -265,7 +267,7 @@
       overflow: hidden; transition: box-shadow .2s;
     }
     .dli-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
-    .dli-card.preferred { border: 2px dashed #c62828; box-shadow: 0 0 0 2px rgba(198,40,40,0.08); }
+    .dli-card.preferred { border: 3px dashed #c62828; box-shadow: 0 0 0 2px rgba(198,40,40,0.08); }
     .dli-card-head {
       padding: 0.9rem 1.1rem 0.7rem;
       border-bottom: 1px solid var(--border);
@@ -344,6 +346,10 @@
     .dli-table tr:last-child td { border-bottom: none; }
     .dli-table tr:nth-child(even) td { background: #FAFAFA; }
     .dli-table .mono { font-family: var(--mono); font-size: 0.75rem; }
+    /* Preferred row in compact table — red dashed outline */
+    .dli-table tr.pref-row td { background: #FFF5F5 !important; border-top: 2.5px dashed #c62828; border-bottom: 2.5px dashed #c62828; }
+    .dli-table tr.pref-row td:first-child { border-left: 2.5px dashed #c62828; }
+    .dli-table tr.pref-row td:last-child  { border-right: 2.5px dashed #c62828; }
 
     /* ── AGENDA TAB ── */
     .agenda-section { margin-bottom: 2.5rem; }
@@ -608,7 +614,7 @@
       <!-- Hero -->
       <section class="hero">
         <div class="hero-label">AFD · Green PFM Phase II · Feasibility Study · April–May 2026</div>
-        <h1>Green PFM Phase II — Feasibility Study, Rwanda</h1>
+        <h1>Rwanda — Green PFM Phase II · Feasibility Study</h1>
         <div class="hero-sub">Greening the Financial System — Field Mission Findings</div>
         <div class="hero-author">Yoan Raih</div>
       </section>
@@ -618,10 +624,11 @@
         <div class="section-hd"><h2>Mission overview</h2></div>
         <!-- Scope of work blue box -->
         <div class="matrix-banner" style="margin-bottom:1.25rem;">
-          <strong>Scope of work —</strong> The AFD Green PFM Phase II Feasibility Study mission (April–May 2026) aims to design a modular policy reform matrix of Disbursement-Linked Indicators (DLIs) to anchor a future AFD budget support operation to Rwanda. The mission scope crystallised around <strong>two axes</strong> and two principal beneficiaries:
+          <strong>Scope of work —</strong> The AFD Green PFM Phase II Feasibility Study mission (April–May 2026) aims to design a modular policy reform matrix of Disbursement-Linked Indicators (DLIs) to anchor a future AFD budget support operation to Rwanda.<br><br>
+          My scope of work, conducted alongside a team of consultants, revolved around <strong>two axes</strong> and two principal beneficiaries:
           <ul style="margin-top:0.5rem; margin-bottom:0; padding-left:1.25rem; font-style:normal;">
             <li><strong>Axis A — Green Central Banking</strong>, with the National Bank of Rwanda (BNR) — covering monetary policy climate integration and net-zero central banking.</li>
-            <li><strong>Axis B — Green Financial Products &amp; Markets</strong>, with <strong>MINECOFIN</strong> (and CMA, RSE as line institutions) — covering sustainable debt instruments, climate insurance, and green capital markets.</li>
+            <li><strong>Axis B — Green Financial Products &amp; Markets</strong>, with <strong>MINECOFIN</strong> — covering sustainable debt instruments, climate insurance, and green capital markets.</li>
           </ul>
         </div>
         <div class="obj-grid" id="obj-grid"></div>
@@ -633,9 +640,8 @@
           <h2>Policy Reform Matrix — (Potential) Disbursement-Linked Indicators</h2>
         </div>
         <div class="matrix-banner">
-          <strong>"This is a 'menu of options'</strong> — a prioritized, modular Policy Reform Matrix designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework."<br>
-          <span style="font-size:0.8rem;">— aligned with the inception report methodology (Section 5.3).</span><br>
-          <span style="font-size:0.8rem; font-style:normal;">DLIs outlined in <span style="display:inline-block;width:10px;height:10px;border:2px dashed #c62828;vertical-align:middle;margin:0 3px;border-radius:2px;"></span> <strong style="color:#c62828;">red dotted border</strong> are the <strong>mission-preferred options</strong> recommended for inclusion in the Phase II programme.</span>
+          As agreed in the inception report (Section 5.3), the DLI matrix is presented as a "menu of options" to let AFD and the Government of Rwanda calibrate ambition during final negotiations.<br><br>
+          The following <strong>13 DLIs</strong> focus on the two axes. DLIs outlined in <span style="display:inline-block;width:11px;height:11px;border:3px dashed #c62828;vertical-align:middle;margin:0 3px;border-radius:2px;"></span> <strong style="color:#c62828;">red dotted border</strong> are the mission-preferred options recommended for inclusion in the Phase II programme.
         </div>
         <div class="agg-dashboard" id="agg-dashboard">
           <!-- filled by JS -->
@@ -656,7 +662,7 @@
     <div class="page-container">
       <div class="section-hd">
         <h2>Mission agenda — meetings conducted</h2>
-        <p>Online preparatory meetings, in-person Kigali mission (May 4–9, 2026), and post-mission follow-up.</p>
+        <p>Online preparatory meetings, in-person Kigali mission (May 4–9, 2026), and post-mission follow-up. Meeting notes, when available, can be provided by the consultant upon request.</p>
       </div>
       <!-- Stats box -->
       <section id="stats-box" class="stats-box">
@@ -1027,12 +1033,12 @@ function renderStats(agenda){
    RENDER: OBJECTIVE CARDS (order 1, 3, 4, 2)
 ═══════════════════════════════════════════════════════════════ */
 const OBJ_CARDS = [
-  { title:'Strong appetite', accent:'accent-neutral',
-    text:'Building on Green PFM I, the mission confirmed a strong appetite among Rwandan counterparts (BNR, MINECOFIN, CMA, RSE, BRD, BoK) to deepen the greening of the financial system. Sustainability is now formally embedded in BNR\'s 5-year strategic plan, the FSSP, and the National Sustainable Finance Roadmap.' },
+  { title:'Strong appetite but reasonable ambition', accent:'accent-neutral',
+    text:'Building on Green PFM I, the mission confirmed a strong appetite among Rwandan counterparts (BNR, MINECOFIN but also CMA and RSE) to deepen the greening of the financial system. However, DLIs in Phase I were sometimes considered difficult to reach, calling for more reasonable ambitions for the next phase.' },
   { title:'Limited resources', accent:'accent-neutral',
-    text:'Phase II budget support envelope (~€40M) and accompanying TA (~€1.5M via Expertise France) are finite. The proposed matrix is therefore a <strong>modular "menu of options"</strong>, designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework.' },
+    text:'Phase II budget support size and accompanying TA envelope are yet to be defined but will probably be more limited than Phase I. The proposed matrix is therefore a <strong>modular "menu of options"</strong>, designed to let AFD and the Government of Rwanda calibrate ambition during final budget negotiations. It is not yet an integrated DLI framework.' },
   { title:'Active donor landscape', accent:'accent-amber',
-    text:'The development partner landscape is dense. Development partners consulted include <strong>LuxDev, GGGI, World Bank, IMF, AFD</strong>. Phase II must position narrowly to complement — not duplicate — active initiatives (EIB Greening Financial Systems, GIZ taxonomy work, IFC capital markets partnership, GSFF DRF support, WB-RAMP, etc.).' }
+    text:'The development partner landscape is dense. Development partners consulted include <strong>LuxDev, GGGI, World Bank, IMF</strong>, and other programs at AFD. Phase II must position itself to complement and not duplicate active initiatives. Collaboration, when well designed, can also be a way to amplify the impact of the support.' }
 ];
 
 function renderObjectiveCards(){
@@ -1083,22 +1089,27 @@ function renderAggDashboard(dlis){
 
   document.getElementById('agg-dashboard').innerHTML = `
     <div class="dli-dash-row">
-      <button class="axis-filter-btn axis-a" data-filter-group="axis" onclick="filterDLI('axis','A',this)">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON_A}</svg>
-        <div class="axis-filter-count">${axisACount}</div>
-        <div class="axis-filter-label">Axis A<br><span class="axis-filter-sub">Green Central Banking</span></div>
-      </button>
-      <button class="axis-filter-btn axis-b" data-filter-group="axis" onclick="filterDLI('axis','B',this)">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON_B}</svg>
-        <div class="axis-filter-count">${axisBCount}</div>
-        <div class="axis-filter-label">Axis B<br><span class="axis-filter-sub">Green Finance</span></div>
-      </button>
+      <div class="filter-group-col">
+        <div class="filter-group-label">Filter by axis</div>
+        <div class="filter-group-chips">
+          <button class="axis-filter-btn axis-a" data-filter-group="axis" onclick="filterDLI('axis','A',this)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON_A}</svg>
+            <div class="axis-filter-count">${axisACount}</div>
+            <div class="axis-filter-label">Axis A<br><span class="axis-filter-sub">Green Central Banking</span></div>
+          </button>
+          <button class="axis-filter-btn axis-b" data-filter-group="axis" onclick="filterDLI('axis','B',this)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON_B}</svg>
+            <div class="axis-filter-count">${axisBCount}</div>
+            <div class="axis-filter-label">Axis B<br><span class="axis-filter-sub">Green Finance</span></div>
+          </button>
+        </div>
+      </div>
 
       <div class="dli-dash-divider"></div>
 
-      <div style="display:flex;flex-direction:column;">
-        <div class="filter-group-label">Split by type of DLI</div>
-        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;">
+      <div class="filter-group-col">
+        <div class="filter-group-label">Filter by type of DLI</div>
+        <div class="filter-group-chips">
           ${typeOrder.filter(t=>typeCounts[t]).map(t=>`
             <button class="type-filter-btn ${typeSlug(t)}" data-filter-group="type" onclick="filterDLI('type','${t}',this)">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">${TYPE_ICONS[t]||''}</svg>
@@ -1109,17 +1120,17 @@ function renderAggDashboard(dlis){
 
       <div class="dli-dash-divider"></div>
 
-      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;">
-        <button class="tier-filter-btn immediate" data-filter-group="tier" onclick="filterDLI('tier','Immediate',this)">🟢 Immediate — ${immCount}</button>
-        <button class="tier-filter-btn secondary" data-filter-group="tier" onclick="filterDLI('tier','Secondary',this)">🟡 Secondary — ${secCount}</button>
+      <div class="filter-group-col">
+        <div class="filter-group-label">Filter by priority</div>
+        <div class="filter-group-chips">
+          <button class="tier-filter-btn immediate" data-filter-group="tier" onclick="filterDLI('tier','Immediate',this)">🟢 Immediate — ${immCount}</button>
+          <button class="tier-filter-btn secondary" data-filter-group="tier" onclick="filterDLI('tier','Secondary',this)">🟡 Secondary — ${secCount}</button>
+          <button class="preferred-filter-btn" data-filter-group="preferred" onclick="filterDLI('preferred','true',this)">
+            <span style="display:inline-block;width:12px;height:12px;border:2px dashed currentColor;border-radius:2px;flex-shrink:0;"></span>
+            Preferred — ${prefCount}
+          </button>
+        </div>
       </div>
-
-      <div class="dli-dash-divider"></div>
-
-      <button class="preferred-filter-btn" data-filter-group="preferred" onclick="filterDLI('preferred','true',this)">
-        <span style="display:inline-block;width:12px;height:12px;border:2px dashed currentColor;border-radius:2px;flex-shrink:0;"></span>
-        Preferred — ${prefCount}
-      </button>
     </div>`;
 }
 
@@ -1239,7 +1250,7 @@ function buildDLICard(d){
 
 function renderDLITable(dlis){
   let rows = dlis.map(d=>`
-    <tr>
+    <tr class="${d.preferred?'pref-row':''}">
       <td class="mono">${d.id}</td>
       <td style="font-size:0.82rem;">${Array.isArray(d.counterpart)?d.counterpart.join(', '):d.counterpart}</td>
       <td>${d.title}</td>
@@ -1267,7 +1278,7 @@ function renderDLITable(dlis){
 ═══════════════════════════════════════════════════════════════ */
 function renderAgenda(agenda){
   const sections = [
-    { key:'online',       title:'Online preparatory meetings (April 2026)' },
+    { key:'online',       title:'Online preparatory & cross-DP meetings (April–May 2026)' },
     { key:'in_person',    title:'In-person Kigali mission (May 4–9, 2026)' },
     { key:'post_mission', title:'Post-mission follow-up meetings' }
   ];

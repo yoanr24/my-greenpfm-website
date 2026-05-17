@@ -1,17 +1,17 @@
 {
   "donors": ["AFD", "AfDB", "EIB", "GIZ", "LuxDev", "GGGI", "World Bank", "IMF", "EU"],
   "institutions": [
-    { "id": "bnr-strategy", "label": "BNR — Strategy Directorate",              "axis": "A", "map_pin": [0.40, 0.50] },
-    { "id": "bnr-monpol",  "label": "BNR — Monetary Policy Directorate",         "axis": "A", "map_pin": [0.43, 0.52] },
-    { "id": "bnr-fm",      "label": "BNR — Financial Markets Directorate",        "axis": "A", "map_pin": [0.46, 0.50] },
-    { "id": "minecofin-debt", "label": "MINECOFIN — Debt Directorate",           "axis": "B", "map_pin": [0.45, 0.42] },
-    { "id": "minecofin-cfd",  "label": "MINECOFIN — Climate Finance Directorate","axis": "B", "map_pin": [0.48, 0.40] },
-    { "id": "minecofin-mfad", "label": "MINECOFIN — Macroeconomic Policy",       "axis": "B", "map_pin": [0.51, 0.42] },
-    { "id": "cma",         "label": "Capital Market Authority",                   "axis": "B", "map_pin": [0.55, 0.50] },
-    { "id": "rse",         "label": "Rwanda Stock Exchange",                      "axis": "B", "map_pin": [0.58, 0.48] },
-    { "id": "brd",         "label": "Rwanda Development Bank",                    "axis": "B", "map_pin": [0.52, 0.55] },
-    { "id": "bok",         "label": "Bank of Kigali",                             "axis": "B", "map_pin": [0.50, 0.58] },
-    { "id": "nisr",        "label": "National Institute for Statistics of Rwanda","axis": "B", "map_pin": [0.40, 0.45] }
+    { "id": "bnr-strategy",   "label": "BNR — Strategy Directorate",               "axis": "A" },
+    { "id": "bnr-monpol",     "label": "BNR — Monetary Policy Directorate",        "axis": "A" },
+    { "id": "bnr-fm",         "label": "BNR — Financial Markets Directorate",      "axis": "A" },
+    { "id": "minecofin-debt", "label": "MINECOFIN — Debt Directorate",             "axis": "B" },
+    { "id": "minecofin-cfd",  "label": "MINECOFIN — Climate Finance Directorate",  "axis": "B" },
+    { "id": "minecofin-mfad", "label": "MINECOFIN — Macroeconomic Policy",         "axis": "B" },
+    { "id": "cma",            "label": "Capital Market Authority",                 "axis": "B" },
+    { "id": "rse",            "label": "Rwanda Stock Exchange",                    "axis": "B" },
+    { "id": "brd",            "label": "Rwanda Development Bank",                  "axis": "B" },
+    { "id": "bok",            "label": "Bank of Kigali",                           "axis": "B" },
+    { "id": "nisr",           "label": "National Institute for Statistics of Rwanda","axis": "B" }
   ],
   "interventions": [
     { "institution": "bok",          "donor": "AFD",        "status": "active",      "type": "TA",      "label": "€1M TA — green funding development & potential capital markets tap" },

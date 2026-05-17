@@ -35,12 +35,36 @@
       "status": "confirmed",
       "note_summary": "Cross-donor coordination call between AFD and LuxDev ahead of the Kigali mission. LuxDev provided an update on its active programmes at CMA (legal support, fund regulations) and RSE (Green Exchange Window with Luxembourg Stock Exchange). Both teams agreed to position complementarily to avoid duplication.",
       "note_pdf": ""
+    },
+    {
+      "type": "online",
+      "date": "2026-05-05",
+      "time_slot": "10:00–11:30",
+      "counterpart": "AFD — Idrima project",
+      "attendees": "Celine Boulay",
+      "topic": "Insurance products — donor coordination",
+      "axis": "A",
+      "status": "confirmed",
+      "note_summary": "Online donor coordination call with the AFD Idrima project team on insurance products and complementarity with Green PFM II.",
+      "note_pdf": ""
     }
   ],
   "in_person": [
     {
       "type": "in-person",
       "date": "2026-05-04",
+      "time_slot": "11:00–12:30",
+      "counterpart": "MINECOFIN — DG Debt",
+      "attendees": "Gérard Gakunzi (Acting DG Debt), Nick, Darrant (special adviser)",
+      "topic": "Sovereign debt management + sustainable instruments",
+      "axis": "B",
+      "status": "confirmed",
+      "note_summary": "The DG Debt team confirmed active engagement on the existing WB-supported SLF framework and strong interest in expanding it with a climate KPI aligned to NDC 3.0 forestry commitments. AFD's Kenya SLF experience was well received as a peer reference, and the potential for a sovereign SLL with a verifiable climate KPI was discussed as a near-term target. Coordination with the EFSD+ guarantee structure (EIB and EU) was noted.",
+      "note_pdf": "Meeting Notes - MINECOFIN - DG Debt.pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-05",
       "time_slot": "09:00–10:30",
       "counterpart": "BNR — Strategy Directorate",
       "attendees": "Edward Gasore (Director, Strategy Directorate), Samuel Ruzindana (Manager, Strategy Directorate)",
@@ -49,30 +73,6 @@
       "status": "confirmed",
       "note_summary": "The Strategy Directorate confirmed a direct request for an AFD-supported corporate sustainability diagnostic and NZCB roadmap, with the July 2026 mid-term strategy review as a natural timing hook. BNR's Sustainability Steering Committee exists but remains fragmented across directorates, and the Sustainability Report is on hold pending this diagnostic. BNR expressed clear preference for central-bank-specific support (IBFI-style) over generic capacity-building programmes.",
       "note_pdf": "Meeting Notes - BNR — Strategy Directorate.pdf"
-    },
-    {
-      "type": "in-person",
-      "date": "2026-05-05",
-      "time_slot": "10:00–11:30",
-      "counterpart": "BNR — Financial Markets",
-      "attendees": "Boniface Mutabazi (Director), Jean-Marie Rugambwa (Domestic Debt Market)",
-      "topic": "Reserves management / portfolio greening + domestic debt market",
-      "axis": "A",
-      "status": "confirmed",
-      "note_summary": "BNR Financial Markets directorate reacted positively to the idea of carbon footprinting the foreign reserves portfolio. Discussions on green bonds as a reserve asset class are already underway through the WB-RAMP programme, and BNR explicitly requested Banque de France and BIS peer exchange as a differentiating value-add from AFD. Board approval will be required to update the Investment Policy with climate criteria.",
-      "note_pdf": "Meeting Notes - BNR - Financial Markets.pdf"
-    },
-    {
-      "type": "in-person",
-      "date": "2026-05-05",
-      "time_slot": "14:00–15:30",
-      "counterpart": "Capital Market Authority (CMA)",
-      "attendees": "Romeo Ngarambe (CEO), Eric Ngabonziza (Head of Market Development), Penina Uwamahoro (Legal)",
-      "topic": "Green capital markets framework + GSS+ guidelines",
-      "axis": "B",
-      "status": "confirmed",
-      "note_summary": "CMA's new CEO and lean team (20 staff) confirmed the absence of an in-house sustainable finance function and the lack of local SPO / verification capacity — citing BRD's experience as a concrete illustration of the gap. The team explicitly requested advisory support on establishing a dedicated sustainability unit alongside operationalising existing GSS+ bond certification guidelines. With 92 potential issuers identified by RSE, CMA sees certification infrastructure as the near-term bottleneck.",
-      "note_pdf": "Meeting Notes - Capital Market Authority (CMA).pdf"
     },
     {
       "type": "in-person",
@@ -85,6 +85,18 @@
       "status": "confirmed",
       "note_summary": "RSE had just launched the Green Exchange Window with ESG GPS™ on April 27, 2026 in partnership with the Luxembourg Stock Exchange (LuxDev-supported). The CEO emphasised the urgent need for an issuer-side uptake programme and a regional dimension (EAC harmonisation). The platform is operational but requires active onboarding support to generate meaningful ESG data.",
       "note_pdf": "Meeting Notes - Rwanda Stock Exchange (RSE).pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-06",
+      "time_slot": "11:00–12:30",
+      "counterpart": "MINECOFIN — Financial Sector Development",
+      "attendees": "Director Herbert …",
+      "topic": "Introduction of innovative financial products (insurance), ESG data infrastructure",
+      "axis": "B",
+      "status": "confirmed",
+      "note_summary": "Discussion with MINECOFIN's Financial Sector Development directorate on introducing innovative financial products (notably insurance instruments) and the ESG data infrastructure needed to support them.",
+      "note_pdf": ""
     },
     {
       "type": "in-person",
@@ -101,14 +113,26 @@
     {
       "type": "in-person",
       "date": "2026-05-07",
+      "time_slot": "10:00–11:30",
+      "counterpart": "BNR — Financial Markets",
+      "attendees": "Boniface Mutabazi (Director), Jean-Marie Rugambwa (Domestic Debt Market)",
+      "topic": "Reserves management / portfolio greening + domestic debt market",
+      "axis": "A",
+      "status": "confirmed",
+      "note_summary": "BNR Financial Markets directorate reacted positively to the idea of carbon footprinting the foreign reserves portfolio. Discussions on green bonds as a reserve asset class are already underway through the WB-RAMP programme, and BNR explicitly requested Banque de France and BIS peer exchange as a differentiating value-add from AFD. Board approval will be required to update the Investment Policy with climate criteria.",
+      "note_pdf": "Meeting Notes - BNR - Financial Markets.pdf"
+    },
+    {
+      "type": "in-person",
+      "date": "2026-05-07",
       "time_slot": "14:00–15:30",
-      "counterpart": "MINECOFIN — DG Debt",
-      "attendees": "Gérard Gakunzi (Acting DG Debt), Nick, Darrant (special adviser)",
-      "topic": "Sovereign debt management + sustainable instruments",
+      "counterpart": "Capital Market Authority (CMA)",
+      "attendees": "Romeo Ngarambe (CEO), Eric Ngabonziza (Head of Market Development), Penina Uwamahoro (Legal)",
+      "topic": "Green capital markets framework + GSS+ guidelines",
       "axis": "B",
       "status": "confirmed",
-      "note_summary": "The DG Debt team confirmed active engagement on the existing WB-supported SLF framework and strong interest in expanding it with a climate KPI aligned to NDC 3.0 forestry commitments. AFD's Kenya SLF experience was well received as a peer reference, and the potential for a sovereign SLL with a verifiable climate KPI was discussed as a near-term target. Coordination with the EFSD+ guarantee structure (EIB and EU) was noted.",
-      "note_pdf": "Meeting Notes - MINECOFIN - DG Debt.pdf"
+      "note_summary": "CMA's new CEO and lean team (20 staff) confirmed the absence of an in-house sustainable finance function and the lack of local SPO / verification capacity — citing BRD's experience as a concrete illustration of the gap. The team explicitly requested advisory support on establishing a dedicated sustainability unit alongside operationalising existing GSS+ bond certification guidelines. With 92 potential issuers identified by RSE, CMA sees certification infrastructure as the near-term bottleneck.",
+      "note_pdf": "Meeting Notes - Capital Market Authority (CMA).pdf"
     },
     {
       "type": "in-person",
@@ -175,19 +199,19 @@
     {
       "type": "online",
       "date": "2026-05-15",
-      "time_slot": "09:30–10:30",
+      "time_slot": "09:00–10:00",
       "counterpart": "MoE / Rwanda Green Fund",
-      "attendees": "Alice Rullier-Maugue (AFD), Hannah Thombansen (MINECOFIN/MoE)",
-      "topic": "Green PFM Phase 2 feasibility study — debrief AFD/MoE/RGF",
+      "attendees": "Fidèle Bingwa (Perm. Sec.)",
+      "topic": "Exchange on Taxonomy implementation, Tracking of existing CF, access to cheap capital and forestry-related data",
       "axis": "",
       "status": "confirmed",
-      "note_summary": "Post-mission debrief call with the Ministry of Environment and Rwanda Green Fund teams to present the main findings of the Green PFM Phase II feasibility mission and discuss potential linkages with MoE and RGF mandates.",
+      "note_summary": "Post-mission exchange with the Ministry of Environment and Rwanda Green Fund on taxonomy implementation, tracking of existing climate finance, access to cheap capital and forestry-related data.",
       "note_pdf": "Meeting Notes - Ministry of Environment.pdf"
     },
     {
       "type": "online",
       "date": "2026-05-15",
-      "time_slot": "11:00–12:00",
+      "time_slot": "09:30–10:30",
       "counterpart": "IMF",
       "attendees": "IMF Country Representative",
       "topic": "Donor coordination",
