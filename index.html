@@ -553,6 +553,123 @@
     .res-link:hover { background: var(--republic-blue); color: #fff; }
     .res-hidden { display: none !important; }
 
+    /* ── DONOR MAP TAB ── */
+    #donor-map-panel {
+      height: calc(100vh - var(--nav-h));
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    #donor-map-panel .dmp-root {
+      flex: 1; display: flex; overflow: hidden; min-height: 0;
+    }
+    #donor-map-panel .dmp-stage-wrap {
+      flex: 1; position: relative; overflow: hidden;
+      display: flex; flex-direction: column; min-width: 0;
+    }
+    #donor-map-panel #dmp-svg {
+      flex: 1; width: 100%; min-height: 0; display: block;
+    }
+    #donor-map-panel .dmp-bottom {
+      height: 56px; flex-shrink: 0; display: flex; align-items: center;
+      gap: 1.25rem; padding: 0 1.25rem;
+      border-top: 1px solid var(--border); background: var(--surface);
+      overflow: hidden; flex-wrap: wrap;
+    }
+    #donor-map-panel .dmp-hint {
+      font-size: 0.8rem; color: var(--text-soft); font-style: italic;
+    }
+    #donor-map-panel #dmp-clear-btn {
+      display: none; padding: 4px 12px;
+      border: 1.5px solid var(--border); border-radius: 99px;
+      font-size: 0.8rem; font-weight: 500; background: none; color: var(--text-soft); cursor: pointer;
+    }
+    #donor-map-panel #dmp-clear-btn:hover { background: var(--bg); color: var(--text); }
+    #donor-map-panel .dmp-legend {
+      display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-left: auto;
+    }
+    #donor-map-panel .dmp-leg-item {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 0.75rem; color: var(--text-soft); white-space: nowrap;
+    }
+    #donor-map-panel .dmp-leg-dot {
+      width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+    }
+    /* Side panel */
+    #donor-map-panel .dmp-aside {
+      width: 0; overflow: hidden; transition: width 0.25s ease;
+      border-left: 1px solid var(--border); background: var(--surface);
+      flex-shrink: 0; display: flex; flex-direction: column;
+    }
+    #donor-map-panel .dmp-aside.dmp-aside-open {
+      width: 340px; overflow-y: auto;
+    }
+    #donor-map-panel .dmp-ph {
+      display: flex; align-items: center; gap: 0.7rem; padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: var(--surface); z-index: 2; flex-shrink: 0;
+    }
+    #donor-map-panel .dmp-ph-badge {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; letter-spacing: 0.02em;
+    }
+    #donor-map-panel .dmp-ph-rect {
+      border-radius: 8px; width: auto; height: 32px; padding: 0 10px;
+    }
+    #donor-map-panel .dmp-ph-info { flex: 1; min-width: 0; }
+    #donor-map-panel .dmp-ph-title {
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    #donor-map-panel .dmp-ph-sub { font-size: 0.75rem; color: var(--text-soft); }
+    #donor-map-panel .dmp-ph-close {
+      background: none; border: none; font-size: 1.3rem; color: var(--text-soft);
+      cursor: pointer; padding: 4px 7px; border-radius: 5px; line-height: 1; flex-shrink: 0;
+    }
+    #donor-map-panel .dmp-ph-close:hover { background: var(--bg); color: var(--text); }
+    #donor-map-panel .dmp-pb { padding: 0.75rem; }
+    #donor-map-panel .dmp-group {
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 0.75rem;
+    }
+    #donor-map-panel .dmp-group-hd {
+      background: var(--bg); padding: 0.4rem 0.75rem;
+      font-size: 0.82rem; font-weight: 700; color: var(--text); border-bottom: 1px solid var(--border);
+    }
+    #donor-map-panel .dmp-group-hd-donor {
+      display: flex; align-items: center; gap: 0.45rem;
+    }
+    #donor-map-panel .dmp-dbadge {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.58rem; font-weight: 700; flex-shrink: 0;
+    }
+    #donor-map-panel .dmp-ivcnt {
+      margin-left: auto; background: var(--border); border-radius: 99px;
+      padding: 1px 6px; font-size: 0.68rem; font-weight: 700; color: var(--text-soft);
+    }
+    #donor-map-panel .dmp-iv {
+      padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.82rem;
+    }
+    #donor-map-panel .dmp-iv:last-child { border-bottom: none; }
+    #donor-map-panel .dmp-iv-row {
+      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2px;
+    }
+    #donor-map-panel .dmp-iv-status { font-size: 0.7rem; font-weight: 700; }
+    #donor-map-panel .dmp-iv-type {
+      font-size: 0.65rem; color: var(--text-soft); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em; margin-left: auto;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1px 5px;
+    }
+    #donor-map-panel .dmp-iv-lbl { color: var(--text); line-height: 1.45; font-size: 0.82rem; }
+    #donor-map-panel .dmp-tbc {
+      color: #E65100; font-size: 0.68rem; font-weight: 700; margin-left: 4px;
+    }
+    /* SVG chip interaction */
+    #donor-map-panel #dmp-svg .dmp-chip { transition: opacity 0.18s; }
+    #donor-map-panel #dmp-svg .dmp-dim  { opacity: 0.18; pointer-events: none; }
+    /* Arc draw-in */
+    @keyframes dmp-arc-draw { to { stroke-dashoffset: 0; } }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .stats-box { grid-template-columns: repeat(2,1fr); }
@@ -601,6 +718,7 @@
         <button class="nav-tab active" data-tab="front">Front Page</button>
         <button class="nav-tab" data-tab="agenda">Mission Agenda</button>
         <button class="nav-tab" data-tab="donors">Donor Mapping</button>
+        <button class="nav-tab" data-tab="donor-map">Donor Map</button>
         <button class="nav-tab" data-tab="resources">Resources</button>
       </div>
     </div>
@@ -754,6 +872,37 @@
     </div>
   </div>
 
+  <!-- ════ TAB: DONOR MAP ════ -->
+  <div id="tab-donor-map" class="tab-panel">
+    <div id="donor-map-panel">
+      <div class="dmp-root">
+        <!-- SVG map is injected here by donor-map.js -->
+        <div class="dmp-stage-wrap">
+          <div class="dmp-bottom">
+            <span class="dmp-hint">Click a donor or institution chip to explore connections</span>
+            <button id="dmp-clear-btn" onclick="window._dmpDeselect()">Clear selection ×</button>
+            <div class="dmp-legend">
+              <span class="dmp-leg-item">
+                <span class="dmp-leg-dot" style="background:var(--status-active)"></span>Active
+              </span>
+              <span class="dmp-leg-item">
+                <span class="dmp-leg-dot" style="background:var(--status-planned)"></span>Planned
+              </span>
+              <span class="dmp-leg-item">
+                <span class="dmp-leg-dot" style="background:var(--status-completed)"></span>Completed
+              </span>
+              <span class="dmp-leg-item">
+                <span class="dmp-leg-dot" style="background:var(--status-exploratory)"></span>Exploratory
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Detail side panel (populated by JS on chip click) -->
+        <aside class="dmp-aside" aria-live="polite"></aside>
+      </div>
+    </div>
+  </div>
+
   <!-- ════ TAB: RESOURCES ════ -->
   <div id="tab-resources" class="tab-panel">
     <div class="page-container">
@@ -795,6 +944,8 @@
 
 </div><!-- /app -->
 
+<script src="data/rwanda-path.js"></script>
+<script src="data/donor-map.js"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════
    SHA-256 — Geraint Luff's pure-JS implementation
@@ -967,13 +1118,21 @@ window.addEventListener('DOMContentLoaded', function(){
 /* ═══════════════════════════════════════════════════════════════
    TAB ROUTING
 ═══════════════════════════════════════════════════════════════ */
-const TAB_IDS = ['front','agenda','donors','resources'];
+const TAB_IDS = ['front','agenda','donors','donor-map','resources'];
+let _donorsData = null;       // stored once donors.json is fetched
+let _donorMapInited = false;  // guard against duplicate init
 
 function activateTab(id){
   if(!TAB_IDS.includes(id)) id = 'front';
   document.querySelectorAll('.nav-tab').forEach(b=> b.classList.toggle('active', b.dataset.tab===id));
   document.querySelectorAll('.tab-panel').forEach(p=> p.classList.toggle('active', p.id==='tab-'+id));
   history.replaceState(null,'','#'+id);
+
+  // Lazy-init the donor map the first time its tab becomes visible
+  if(id === 'donor-map' && !_donorMapInited && _donorsData && typeof window.__initDonorMap === 'function'){
+    _donorMapInited = true;
+    window.__initDonorMap(_donorsData);
+  }
 }
 
 document.querySelectorAll('.nav-tab').forEach(btn=>{
@@ -997,12 +1156,18 @@ function initApp(){
     fetch('data/dlis.json').then(r=>r.json()),
     fetch('data/resources.json').then(r=>r.json())
   ]).then(([agenda, donors, dlis, resources])=>{
+    _donorsData = donors; // make available for lazy donor-map init
     renderStats(agenda);
     renderObjectiveCards();
     renderDLIMatrix(dlis);
     renderAgenda(agenda);
     renderDonorMap(donors);
     renderResources(resources);
+    // If the donor-map tab was already active when data arrived, init it now
+    if(location.hash.replace('#','') === 'donor-map' && !_donorMapInited && typeof window.__initDonorMap === 'function'){
+      _donorMapInited = true;
+      window.__initDonorMap(_donorsData);
+    }
   }).catch(err=>{
     console.error('Data load error:',err);
     document.body.insertAdjacentHTML('afterbegin',

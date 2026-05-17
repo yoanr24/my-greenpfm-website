@@ -7,14 +7,23 @@ Static, password-gated single-page website presenting the AFD Green PFM Phase II
 ## File structure
 
 ```
-/index.html           ← Single-page app (all tabs, CSS, JS)
-/fonts/               ← Marianne font files (optional — currently loaded from CDN)
+/index.html             ← Single-page app (all tabs, CSS, JS)
+/fonts/                 ← Marianne font files (optional — currently loaded from CDN)
+/logos/                 ← Drop donor logos here: <DonorId>.svg or <DonorId>.png
+                          (spaces in donor ID become underscores, e.g. World_Bank.svg)
 /data/
-  agenda.json         ← Mission meetings (online / in_person / post_mission)
-  donors.json         ← Donor mapping (2 institutions, interventions, DP coordination)
-  dlis.json           ← 13 DLI cards with scoring, rationale, TA, timelines
-  resources.json      ← 36 curated bibliography entries (5 sections)
-  notes/              ← Drop PDF meeting notes here (see below)
+  agenda.json           ← Mission meetings (online / in_person / post_mission)
+  donors.json           ← Donor mapping — AUTO-GENERATED from donors.xlsx (see below)
+  donors.xlsx           ← Source-of-truth for donor data — edit this, not donors.json
+  rwanda-path.js        ← Pre-computed Rwanda SVG path (auto-generated, do not edit)
+  donor-map.js          ← Interactive donor map IIFE (the "Donor Map" tab)
+  dlis.json             ← 13 DLI cards with scoring, rationale, TA, timelines
+  resources.json        ← 39 curated bibliography entries (5 sections)
+  notes/                ← Drop PDF meeting notes here (see below)
+/scripts/
+  donors-xlsx-to-json.js  ← Build script: donors.xlsx → donors.json
+  gen-rwanda-path.js      ← Generates data/rwanda-path.js from GeoJSON (run once)
+  gen-donors-xlsx.js      ← Bootstraps donors.xlsx from donors.json (run once)
 ```
 
 ---
@@ -49,9 +58,35 @@ Static, password-gated single-page website presenting the AFD Green PFM Phase II
 
 ---
 
+## Update donor data — Excel workflow
+
+The donor mapping (interventions, institutions, DP coordination) is driven by **`data/donors.xlsx`**.
+Do **not** edit `data/donors.json` directly — it gets overwritten by the build script.
+
+```
+# One-shot rebuild after saving donors.xlsx:
+npm run build:donors
+
+# Or keep a terminal open and auto-rebuild on every save:
+npm run watch:donors
+```
+
+Then refresh the browser to see the updated map and table.
+
+### Excel sheet structure (`data/donors.xlsx`)
+
+| Sheet | Required columns |
+|-------|-----------------|
+| `donors` | `id` |
+| `institutions` | `id`, `label`, `axis` |
+| `interventions` | `institution`, `donor`, `status`, `type`, `label` (+ optional `tbc`) |
+| `dp_coordination` | `from`, `to`, `topic` |
+
+---
+
 ## Update data — day-to-day workflow
 
-All content is driven by the four JSON files in `/data/`. Edit them directly (or via the Excel templates if using `regenerate_json.py`), then redeploy.
+All other content is driven by the JSON files in `/data/`. Edit them directly, then redeploy.
 
 ### Agenda updates
 Edit `data/agenda.json`. The three arrays are:
