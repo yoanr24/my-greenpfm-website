@@ -37,16 +37,16 @@
     { id: 'EU',         x: 294, y: 452, color: '#7C3AED' },  // bottom-left
   ];
 
-  // Beneficiary chips — positions from institutions Pin X/Y (normalised 0–1 × viewBox 900×540).
-  // Consolidated sub-institutions are averaged to a single chip.
+  // Beneficiary chips — spread across Rwanda's interior, verified inside polygon.
+  // big:true → taller chip with larger font for primary beneficiaries.
   const BENS = [
-    { id: 'BNR',       x: 387, y: 274, axis: 'A' },  // avg bnr-strategy/monpol/fm
-    { id: 'MINECOFIN', x: 432, y: 223, axis: 'B' },  // avg minecofin-debt/cfd/mfad
-    { id: 'CMA',       x: 495, y: 270, axis: 'B' },
-    { id: 'RSE',       x: 522, y: 259, axis: 'B' },
-    { id: 'BRD',       x: 468, y: 297, axis: 'B' },
-    { id: 'BoK',       x: 450, y: 313, axis: 'B' },
-    { id: 'NISR',      x: 360, y: 243, axis: 'B' },
+    { id: 'NISR',      x: 345, y: 215, axis: 'B' },
+    { id: 'BNR',       x: 360, y: 278, axis: 'A', big: true },
+    { id: 'MINECOFIN', x: 435, y: 210, axis: 'B', big: true },
+    { id: 'CMA',       x: 525, y: 250, axis: 'B' },
+    { id: 'RSE',       x: 545, y: 310, axis: 'B' },
+    { id: 'BRD',       x: 410, y: 350, axis: 'B' },
+    { id: 'BoK',       x: 465, y: 320, axis: 'B' },
   ];
 
   /* ─── Status helpers ───────────────────────────────────────────── */
@@ -245,19 +245,6 @@
     g.appendChild(img);
     g.appendChild(mono);
 
-    /* Label below */
-    var lbl = _el('text', {
-      y               : '42',
-      'text-anchor'   : 'middle',
-      'font-size'     : '11',
-      'font-weight'   : '600',
-      'font-family'   : 'Barlow,system-ui,sans-serif',
-      fill            : '#111827',
-      'user-select'   : 'none',
-    });
-    lbl.textContent = donor.id;
-    g.appendChild(lbl);
-
     return g;
   }
 
@@ -283,8 +270,10 @@
     var txColor = isA ? '#1E3A8A' : '#065F46';
     var bdColor = isA ? '#93C5FD' : '#6EE7B7';
     var textLen = ben.id.length;
-    var w = Math.max(textLen * 8 + 22, 50);
-    var h = 28;
+    var big     = !!ben.big;
+    var scale   = big ? 1.35 : 1;
+    var w = Math.max(textLen * 8 * scale + 22 * scale, 50 * scale);
+    var h = big ? 38 : 28;
 
     var g = _el('g', {
       class        : 'dmp-chip dmp-ben-chip',
@@ -299,10 +288,10 @@
       y              : -h / 2,
       width          : w,
       height         : h,
-      rx             : '8',
+      rx             : big ? '10' : '8',
       fill           : bgColor,
       stroke         : bdColor,
-      'stroke-width' : '1.5',
+      'stroke-width' : big ? '2.5' : '1.5',
       filter         : 'url(#dmp-shadow)',
     });
     g.appendChild(rect);
@@ -310,7 +299,7 @@
     var txt = _el('text', {
       'text-anchor'       : 'middle',
       'dominant-baseline' : 'central',
-      'font-size'         : '11',
+      'font-size'         : big ? '14' : '11',
       'font-weight'       : '700',
       'font-family'       : 'Barlow,system-ui,sans-serif',
       fill                : txColor,
