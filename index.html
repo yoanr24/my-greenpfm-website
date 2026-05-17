@@ -165,18 +165,17 @@
 
     /* Axis filter buttons */
     .axis-filter-btn {
-      display: flex; flex-direction: row; align-items: center; justify-content: flex-start;
-      gap: 0.5rem; padding: 0.35rem 0.75rem; border-radius: 8px;
-      border: 2px solid transparent; cursor: pointer; background: none; font-family: inherit;
+      display: inline-flex; flex-direction: row; align-items: center; justify-content: center;
+      gap: 0.35rem; padding: 4px 10px; border-radius: 99px;
+      border: 1.5px solid transparent; cursor: pointer; background: none; font-family: inherit;
       transition: background .15s, color .15s, border-color .15s; min-width: 0;
     }
     .axis-filter-btn.axis-a { background: var(--bnr-100); border-color: var(--bnr-300); color: var(--bnr-700); }
     .axis-filter-btn.axis-b { background: var(--mef-100); border-color: var(--mef-300); color: var(--mef-700); }
     .axis-filter-btn.axis-a:hover, .axis-filter-btn.axis-a.filter-active { background: var(--bnr-500); color: #fff; border-color: var(--bnr-500); }
     .axis-filter-btn.axis-b:hover, .axis-filter-btn.axis-b.filter-active { background: var(--mef-500); color: #fff; border-color: var(--mef-500); }
-    .axis-filter-count { font-size: 1.25rem; font-weight: 800; line-height: 1; }
-    .axis-filter-label { font-size: 0.72rem; font-weight: 700; text-align: left; line-height: 1.25; }
-    .axis-filter-sub { font-size: 0.62rem; font-weight: 400; opacity: 0.85; }
+    .axis-filter-count { font-size: 0.92rem; font-weight: 800; line-height: 1; opacity: 0.75; }
+    .axis-filter-label { font-size: 0.82rem; font-weight: 700; line-height: 1; }
 
     /* Type filter chips — colour-coded per DLI type to match card pills */
     .type-filter-btn {
@@ -471,11 +470,11 @@
       border: 1px solid var(--border); padding: 10px 12px; vertical-align: top;
     }
     .donor-matrix-table th { background: var(--republic-blue); color: #fff; font-weight: 700; font-size: 0.95rem; text-align: center; white-space: nowrap; }
-    .donor-matrix-table .inst-cell { background: var(--bg); font-weight: 700; white-space: nowrap; padding: 12px 16px; }
+    .donor-matrix-table .inst-cell { background: var(--bg); font-weight: 700; white-space: normal; padding: 10px 10px; width: 110px; max-width: 110px; }
     .donor-matrix-table .inst-cell.axis-a { color: var(--bnr-500); border-left: 4px solid var(--bnr-500); }
     .donor-matrix-table .inst-cell.axis-b { color: var(--mef-500); border-left: 4px solid var(--mef-500); }
-    .inst-cell-name { font-size: 1.1rem; font-weight: 700; }
-    .inst-cell-axis { font-size: 0.78rem; font-weight: 400; color: var(--text-soft); margin-top: 2px; }
+    .inst-cell-name { font-size: 0.92rem; font-weight: 700; line-height: 1.2; }
+    .inst-cell-axis { font-size: 0.7rem; font-weight: 400; color: var(--text-soft); margin-top: 2px; }
     .matrix-entry { margin-bottom: 6px; font-size: 0.82rem; line-height: 1.45; }
     .matrix-entry:last-child { margin-bottom: 0; }
     .matrix-dept-tag { font-size: 0.72rem; font-weight: 700; color: var(--text-soft); display: block; margin-bottom: 1px; }
@@ -1093,14 +1092,12 @@ function renderAggDashboard(dlis){
         <div class="filter-group-label">Filter by axis</div>
         <div class="filter-group-chips">
           <button class="axis-filter-btn axis-a" data-filter-group="axis" onclick="filterDLI('axis','A',this)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON_A}</svg>
-            <div class="axis-filter-count">${axisACount}</div>
-            <div class="axis-filter-label">Axis A<br><span class="axis-filter-sub">Green Central Banking</span></div>
+            <span class="axis-filter-label">Axis A</span>
+            <span class="axis-filter-count">${axisACount}</span>
           </button>
           <button class="axis-filter-btn axis-b" data-filter-group="axis" onclick="filterDLI('axis','B',this)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${ICON_B}</svg>
-            <div class="axis-filter-count">${axisBCount}</div>
-            <div class="axis-filter-label">Axis B<br><span class="axis-filter-sub">Green Finance</span></div>
+            <span class="axis-filter-label">Axis B</span>
+            <span class="axis-filter-count">${axisBCount}</span>
           </button>
         </div>
       </div>
@@ -1419,7 +1416,7 @@ function renderDonorMatrix(donors){
 
   let html = `<table class="donor-matrix-table">
     <thead><tr>
-      <th style="text-align:left;min-width:100px;width:110px;">Institution</th>`;
+      <th style="text-align:left;width:110px;max-width:110px;">Institution</th>`;
   donorList.forEach(d=> { html += `<th>${d}</th>`; });
   html += `</tr></thead><tbody>`;
 
